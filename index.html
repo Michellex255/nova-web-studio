@@ -2434,10 +2434,10 @@
           <div class="project-name">Bustin' Chops</div>
           <div
             class="project-type"
-            data-en="React Native Mobile App"
-            data-nl="React Native Mobiele App"
+            data-en="Static Website — Live"
+            data-nl="Statische Website — Live"
           >
-            React Native Mobile App
+            Static Website — Live
           </div>
 
           <!-- Mobile app mockup SVG -->
@@ -2811,25 +2811,24 @@
 
           <p
             class="project-desc"
-            data-en="A food delivery application built for a South African biltong business. Features real-time order management, product catalogues, and customer notifications — bringing a traditional family business into the digital age."
-            data-nl="Een bezorgapplicatie gebouwd voor een Suid-Afrikaans biltongbedrijf. Met realtime orderbeheer, productcatalogi en klantmeldingen — een traditioneel familiebedrijf digitaal gebracht."
+            data-en="A fully live website built for a South African biltong business. Features a product catalogue, WhatsApp ordering, market locations, and a clean mobile-first design — bringing a traditional family business online."
+            data-nl="Een volledig live website gebouwd voor een Suid-Afrikaans biltongbedrijf. Met productcatalogus, WhatsApp-bestelling, marktlocaties en een strak mobielvriendelijk ontwerp."
           >
-            A food delivery application built for a South African biltong
-            business. Features real-time order management, product catalogues,
-            and customer notifications — bringing a traditional family business
-            into the digital age.
+            A fully live website built for a South African biltong business. Features a product catalogue, WhatsApp ordering, market locations, and a clean mobile-first design — bringing a traditional family business online.
           </p>
           <div class="project-tags">
-            <span class="project-tag">React Native</span>
-            <span class="project-tag">Firebase</span>
-            <span class="project-tag">Real-time DB</span>
-            <span class="project-tag">Mobile</span>
+            <span class="project-tag">HTML & CSS</span>
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">Netlify</span>
+            <span class="project-tag">Mobile-first</span>
           </div>
-          <span
-            class="project-link coming-link"
-            data-en="Live link coming soon"
-            data-nl="Live link binnenkort beschikbaar"
-            >Live link coming soon</span
+          <a
+            href="https://bustinchops.netlify.app"
+            target="_blank"
+            class="project-link"
+            data-en="View Live Site →"
+            data-nl="Bekijk live site →"
+            >View Live Site →</a
           >
         </div>
 
@@ -2881,22 +2880,13 @@
             needs.
           </p>
           <div class="contact-links">
-            <a
-              href="/cdn-cgi/l/email-protection#6c04090000032c02031a0d1b090e1f1819080503420503"
-              class="contact-link"
-            >
+            <a href="/cdn-cgi/l/email-protection#6c04090000032c02031a0d1b090e1f1819080503420503" class="contact-link">
               <span class="contact-icon">@</span>
               <div>
                 <div class="contact-label" data-en="Email" data-nl="E-mail">
                   Email
                 </div>
-                <div class="contact-value">
-                  <span
-                    class="__cf_email__"
-                    data-cfemail="59313c3535361937362f382e3c3b2a2d2c3d3036773036"
-                    >[email&#160;protected]</span
-                  >
-                </div>
+                <div class="contact-value"><span class="__cf_email__" data-cfemail="59313c3535361937362f382e3c3b2a2d2c3d3036773036">[email&#160;protected]</span></div>
               </div>
             </a>
             <a href="#" class="contact-link">
@@ -3071,11 +3061,7 @@
       <div class="footer-copy">© 2026 Nova Web Studio</div>
     </footer>
 
-    <script
-      data-cfasync="false"
-      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-    ></script>
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
       // ── Cursor ──────────────────────────────────────────────
       const cursor = document.getElementById("cursor");
       const ring = document.getElementById("cursorRing");
@@ -3200,8 +3186,7 @@
         setTimeout(() => {
           btn.style.background = "";
           btn.style.color = "";
-          btn.textContent =
-            currentLang === "nl" ? "Bericht versturen →" : "Send Message →";
+          btn.textContent = currentLang === "nl" ? "Bericht versturen →" : "Send Message →";
           e.target.reset();
         }, 3000);
       }
