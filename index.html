@@ -627,11 +627,11 @@
             Ready to get your business a website that actually works? Have questions about what's right for you? Get in touch — no obligation, no pressure. Just a real conversation about what you need.
           </p>
           <div class="contact-links">
-            <a href="/cdn-cgi/l/email-protection#2c45424a436c42435a4d5b494e5f5859484543024543" class="contact-link">
+            <a href="#" class="contact-link" id="eml" onclick="revealEmail(event)">
               <span class="contact-icon">@</span>
               <div>
                 <div class="contact-label" data-en="Email" data-nl="E-mail">Email</div>
-                <div class="contact-value"><span class="__cf_email__" data-cfemail="e980878f86a987869f889e8c8b9a9d9c8d8086c78086">[email&#160;protected]</span></div>
+                <div class="contact-value" id="eml-val">Click to email</div>
               </div>
             </a>
             <a href="#" class="contact-link">
@@ -714,7 +714,13 @@
       document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
       // Smooth scroll
       document.querySelectorAll('a[href^="#"]').forEach((a) => {
-        a.addEventListener("click", (e) => { e.preventDefault(); const t = document.querySelector(a.getAttribute("href")); if (t) t.scrollIntoView({ behavior: "smooth" }); });
+        a.addEventListener("click", (e) => {
+          var href = a.getAttribute("href");
+          if (!href || href === "#") return;
+          e.preventDefault();
+          const t = document.querySelector(href);
+          if (t) t.scrollIntoView({ behavior: "smooth" });
+        });
       });
       // Language
       let currentLang = "en";
@@ -733,14 +739,18 @@
         const btn = document.querySelector(".form-submit");
         if (btn) btn.textContent = lang==="nl" ? "Bericht versturen →" : "Send Message →";
       }
-      // Build email link at runtime to prevent Cloudflare encoding
-      (function(){
-        var u="info"; var d="novawebstudio.io";
-        var el=document.getElementById("email-link");
-        var disp=document.getElementById("email-display");
-        if(el){ el.href="mailto:"+u+"@"+d; }
-        if(disp){ disp.textContent=u+"@"+d; }
-      })();
+      // Email reveal on click
+      function revealEmail(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var p1="info"; var p2="novawebstudio"; var p3="io";
+        var addr=p1+"@"+p2+"."+p3;
+        var el=document.getElementById("eml");
+        var val=document.getElementById("eml-val");
+        el.setAttribute("href","mail"+"to:"+addr);
+        el.removeAttribute("onclick");
+        val.textContent=addr;
+      }
       // Currency
       function setCurrency(curr) {
         document.getElementById("btn-eur").classList.toggle("active", curr==="eur");
