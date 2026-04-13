@@ -6,1338 +6,244 @@
     <title>Nova Web Studio — Web Design & Development</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --bg: #0a0a0b;
-        --bg2: #111114;
-        --bg3: #18181c;
-        --surface: #1e1e24;
-        --border: rgba(255, 255, 255, 0.08);
-        --border2: rgba(255, 255, 255, 0.04);
-        --text: #f2f0ec;
-        --text2: #9a9899;
-        --text3: #5a5859;
-        --accent: #e8c97a;
-        --accent2: #c9aa5a;
-        --green: #2a6b3a;
+        --bg: #0a0a0b; --bg2: #111114; --bg3: #18181c; --surface: #1e1e24;
+        --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.04);
+        --text: #f2f0ec; --text2: #9a9899; --text3: #5a5859;
+        --accent: #e8c97a; --accent2: #c9aa5a; --green: #2a6b3a;
         --font-display: "Cormorant Garamond", serif;
         --font-mono: "DM Mono", monospace;
         --font-body: "Instrument Sans", sans-serif;
       }
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: var(--font-body);
-        font-size: 16px;
-        line-height: 1.6;
-        overflow-x: hidden;
-        cursor: none;
-      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
 
       /* Cursor */
-      .cursor {
-        position: fixed;
-        width: 8px;
-        height: 8px;
-        background: var(--accent);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        transition: transform 0.15s ease;
-        transform: translate(-50%, -50%);
-      }
-      .cursor-ring {
-        position: fixed;
-        width: 36px;
-        height: 36px;
-        border: 1px solid rgba(232, 201, 122, 0.4);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9998;
-        transition:
-          transform 0.25s ease,
-          width 0.2s,
-          height 0.2s,
-          border-color 0.2s;
-        transform: translate(-50%, -50%);
-      }
-      .cursor-ring.hover {
-        width: 56px;
-        height: 56px;
-        border-color: rgba(232, 201, 122, 0.8);
-      }
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-        opacity: 0.4;
-        pointer-events: none;
-        z-index: 0;
-      }
+      .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.15s ease; transform: translate(-50%,-50%); }
+      .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(232,201,122,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.25s ease, width 0.2s, height 0.2s, border-color 0.2s; transform: translate(-50%,-50%); }
+      .cursor-ring.hover { width: 56px; height: 56px; border-color: rgba(232,201,122,0.8); }
+      body::before { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; pointer-events: none; z-index: 0; }
 
       /* Lang bar */
-      .lang-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 200;
-        background: var(--bg3);
-        border-bottom: 1px solid var(--border);
-        padding: 8px 48px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 4px;
-      }
-      .lang-btn {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        padding: 5px 12px;
-        border: 1px solid transparent;
-        background: none;
-        color: var(--text3);
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .lang-btn.active {
-        color: var(--accent);
-        border-color: rgba(232, 201, 122, 0.3);
-      }
-      .lang-btn:hover {
-        color: var(--text2);
-      }
+      .lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: var(--bg3); border-bottom: 1px solid var(--border); padding: 8px 48px; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+      .lang-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 12px; border: 1px solid transparent; background: none; color: var(--text3); cursor: pointer; transition: all 0.2s; }
+      .lang-btn.active { color: var(--accent); border-color: rgba(232,201,122,0.3); }
+      .lang-btn:hover { color: var(--text2); }
 
       /* Nav */
-      nav {
-        position: fixed;
-        top: 37px;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        padding: 20px 48px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid transparent;
-        transition:
-          border-color 0.3s,
-          background 0.3s,
-          padding 0.3s;
-      }
-      nav.scrolled {
-        background: rgba(10, 10, 11, 0.94);
-        backdrop-filter: blur(20px);
-        border-color: var(--border);
-        padding: 14px 48px;
-      }
-      .nav-logo {
-        font-family: var(--font-display);
-        font-size: 22px;
-        font-weight: 300;
-        color: var(--text);
-        text-decoration: none;
-        letter-spacing: 0.02em;
-      }
-      .nav-logo span {
-        color: var(--accent);
-      }
-      .nav-links {
-        display: flex;
-        gap: 40px;
-        list-style: none;
-      }
-      .nav-links a {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--text2);
-        text-decoration: none;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        transition: color 0.2s;
-      }
-      .nav-links a:hover {
-        color: var(--accent);
-      }
-      .nav-cta {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--bg);
-        background: var(--accent);
-        padding: 10px 20px;
-        text-decoration: none;
-        transition:
-          background 0.2s,
-          transform 0.2s;
-      }
-      .nav-cta:hover {
-        background: var(--accent2);
-        transform: translateY(-1px);
-      }
-      section {
-        position: relative;
-        z-index: 1;
-      }
+      nav { position: fixed; top: 37px; left: 0; right: 0; z-index: 100; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.3s, padding 0.3s; }
+      nav.scrolled { background: rgba(10,10,11,0.94); backdrop-filter: blur(20px); border-color: var(--border); padding: 14px 48px; }
+      .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); text-decoration: none; letter-spacing: 0.02em; }
+      .nav-logo span { color: var(--accent); }
+      .nav-links { display: flex; gap: 40px; list-style: none; }
+      .nav-links a { font-family: var(--font-mono); font-size: 11px; color: var(--text2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+      .nav-links a:hover { color: var(--accent); }
+      .nav-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 10px 20px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+      .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+      section { position: relative; z-index: 1; }
 
       /* Hero */
-      #home {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 120px 48px 80px;
-        position: relative;
-        overflow: hidden;
-      }
-      .hero-grid {
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-        background-size: 80px 80px;
-      }
-      .hero-glow {
-        position: absolute;
-        width: 700px;
-        height: 700px;
-        background: radial-gradient(
-          circle,
-          rgba(232, 201, 122, 0.055) 0%,
-          transparent 70%
-        );
-        top: 0%;
-        right: -150px;
-        pointer-events: none;
-      }
-      .hero-glow2 {
-        position: absolute;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(
-          circle,
-          rgba(232, 201, 122, 0.03) 0%,
-          transparent 70%
-        );
-        bottom: 10%;
-        left: -100px;
-        pointer-events: none;
-      }
-      .hero-eyebrow {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 24px;
-        opacity: 0;
-        animation: fadeUp 0.8s 0.3s forwards;
-      }
-      .hero-headline {
-        font-family: var(--font-display);
-        font-size: clamp(56px, 8.5vw, 130px);
-        font-weight: 300;
-        line-height: 0.92;
-        letter-spacing: -0.02em;
-        color: var(--text);
-        max-width: 980px;
-        margin-bottom: 32px;
-        opacity: 0;
-        animation: fadeUp 0.8s 0.5s forwards;
-      }
-      .hero-headline em {
-        font-style: italic;
-        color: var(--accent);
-      }
-      .hero-usp {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        border: 1px solid rgba(232, 201, 122, 0.25);
-        background: rgba(232, 201, 122, 0.05);
-        padding: 10px 20px;
-        margin-bottom: 40px;
-        opacity: 0;
-        animation: fadeUp 0.8s 0.6s forwards;
-      }
-      .hero-usp-dot {
-        width: 6px;
-        height: 6px;
-        background: var(--accent);
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-      .hero-usp-text {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
-      .hero-bottom {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 40px;
-        opacity: 0;
-        animation: fadeUp 0.8s 0.7s forwards;
-      }
-      .hero-sub {
-        font-size: 15px;
-        color: var(--text2);
-        max-width: 440px;
-        line-height: 1.75;
-      }
-      .hero-actions {
-        display: flex;
-        gap: 16px;
-        margin-top: 32px;
-      }
-      .btn-primary {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--bg);
-        background: var(--accent);
-        padding: 14px 28px;
-        text-decoration: none;
-        transition:
-          background 0.2s,
-          transform 0.2s;
-      }
-      .btn-primary:hover {
-        background: var(--accent2);
-        transform: translateY(-2px);
-      }
-      .btn-secondary {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--text2);
-        border: 1px solid var(--border);
-        padding: 14px 28px;
-        text-decoration: none;
-        transition:
-          border-color 0.2s,
-          color 0.2s;
-      }
-      .btn-secondary:hover {
-        border-color: rgba(232, 201, 122, 0.4);
-        color: var(--accent);
-      }
-      .hero-stats {
-        display: flex;
-        gap: 56px;
-      }
-      .hero-stat-num {
-        font-family: var(--font-display);
-        font-size: 44px;
-        font-weight: 300;
-        color: var(--text);
-        line-height: 1;
-      }
-      .hero-stat-label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--text3);
-        margin-top: 6px;
-      }
-      .hero-scroll {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--text3);
-        writing-mode: vertical-rl;
-        position: absolute;
-        right: 48px;
-        bottom: 80px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .hero-scroll::before {
-        content: "";
-        width: 1px;
-        height: 60px;
-        background: linear-gradient(to bottom, transparent, var(--text3));
-      }
+      #home { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 120px 48px 80px; position: relative; overflow: hidden; }
+      .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px); background-size: 80px 80px; }
+      .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle,rgba(232,201,122,0.055) 0%,transparent 70%); top: 0%; right: -150px; pointer-events: none; }
+      .hero-glow2 { position: absolute; width: 400px; height: 400px; background: radial-gradient(circle,rgba(232,201,122,0.03) 0%,transparent 70%); bottom: 10%; left: -100px; pointer-events: none; }
+      .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+      .hero-headline { font-family: var(--font-display); font-size: clamp(56px,8.5vw,130px); font-weight: 300; line-height: 0.92; letter-spacing: -0.02em; color: var(--text); max-width: 980px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+      .hero-headline em { font-style: italic; color: var(--accent); }
+      .hero-usp { display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgba(232,201,122,0.25); background: rgba(232,201,122,0.05); padding: 10px 20px; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+      .hero-usp-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+      .hero-usp-text { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+      .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+      .hero-sub { font-size: 15px; color: var(--text2); max-width: 440px; line-height: 1.75; }
+      .hero-actions { display: flex; gap: 16px; margin-top: 32px; }
+      .btn-primary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+      .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+      .btn-secondary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); border: 1px solid var(--border); padding: 14px 28px; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+      .btn-secondary:hover { border-color: rgba(232,201,122,0.4); color: var(--accent); }
+      .hero-stats { display: flex; gap: 56px; }
+      .hero-stat-num { font-family: var(--font-display); font-size: 44px; font-weight: 300; color: var(--text); line-height: 1; }
+      .hero-stat-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-top: 6px; }
+      .hero-scroll { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); writing-mode: vertical-rl; position: absolute; right: 48px; bottom: 80px; display: flex; align-items: center; gap: 12px; }
+      .hero-scroll::before { content: ""; width: 1px; height: 60px; background: linear-gradient(to bottom,transparent,var(--text3)); }
 
       /* Marquee */
-      .marquee-bar {
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-        padding: 14px 0;
-        overflow: hidden;
-        background: var(--bg2);
-      }
-      .marquee-track {
-        display: flex;
-        gap: 80px;
-        animation: marquee 22s linear infinite;
-        white-space: nowrap;
-      }
-      .marquee-item {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--text3);
-        display: flex;
-        align-items: center;
-        gap: 24px;
-        flex-shrink: 0;
-      }
-      .marquee-item::after {
-        content: "✦";
-        color: var(--accent);
-        font-size: 8px;
-      }
+      .marquee-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 0; overflow: hidden; background: var(--bg2); }
+      .marquee-track { display: flex; gap: 80px; animation: marquee 22s linear infinite; white-space: nowrap; }
+      .marquee-item { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+      .marquee-item::after { content: "✦"; color: var(--accent); font-size: 8px; }
 
       /* Section shared */
-      .section-header {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        margin-bottom: 64px;
-        padding-bottom: 32px;
-        border-bottom: 1px solid var(--border);
-      }
-      .section-label {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 20px;
-      }
-      .section-title {
-        font-family: var(--font-display);
-        font-size: clamp(36px, 4vw, 56px);
-        font-weight: 300;
-        line-height: 1.05;
-        color: var(--text);
-        margin-bottom: 32px;
-      }
-      .section-title em {
-        font-style: italic;
-        color: var(--accent);
-      }
-      .section-note {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--text3);
-        text-align: right;
-        max-width: 260px;
-        line-height: 1.8;
-      }
+      .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 64px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+      .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+      .section-title { font-family: var(--font-display); font-size: clamp(36px,4vw,56px); font-weight: 300; line-height: 1.05; color: var(--text); margin-bottom: 32px; }
+      .section-title em { font-style: italic; color: var(--accent); }
+      .section-note { font-family: var(--font-mono); font-size: 11px; color: var(--text3); text-align: right; max-width: 260px; line-height: 1.8; }
 
       /* Services */
-      #services {
-        padding: 120px 48px;
-        border-top: 1px solid var(--border);
-        background: var(--bg2);
-      }
-      .currency-toggle {
-        display: flex;
-        gap: 4px;
-        margin-bottom: 40px;
-      }
-      .curr-btn {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        padding: 8px 16px;
-        border: 1px solid var(--border);
-        background: none;
-        color: var(--text3);
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .curr-btn.active {
-        color: var(--accent);
-        border-color: rgba(232, 201, 122, 0.4);
-        background: rgba(232, 201, 122, 0.05);
-      }
-      .pricing-note {
-        background: rgba(232, 201, 122, 0.05);
-        border: 1px solid rgba(232, 201, 122, 0.15);
-        padding: 16px 24px;
-        margin-bottom: 32px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .pricing-note-icon {
-        color: var(--accent);
-        font-size: 16px;
-        flex-shrink: 0;
-      }
-      .pricing-note-text {
-        font-size: 13px;
-        color: var(--text2);
-        font-style: italic;
-      }
-      .packages-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1px;
-        background: var(--border);
-        border: 1px solid var(--border);
-        margin-bottom: 72px;
-      }
-      .package {
-        background: var(--bg2);
-        padding: 36px 28px;
-        position: relative;
-        transition: background 0.3s;
-      }
-      .package:hover {
-        background: var(--surface);
-      }
-      .package.featured {
-        background: var(--surface);
-      }
-      .package.featured::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--accent);
-      }
-      .pkg-tag {
-        font-family: var(--font-mono);
-        font-size: 9px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 16px;
-        display: block;
-      }
-      .pkg-name {
-        font-family: var(--font-display);
-        font-size: 26px;
-        font-weight: 300;
-        color: var(--text);
-        margin-bottom: 6px;
-      }
-      .pkg-desc {
-        font-size: 12px;
-        color: var(--text3);
-        margin-bottom: 20px;
-        line-height: 1.5;
-      }
-      .pkg-prices {
-        margin-bottom: 24px;
-      }
-      .pkg-price-eur {
-        font-family: var(--font-display);
-        font-size: 44px;
-        font-weight: 300;
-        color: var(--accent);
-        line-height: 1;
-      }
-      .pkg-price-gbp {
-        font-family: var(--font-display);
-        font-size: 44px;
-        font-weight: 300;
-        color: var(--accent);
-        line-height: 1;
-        display: none;
-      }
-      .pkg-price-note {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--text3);
-        letter-spacing: 0.1em;
-        margin-top: 4px;
-      }
-      .pkg-divider {
-        width: 100%;
-        height: 1px;
-        background: var(--border);
-        margin-bottom: 20px;
-      }
-      .pkg-features {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 9px;
-      }
-      .pkg-features li {
-        font-size: 12px;
-        color: var(--text2);
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        line-height: 1.4;
-      }
-      .pkg-features li::before {
-        content: "→";
-        color: var(--accent);
-        font-family: var(--font-mono);
-        font-size: 10px;
-        margin-top: 2px;
-        flex-shrink: 0;
-      }
+      #services { padding: 120px 48px; border-top: 1px solid var(--border); background: var(--bg2); }
+      .currency-toggle { display: flex; gap: 4px; margin-bottom: 40px; }
+      .curr-btn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; padding: 8px 16px; border: 1px solid var(--border); background: none; color: var(--text3); cursor: pointer; transition: all 0.2s; }
+      .curr-btn.active { color: var(--accent); border-color: rgba(232,201,122,0.4); background: rgba(232,201,122,0.05); }
+      .pricing-note { background: rgba(232,201,122,0.05); border: 1px solid rgba(232,201,122,0.15); padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
+      .pricing-note-icon { color: var(--accent); font-size: 16px; flex-shrink: 0; }
+      .pricing-note-text { font-size: 13px; color: var(--text2); font-style: italic; }
+      .packages-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 72px; }
+      .package { background: var(--bg2); padding: 36px 28px; position: relative; transition: background 0.3s; }
+      .package:hover { background: var(--surface); }
+      .package.featured { background: var(--surface); }
+      .package.featured::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); }
+      .pkg-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: block; }
+      .pkg-name { font-family: var(--font-display); font-size: 26px; font-weight: 300; color: var(--text); margin-bottom: 6px; }
+      .pkg-desc { font-size: 12px; color: var(--text3); margin-bottom: 20px; line-height: 1.5; }
+      .pkg-prices { margin-bottom: 24px; }
+      .pkg-price-eur { font-family: var(--font-display); font-size: 44px; font-weight: 300; color: var(--accent); line-height: 1; }
+      .pkg-price-gbp { font-family: var(--font-display); font-size: 44px; font-weight: 300; color: var(--accent); line-height: 1; display: none; }
+      .pkg-price-note { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 0.1em; margin-top: 4px; }
+      .pkg-divider { width: 100%; height: 1px; background: var(--border); margin-bottom: 20px; }
+      .pkg-features { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+      .pkg-features li { font-size: 12px; color: var(--text2); display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+      .pkg-features li::before { content: "→"; color: var(--accent); font-family: var(--font-mono); font-size: 10px; margin-top: 2px; flex-shrink: 0; }
 
       /* Care Plan */
-      .care-plan {
-        margin-top: 16px;
-      }
-      .care-plan-header {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-bottom: 32px;
-      }
-      .care-plan-title {
-        font-family: var(--font-display);
-        font-size: 32px;
-        font-weight: 300;
-        color: var(--text);
-      }
-      .care-plan-title em {
-        font-style: italic;
-        color: var(--accent);
-      }
-      .care-plan-badge {
-        font-family: var(--font-mono);
-        font-size: 9px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--bg);
-        background: var(--accent);
-        padding: 5px 10px;
-        white-space: nowrap;
-      }
-      .care-plan-why {
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        border-left: 3px solid var(--accent);
-        padding: 20px 24px;
-        margin-bottom: 32px;
-      }
-      .care-plan-why p {
-        font-size: 13px;
-        color: var(--text2);
-        line-height: 1.7;
-        font-style: italic;
-      }
-      .care-plan-why strong {
-        color: var(--text);
-        font-style: normal;
-      }
-      .care-table {
-        width: 100%;
-        border-collapse: collapse;
-        border: 1px solid var(--border);
-      }
-      .care-table th {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--text3);
-        padding: 16px 20px;
-        text-align: left;
-        background: var(--bg3);
-        border-bottom: 1px solid var(--border);
-      }
-      .care-table td {
-        padding: 18px 20px;
-        font-size: 13px;
-        color: var(--text2);
-        border-bottom: 1px solid var(--border2);
-        vertical-align: top;
-        line-height: 1.5;
-      }
-      .care-table tr:last-child td {
-        border-bottom: none;
-      }
-      .care-table tr:hover td {
-        background: rgba(255, 255, 255, 0.015);
-      }
-      .tier-badge {
-        font-family: var(--font-mono);
-        font-size: 9px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--bg);
-        background: var(--accent);
-        padding: 3px 8px;
-        display: inline-block;
-        margin-bottom: 4px;
-      }
-      .price-cell-eur {
-        display: block;
-      }
-      .price-cell-gbp {
-        display: none;
-      }
-      .care-price {
-        font-family: var(--font-display);
-        font-size: 22px;
-        font-weight: 300;
-        color: var(--accent);
-      }
-      .care-price-note {
-        font-family: var(--font-mono);
-        font-size: 9px;
-        color: var(--text3);
-        letter-spacing: 0.1em;
-        margin-top: 2px;
-      }
-      .extra-bar {
-        margin-top: 20px;
-        padding: 18px 24px;
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-      }
-      .extra-bar-left {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
-      .extra-bar-right {
-        font-size: 13px;
-        color: var(--text2);
-      }
-      .extra-bar-price {
-        font-family: var(--font-display);
-        font-size: 20px;
-        color: var(--accent);
-        font-weight: 300;
-      }
+      .care-plan { margin-top: 16px; }
+      .care-plan-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+      .care-plan-title { font-family: var(--font-display); font-size: 32px; font-weight: 300; color: var(--text); }
+      .care-plan-title em { font-style: italic; color: var(--accent); }
+      .care-plan-badge { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 5px 10px; white-space: nowrap; }
+      .care-plan-why { background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 20px 24px; margin-bottom: 32px; }
+      .care-plan-why p { font-size: 13px; color: var(--text2); line-height: 1.7; font-style: italic; }
+      .care-plan-why strong { color: var(--text); font-style: normal; }
+      .care-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); }
+      .care-table th { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); padding: 16px 20px; text-align: left; background: var(--bg3); border-bottom: 1px solid var(--border); }
+      .care-table td { padding: 18px 20px; font-size: 13px; color: var(--text2); border-bottom: 1px solid var(--border2); vertical-align: top; line-height: 1.5; }
+      .care-table tr:last-child td { border-bottom: none; }
+      .care-table tr:hover td { background: rgba(255,255,255,0.015); }
+      .tier-badge { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 3px 8px; display: inline-block; margin-bottom: 4px; }
+      .price-cell-eur { display: block; }
+      .price-cell-gbp { display: none; }
+      .care-price { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--accent); }
+      .care-price-note { font-family: var(--font-mono); font-size: 9px; color: var(--text3); letter-spacing: 0.1em; margin-top: 2px; }
+      .extra-bar { margin-top: 20px; padding: 18px 24px; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+      .extra-bar-left { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+      .extra-bar-right { font-size: 13px; color: var(--text2); }
+      .extra-bar-price { font-family: var(--font-display); font-size: 20px; color: var(--accent); font-weight: 300; }
 
       /* Portfolio */
-      #portfolio {
-        padding: 120px 48px;
-        border-top: 1px solid var(--border);
-      }
-      .projects-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2px;
-        background: var(--border);
-        border: 1px solid var(--border);
-      }
-      .project-card {
-        background: var(--bg);
-        padding: 52px 44px;
-        position: relative;
-        overflow: hidden;
-        transition: background 0.4s;
-      }
-      .project-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--accent);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s;
-      }
-      .project-card:hover::before {
-        transform: scaleX(1);
-      }
-      .project-card:hover {
-        background: var(--surface);
-      }
-      .project-number {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.2em;
-        color: var(--text3);
-        margin-bottom: 28px;
-      }
-      .project-name {
-        font-family: var(--font-display);
-        font-size: 44px;
-        font-weight: 300;
-        color: var(--text);
-        line-height: 1;
-        margin-bottom: 12px;
-      }
-      .project-type {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 20px;
-      }
-      .project-desc {
-        font-size: 14px;
-        color: var(--text2);
-        line-height: 1.75;
-        max-width: 380px;
-        margin-bottom: 32px;
-      }
-      .project-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 28px;
-      }
-      .project-tag {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.08em;
-        color: var(--text3);
-        border: 1px solid var(--border);
-        padding: 4px 10px;
-      }
-      .project-link {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--accent);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: gap 0.2s;
-      }
-      .project-link:hover {
-        gap: 14px;
-      }
-      .coming-soon {
-        grid-column: span 2;
-        background: var(--bg2);
-        padding: 52px 44px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-top: 1px solid var(--border);
-      }
-      .coming-soon-text {
-        font-family: var(--font-display);
-        font-size: 26px;
-        font-weight: 300;
-        font-style: italic;
-        color: var(--text3);
-      }
-      .coming-soon-note {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        color: var(--text3);
-        text-align: right;
-        line-height: 1.9;
-      }
-      .coming-link {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--text3);
-        font-style: italic;
-        cursor: default;
-      }
-      .app-mockup {
-        margin-bottom: 24px;
-        border-radius: 4px;
-        overflow: hidden;
-      }
+      #portfolio { padding: 120px 48px; border-top: 1px solid var(--border); }
+      .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); }
+      .project-card { background: var(--bg); padding: 52px 44px; position: relative; overflow: hidden; transition: background 0.4s; }
+      .project-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+      .project-card:hover::before { transform: scaleX(1); }
+      .project-card:hover { background: var(--surface); }
+      .project-number { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--text3); margin-bottom: 28px; }
+      .project-name { font-family: var(--font-display); font-size: 44px; font-weight: 300; color: var(--text); line-height: 1; margin-bottom: 12px; }
+      .project-type { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+      .project-desc { font-size: 14px; color: var(--text2); line-height: 1.75; max-width: 380px; margin-bottom: 32px; }
+      .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+      .project-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--text3); border: 1px solid var(--border); padding: 4px 10px; }
+      .project-link { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: gap 0.2s; }
+      .project-link:hover { gap: 14px; }
+      .coming-soon { grid-column: span 2; background: var(--bg2); padding: 52px 44px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
+      .coming-soon-text { font-family: var(--font-display); font-size: 26px; font-weight: 300; font-style: italic; color: var(--text3); }
+      .coming-soon-note { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--text3); text-align: right; line-height: 1.9; }
+      .coming-link { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); font-style: italic; cursor: default; }
+      .app-mockup { margin-bottom: 24px; border-radius: 4px; overflow: hidden; }
 
       /* About */
-      #about {
-        padding: 120px 48px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 100px;
-        align-items: start;
-        border-top: 1px solid var(--border);
-      }
-      .body-text {
-        font-size: 15px;
-        color: var(--text2);
-        line-height: 1.8;
-        margin-bottom: 20px;
-      }
-      .about-quote {
-        margin-top: 32px;
-        padding: 24px;
-        border-left: 2px solid var(--accent);
-        background: rgba(232, 201, 122, 0.04);
-      }
-      .about-quote p {
-        font-family: var(--font-display);
-        font-size: 18px;
-        font-style: italic;
-        font-weight: 300;
-        color: var(--text2);
-        line-height: 1.6;
-      }
-      .skills-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        padding: 40px;
-        position: relative;
-        margin-bottom: 24px;
-      }
-      .skills-card::before {
-        content: "";
-        position: absolute;
-        top: -1px;
-        left: -1px;
-        width: 60px;
-        height: 3px;
-        background: var(--accent);
-      }
-      .skills-card-title {
-        font-family: var(--font-display);
-        font-size: 20px;
-        font-weight: 300;
-        font-style: italic;
-        color: var(--text);
-        margin-bottom: 24px;
-      }
-      .skill-list {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 11px;
-      }
-      .skill-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-family: var(--font-mono);
-        font-size: 12px;
-        color: var(--text2);
-      }
-      .skill-dot {
-        width: 4px;
-        height: 4px;
-        background: var(--accent);
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-      .cert-strip {
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        padding: 24px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-      .cert-icon {
-        font-family: var(--font-display);
-        font-size: 32px;
-        font-style: italic;
-        color: var(--accent);
-      }
-      .cert-label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--text3);
-        margin-bottom: 4px;
-      }
-      .cert-name {
-        font-size: 14px;
-        color: var(--text);
-      }
-      .photo-wrap {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-      }
-      .profile-photo {
-        width: 100%;
-        max-height: 460px;
-        object-fit: cover;
-        object-position: center top;
-        display: block;
-        filter: grayscale(15%) contrast(1.05);
-      }
-      .photo-accent {
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: 10px;
-        bottom: 10px;
-        border: 1px solid rgba(232, 201, 122, 0.2);
-        pointer-events: none;
-        z-index: 0;
-      }
-      .photo-label {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(
-          to top,
-          rgba(10, 10, 11, 0.92) 0%,
-          transparent 100%
-        );
-        padding: 40px 24px 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .photo-name {
-        font-family: var(--font-display);
-        font-size: 28px;
-        font-weight: 300;
-        font-style: italic;
-        color: var(--text);
-        line-height: 1;
-      }
-      .photo-title {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
+      #about { padding: 120px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; border-top: 1px solid var(--border); }
+      .body-text { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 20px; }
+      .about-quote { margin-top: 32px; padding: 24px; border-left: 2px solid var(--accent); background: rgba(232,201,122,0.04); }
+      .about-quote p { font-family: var(--font-display); font-size: 18px; font-style: italic; font-weight: 300; color: var(--text2); line-height: 1.6; }
+      .skills-card { background: var(--surface); border: 1px solid var(--border); padding: 40px; position: relative; margin-bottom: 24px; }
+      .skills-card::before { content: ""; position: absolute; top: -1px; left: -1px; width: 60px; height: 3px; background: var(--accent); }
+      .skills-card-title { font-family: var(--font-display); font-size: 20px; font-weight: 300; font-style: italic; color: var(--text); margin-bottom: 24px; }
+      .skill-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+      .skill-item { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 12px; color: var(--text2); }
+      .skill-dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+      .cert-strip { background: var(--bg3); border: 1px solid var(--border); padding: 24px; display: flex; align-items: center; gap: 16px; }
+      .cert-icon { font-family: var(--font-display); font-size: 32px; font-style: italic; color: var(--accent); }
+      .cert-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 4px; }
+      .cert-name { font-size: 14px; color: var(--text); }
+      .photo-wrap { position: relative; display: inline-block; width: 100%; }
+      .profile-photo { width: 100%; max-height: 460px; object-fit: cover; object-position: center top; display: block; filter: grayscale(15%) contrast(1.05); }
+      .photo-accent { position: absolute; top: -10px; left: -10px; right: 10px; bottom: 10px; border: 1px solid rgba(232,201,122,0.2); pointer-events: none; z-index: 0; }
+      .photo-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top,rgba(10,10,11,0.92) 0%,transparent 100%); padding: 40px 24px 20px; display: flex; flex-direction: column; gap: 4px; }
+      .photo-name { font-family: var(--font-display); font-size: 28px; font-weight: 300; font-style: italic; color: var(--text); line-height: 1; }
+      .photo-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
 
       /* Contact */
-      #contact {
-        padding: 120px 48px;
-        border-top: 1px solid var(--border);
-        background: var(--bg2);
-      }
-      .contact-inner {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 100px;
-        align-items: start;
-      }
-      .contact-headline {
-        font-family: var(--font-display);
-        font-size: clamp(44px, 5vw, 76px);
-        font-weight: 300;
-        line-height: 1;
-        color: var(--text);
-        margin-bottom: 28px;
-      }
-      .contact-headline em {
-        font-style: italic;
-        color: var(--accent);
-      }
-      .contact-body {
-        font-size: 15px;
-        color: var(--text2);
-        line-height: 1.8;
-        margin-bottom: 40px;
-      }
-      .contact-links {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .contact-link {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        text-decoration: none;
-        padding: 18px 20px;
-        border: 1px solid var(--border);
-        background: var(--bg3);
-        transition:
-          border-color 0.2s,
-          background 0.2s;
-      }
-      .contact-link:hover {
-        border-color: rgba(232, 201, 122, 0.3);
-        background: var(--surface);
-      }
-      .contact-icon {
-        font-family: var(--font-mono);
-        font-size: 14px;
-        color: var(--accent);
-        width: 22px;
-        flex-shrink: 0;
-        text-align: center;
-      }
-      .contact-label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--text3);
-        margin-bottom: 2px;
-      }
-      .contact-value {
-        font-size: 14px;
-        color: var(--text);
-      }
-      .contact-form {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-      }
-      .form-label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--text3);
-      }
-      .form-input,
-      .form-select,
-      .form-textarea {
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        padding: 13px 16px;
-        font-family: var(--font-body);
-        font-size: 14px;
-        color: var(--text);
-        outline: none;
-        transition: border-color 0.2s;
-        width: 100%;
-        appearance: none;
-      }
-      .form-input:focus,
-      .form-select:focus,
-      .form-textarea:focus {
-        border-color: rgba(232, 201, 122, 0.4);
-      }
-      .form-input::placeholder,
-      .form-textarea::placeholder {
-        color: var(--text3);
-      }
-      .form-textarea {
-        resize: vertical;
-        min-height: 110px;
-      }
-      .form-select {
-        cursor: pointer;
-      }
-      .form-select option {
-        background: var(--bg3);
-      }
-      .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-      .form-submit {
-        background: var(--accent);
-        border: none;
-        padding: 15px 32px;
-        font-family: var(--font-mono);
-        font-size: 12px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--bg);
-        cursor: pointer;
-        transition:
-          background 0.2s,
-          transform 0.2s;
-        align-self: flex-start;
-      }
-      .form-submit:hover {
-        background: var(--accent2);
-        transform: translateY(-2px);
-      }
+      #contact { padding: 120px 48px; border-top: 1px solid var(--border); background: var(--bg2); }
+      .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
+      .contact-headline { font-family: var(--font-display); font-size: clamp(44px,5vw,76px); font-weight: 300; line-height: 1; color: var(--text); margin-bottom: 28px; }
+      .contact-headline em { font-style: italic; color: var(--accent); }
+      .contact-body { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 40px; }
+      .contact-links { display: flex; flex-direction: column; gap: 12px; }
+      .contact-link { display: flex; align-items: center; gap: 16px; text-decoration: none; padding: 18px 20px; border: 1px solid var(--border); background: var(--bg3); transition: border-color 0.2s, background 0.2s; }
+      .contact-link:hover { border-color: rgba(232,201,122,0.3); background: var(--surface); }
+      .contact-icon { font-family: var(--font-mono); font-size: 14px; color: var(--accent); width: 22px; flex-shrink: 0; text-align: center; }
+      .contact-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 2px; }
+      .contact-value { font-size: 14px; color: var(--text); }
+      .contact-form { display: flex; flex-direction: column; gap: 16px; }
+      .form-group { display: flex; flex-direction: column; gap: 7px; }
+      .form-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); }
+      .form-input, .form-select, .form-textarea { background: var(--bg3); border: 1px solid var(--border); padding: 13px 16px; font-family: var(--font-body); font-size: 14px; color: var(--text); outline: none; transition: border-color 0.2s; width: 100%; appearance: none; }
+      .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: rgba(232,201,122,0.4); }
+      .form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
+      .form-textarea { resize: vertical; min-height: 110px; }
+      .form-select { cursor: pointer; }
+      .form-select option { background: var(--bg3); }
+      .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .form-submit { background: var(--accent); border: none; padding: 15px 32px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bg); cursor: pointer; transition: background 0.2s, transform 0.2s; align-self: flex-start; }
+      .form-submit:hover { background: var(--accent2); transform: translateY(-2px); }
 
       /* Footer */
-      footer {
-        padding: 36px 48px;
-        border-top: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .footer-logo {
-        font-family: var(--font-display);
-        font-size: 18px;
-        font-weight: 300;
-        color: var(--text2);
-      }
-      .footer-logo span {
-        color: var(--accent);
-      }
-      .footer-center {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--text3);
-        letter-spacing: 0.1em;
-        text-align: center;
-      }
-      .footer-copy {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        color: var(--text3);
-        letter-spacing: 0.08em;
-      }
+      footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+      .footer-logo { font-family: var(--font-display); font-size: 18px; font-weight: 300; color: var(--text2); }
+      .footer-logo span { color: var(--accent); }
+      .footer-center { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-align: center; }
+      .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 0.08em; }
 
       /* Animations */
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(28px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes marquee {
-        from {
-          transform: translateX(0);
-        }
-        to {
-          transform: translateX(-50%);
-        }
-      }
-      .reveal {
-        opacity: 0;
-        transform: translateY(28px);
-        transition:
-          opacity 0.7s ease,
-          transform 0.7s ease;
-      }
-      .reveal.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      .reveal-delay-1 {
-        transition-delay: 0.1s;
-      }
-      .reveal-delay-2 {
-        transition-delay: 0.2s;
-      }
+      @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+      .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+      .reveal-delay-1 { transition-delay: 0.1s; }
+      .reveal-delay-2 { transition-delay: 0.2s; }
 
       /* GBP mode */
-      body.gbp .pkg-price-eur {
-        display: none;
-      }
-      body.gbp .pkg-price-gbp {
-        display: block;
-      }
-      body.gbp .price-cell-eur {
-        display: none;
-      }
-      body.gbp .price-cell-gbp {
-        display: block;
-      }
+      body.gbp .pkg-price-eur { display: none; }
+      body.gbp .pkg-price-gbp { display: block; }
+      body.gbp .price-cell-eur { display: none; }
+      body.gbp .price-cell-gbp { display: block; }
 
       /* Responsive */
       @media (max-width: 900px) {
-        nav {
-          padding: 18px 24px;
-          top: 37px;
-        }
-        nav.scrolled {
-          padding: 12px 24px;
-        }
-        .nav-links {
-          display: none;
-        }
-        .lang-bar {
-          padding: 8px 24px;
-        }
-        #home {
-          padding: 120px 24px 60px;
-        }
-        .hero-headline {
-          font-size: 52px;
-        }
-        .hero-bottom {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .hero-stats {
-          gap: 32px;
-        }
-        .hero-scroll {
-          display: none;
-        }
-        #about {
-          grid-template-columns: 1fr;
-          gap: 48px;
-          padding: 80px 24px;
-        }
-        #services {
-          padding: 80px 24px;
-        }
-        .packages-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .section-header {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 16px;
-        }
-        #portfolio {
-          padding: 80px 24px;
-        }
-        .projects-grid {
-          grid-template-columns: 1fr;
-        }
-        .coming-soon {
-          grid-column: span 1;
-          flex-direction: column;
-          gap: 20px;
-        }
-        #contact {
-          padding: 80px 24px;
-        }
-        .contact-inner {
-          grid-template-columns: 1fr;
-          gap: 56px;
-        }
-        .form-row {
-          grid-template-columns: 1fr;
-        }
-        footer {
-          flex-direction: column;
-          gap: 16px;
-          text-align: center;
-          padding: 28px 24px;
-        }
+        nav { padding: 18px 24px; top: 37px; }
+        nav.scrolled { padding: 12px 24px; }
+        .nav-links { display: none; }
+        .lang-bar { padding: 8px 24px; }
+        #home { padding: 120px 24px 60px; }
+        .hero-headline { font-size: 52px; }
+        .hero-bottom { flex-direction: column; align-items: flex-start; }
+        .hero-stats { gap: 32px; }
+        .hero-scroll { display: none; }
+        #about { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
+        #services { padding: 80px 24px; }
+        .packages-grid { grid-template-columns: 1fr 1fr; }
+        .section-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+        #portfolio { padding: 80px 24px; }
+        .projects-grid { grid-template-columns: 1fr; }
+        .coming-soon { grid-column: span 1; flex-direction: column; gap: 20px; }
+        #contact { padding: 80px 24px; }
+        .contact-inner { grid-template-columns: 1fr; gap: 56px; }
+        .form-row { grid-template-columns: 1fr; }
+        footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 24px; }
       }
-      @media (max-width: 600px) {
-        .packages-grid {
-          grid-template-columns: 1fr;
-        }
-      }
+      @media (max-width: 600px) { .packages-grid { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -1346,9 +252,7 @@
 
     <!-- LANGUAGE BAR -->
     <div class="lang-bar">
-      <button class="lang-btn active" onclick="setLang('en')" id="btn-en">
-        EN
-      </button>
+      <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
       <button class="lang-btn" onclick="setLang('nl')" id="btn-nl">NL</button>
     </div>
 
@@ -1356,24 +260,12 @@
     <nav id="nav">
       <a href="#home" class="nav-logo">Nova <span>Web Studio</span></a>
       <ul class="nav-links">
-        <li>
-          <a href="#services" data-en="Services" data-nl="Diensten">Services</a>
-        </li>
-        <li>
-          <a href="#portfolio" data-en="Work" data-nl="Portfolio">Work</a>
-        </li>
+        <li><a href="#services" data-en="Services" data-nl="Diensten">Services</a></li>
+        <li><a href="#portfolio" data-en="Work" data-nl="Portfolio">Work</a></li>
         <li><a href="#about" data-en="About" data-nl="Over ons">About</a></li>
-        <li>
-          <a href="#contact" data-en="Contact" data-nl="Contact">Contact</a>
-        </li>
+        <li><a href="#contact" data-en="Contact" data-nl="Contact">Contact</a></li>
       </ul>
-      <a
-        href="#contact"
-        class="nav-cta"
-        data-en="Start a Project"
-        data-nl="Start een project"
-        >Start a Project</a
-      >
+      <a href="#contact" class="nav-cta" data-en="Start a Project" data-nl="Start een project">Start a Project</a>
     </nav>
 
     <!-- HERO — Updated headline & USP bar -->
@@ -1381,89 +273,38 @@
       <div class="hero-grid"></div>
       <div class="hero-glow"></div>
       <div class="hero-glow2"></div>
-      <div
-        class="hero-eyebrow"
-        data-en="Nova Web Studio — novawebstudio.io"
-        data-nl="Nova Web Studio — novawebstudio.io"
-      >
-        Nova Web Studio — novawebstudio.io
-      </div>
+      <div class="hero-eyebrow" data-en="Nova Web Studio — novawebstudio.io" data-nl="Nova Web Studio — novawebstudio.io">Nova Web Studio — novawebstudio.io</div>
       <h1 class="hero-headline">
-        <span
-          data-en="AI can build<br>a website. It can't<br>build <em>yours.</em>"
-          data-nl="AI kan een website<br>bouwen. Maar niet<br><em>die van jou.</em>"
-        >
-          AI can build<br />a website. It can't<br />build <em>yours.</em>
+        <span data-en="AI can build<br>a website. It can't<br>build <em>yours.</em>" data-nl="AI kan een website<br>bouwen. Maar niet<br><em>die van jou.</em>">
+          AI can build<br>a website. It can't<br>build <em>yours.</em>
         </span>
       </h1>
       <div class="hero-usp">
         <span class="hero-usp-dot"></span>
-        <span
-          class="hero-usp-text"
-          data-en="Not a template. Not AI-generated. Built specifically for your business."
-          data-nl="Geen template. Geen AI. Gebouwd specifiek voor uw bedrijf."
-          >Not a template. Not AI-generated. Built specifically for your
-          business.</span
-        >
+        <span class="hero-usp-text" data-en="Not a template. Not AI-generated. Built specifically for your business." data-nl="Geen template. Geen AI. Gebouwd specifiek voor uw bedrijf.">Not a template. Not AI-generated. Built specifically for your business.</span>
       </div>
       <div class="hero-bottom">
         <div>
-          <p
-            class="hero-sub"
-            data-en="Professional web design for small businesses across the Netherlands and UK. One person who genuinely cares about your business — at a fraction of agency cost."
-            data-nl="Professioneel webdesign voor kleine bedrijven in Nederland en het VK. Één persoon die oprecht geeft om uw bedrijf — voor een fractie van de agentuurkosten."
-          >
-            Professional web design for small businesses across the Netherlands
-            and UK. One person who genuinely cares about your business — at a
-            fraction of agency cost.
+          <p class="hero-sub" data-en="Professional web design for small businesses across the Netherlands and UK. One person who genuinely cares about your business — at a fraction of agency cost." data-nl="Professioneel webdesign voor kleine bedrijven in Nederland en het VK. Één persoon die oprecht geeft om uw bedrijf — voor een fractie van de agentuurkosten.">
+            Professional web design for small businesses across the Netherlands and UK. One person who genuinely cares about your business — at a fraction of agency cost.
           </p>
           <div class="hero-actions">
-            <a
-              href="#services"
-              class="btn-primary"
-              data-en="See Pricing"
-              data-nl="Bekijk prijzen"
-              >See Pricing</a
-            >
-            <a
-              href="#portfolio"
-              class="btn-secondary"
-              data-en="View Work"
-              data-nl="Bekijk werk"
-              >View Work</a
-            >
+            <a href="#services" class="btn-primary" data-en="See Pricing" data-nl="Bekijk prijzen">See Pricing</a>
+            <a href="#portfolio" class="btn-secondary" data-en="View Work" data-nl="Bekijk werk">View Work</a>
           </div>
         </div>
         <div class="hero-stats">
           <div>
             <div class="hero-stat-num">€350</div>
-            <div
-              class="hero-stat-label"
-              data-en="Websites from"
-              data-nl="Websites vanaf"
-            >
-              Websites from
-            </div>
+            <div class="hero-stat-label" data-en="Websites from" data-nl="Websites vanaf">Websites from</div>
           </div>
           <div>
             <div class="hero-stat-num">12</div>
-            <div
-              class="hero-stat-label"
-              data-en="Month care plan"
-              data-nl="Maanden zorgplan"
-            >
-              Month care plan
-            </div>
+            <div class="hero-stat-label" data-en="Month care plan" data-nl="Maanden zorgplan">Month care plan</div>
           </div>
           <div>
             <div class="hero-stat-num">100%</div>
-            <div
-              class="hero-stat-label"
-              data-en="Human-built"
-              data-nl="Door mensen gebouwd"
-            >
-              Human-built
-            </div>
+            <div class="hero-stat-label" data-en="Human-built" data-nl="Door mensen gebouwd">Human-built</div>
           </div>
         </div>
       </div>
@@ -1498,472 +339,140 @@
     <section id="services">
       <div class="section-header reveal">
         <div>
-          <div
-            class="section-label"
-            data-en="Services & Pricing"
-            data-nl="Diensten & Prijzen"
-          >
-            Services & Pricing
-          </div>
-          <h2
-            class="section-title"
-            data-en="Clear pricing.<br><em>No surprises.</em>"
-            data-nl="Duidelijke prijzen.<br><em>Geen verrassingen.</em>"
-          >
-            Clear pricing.<br /><em>No surprises.</em>
-          </h2>
+          <div class="section-label" data-en="Services & Pricing" data-nl="Diensten & Prijzen">Services & Pricing</div>
+          <h2 class="section-title" data-en="Clear pricing.<br><em>No surprises.</em>" data-nl="Duidelijke prijzen.<br><em>Geen verrassingen.</em>">Clear pricing.<br><em>No surprises.</em></h2>
         </div>
-        <div
-          class="section-note"
-          data-en="Prices are starting points — every project is quoted individually based on your exact needs.<br><br>Netherlands · United Kingdom · Worldwide"
-          data-nl="Prijzen zijn richtprijzen — elk project wordt individueel geoffreerd.<br><br>Nederland · Verenigd Koninkrijk · Wereldwijd"
-        >
-          Prices are starting points — every project is quoted individually
-          based on your exact needs.<br /><br />Netherlands · United Kingdom ·
-          Worldwide
+        <div class="section-note" data-en="Prices are starting points — every project is quoted individually based on your exact needs.<br><br>Netherlands · United Kingdom · Worldwide" data-nl="Prijzen zijn richtprijzen — elk project wordt individueel geoffreerd.<br><br>Nederland · Verenigd Koninkrijk · Wereldwijd">
+          Prices are starting points — every project is quoted individually based on your exact needs.<br><br>Netherlands · United Kingdom · Worldwide
         </div>
       </div>
       <div class="currency-toggle reveal">
-        <button
-          class="curr-btn active"
-          onclick="setCurrency('eur')"
-          id="btn-eur"
-        >
-          € EUR
-        </button>
-        <button class="curr-btn" onclick="setCurrency('gbp')" id="btn-gbp">
-          £ GBP
-        </button>
+        <button class="curr-btn active" onclick="setCurrency('eur')" id="btn-eur">€ EUR</button>
+        <button class="curr-btn" onclick="setCurrency('gbp')" id="btn-gbp">£ GBP</button>
       </div>
       <div class="pricing-note reveal">
         <span class="pricing-note-icon">ℹ</span>
-        <span
-          class="pricing-note-text"
-          data-en="All prices shown are starting points. Your final quote depends on your specific requirements — contact me for a free, no-obligation quote tailored to your business."
-          data-nl="Alle getoonde prijzen zijn richtprijzen. Uw definitieve offerte hangt af van uw specifieke wensen."
-          >All prices shown are starting points. Your final quote depends on
-          your specific requirements — contact me for a free, no-obligation
-          quote tailored to your business.</span
-        >
+        <span class="pricing-note-text" data-en="All prices shown are starting points. Your final quote depends on your specific requirements — contact me for a free, no-obligation quote tailored to your business." data-nl="Alle getoonde prijzen zijn richtprijzen. Uw definitieve offerte hangt af van uw specifieke wensen.">All prices shown are starting points. Your final quote depends on your specific requirements — contact me for a free, no-obligation quote tailored to your business.</span>
       </div>
       <div class="packages-grid reveal">
         <div class="package">
-          <span class="pkg-tag" data-en="01 — Starter" data-nl="01 — Starter"
-            >01 — Starter</span
-          >
-          <div
-            class="pkg-name"
-            data-en="1-Page Site"
-            data-nl="1-Pagina Website"
-          >
-            1-Page Site
-          </div>
-          <div
-            class="pkg-desc"
-            data-en="A focused, professional online presence that works around the clock to bring in new enquiries."
-            data-nl="Een gerichte, professionele online aanwezigheid die dag en nacht nieuwe aanvragen binnenhaalt."
-          >
-            A focused, professional online presence that works around the clock
-            to bring in new enquiries.
-          </div>
+          <span class="pkg-tag" data-en="01 — Starter" data-nl="01 — Starter">01 — Starter</span>
+          <div class="pkg-name" data-en="1-Page Site" data-nl="1-Pagina Website">1-Page Site</div>
+          <div class="pkg-desc" data-en="A focused, professional online presence that works around the clock to bring in new enquiries." data-nl="Een gerichte, professionele online aanwezigheid die dag en nacht nieuwe aanvragen binnenhaalt.">A focused, professional online presence that works around the clock to bring in new enquiries.</div>
           <div class="pkg-prices">
             <div class="pkg-price-eur">€350</div>
             <div class="pkg-price-gbp">£300</div>
-            <div
-              class="pkg-price-note"
-              data-en="once-off build fee"
-              data-nl="eenmalige bouwkosten"
-            >
-              once-off build fee
-            </div>
+            <div class="pkg-price-note" data-en="once-off build fee" data-nl="eenmalige bouwkosten">once-off build fee</div>
           </div>
           <div class="pkg-divider"></div>
           <ul class="pkg-features">
-            <li
-              data-en="Contact form & Google Maps"
-              data-nl="Contactformulier & Google Maps"
-            >
-              Contact form & Google Maps
-            </li>
-            <li
-              data-en="Business info & services"
-              data-nl="Bedrijfsinfo & diensten"
-            >
-              Business info & services
-            </li>
-            <li
-              data-en="Mobile-friendly design"
-              data-nl="Mobielvriendelijk ontwerp"
-            >
-              Mobile-friendly design
-            </li>
-            <li data-en="Basic SEO included" data-nl="Basis SEO inbegrepen">
-              Basic SEO included
-            </li>
-            <li
-              data-en="Delivered in 1–2 weeks"
-              data-nl="Geleverd in 1–2 weken"
-            >
-              Delivered in 1–2 weeks
-            </li>
+            <li data-en="Contact form & Google Maps" data-nl="Contactformulier & Google Maps">Contact form & Google Maps</li>
+            <li data-en="Business info & services" data-nl="Bedrijfsinfo & diensten">Business info & services</li>
+            <li data-en="Mobile-friendly design" data-nl="Mobielvriendelijk ontwerp">Mobile-friendly design</li>
+            <li data-en="Basic SEO included" data-nl="Basis SEO inbegrepen">Basic SEO included</li>
+            <li data-en="Delivered in 1–2 weeks" data-nl="Geleverd in 1–2 weken">Delivered in 1–2 weeks</li>
           </ul>
         </div>
         <div class="package featured">
-          <span
-            class="pkg-tag"
-            data-en="02 — Standard ★ Most Popular"
-            data-nl="02 — Standaard ★ Meest Gekozen"
-            >02 — Standard ★ Most Popular</span
-          >
-          <div
-            class="pkg-name"
-            data-en="4-Page Site"
-            data-nl="4-Pagina Website"
-          >
-            4-Page Site
-          </div>
-          <div
-            class="pkg-desc"
-            data-en="Everything your business needs to look credible, attract clients, and convert visitors into customers."
-            data-nl="Alles wat uw bedrijf nodig heeft om geloofwaardig te zijn, klanten aan te trekken en bezoekers te converteren."
-          >
-            Everything your business needs to look credible, attract clients,
-            and convert visitors into customers.
-          </div>
+          <span class="pkg-tag" data-en="02 — Standard ★ Most Popular" data-nl="02 — Standaard ★ Meest Gekozen">02 — Standard ★ Most Popular</span>
+          <div class="pkg-name" data-en="4-Page Site" data-nl="4-Pagina Website">4-Page Site</div>
+          <div class="pkg-desc" data-en="Everything your business needs to look credible, attract clients, and convert visitors into customers." data-nl="Alles wat uw bedrijf nodig heeft om geloofwaardig te zijn, klanten aan te trekken en bezoekers te converteren.">Everything your business needs to look credible, attract clients, and convert visitors into customers.</div>
           <div class="pkg-prices">
             <div class="pkg-price-eur">€550</div>
             <div class="pkg-price-gbp">£470</div>
-            <div
-              class="pkg-price-note"
-              data-en="once-off build fee"
-              data-nl="eenmalige bouwkosten"
-            >
-              once-off build fee
-            </div>
+            <div class="pkg-price-note" data-en="once-off build fee" data-nl="eenmalige bouwkosten">once-off build fee</div>
           </div>
           <div class="pkg-divider"></div>
           <ul class="pkg-features">
-            <li
-              data-en="Custom design to your brand"
-              data-nl="Ontwerp afgestemd op uw merk"
-            >
-              Custom design to your brand
-            </li>
-            <li data-en="Image gallery option" data-nl="Fotogalerij optie">
-              Image gallery option
-            </li>
-            <li
-              data-en="Online booking integration"
-              data-nl="Online boekingsintegratie"
-            >
-              Online booking integration
-            </li>
-            <li
-              data-en="Full SEO optimisation"
-              data-nl="Volledige SEO-optimalisatie"
-            >
-              Full SEO optimisation
-            </li>
-            <li
-              data-en="Delivered in 2–3 weeks"
-              data-nl="Geleverd in 2–3 weken"
-            >
-              Delivered in 2–3 weeks
-            </li>
+            <li data-en="Custom design to your brand" data-nl="Ontwerp afgestemd op uw merk">Custom design to your brand</li>
+            <li data-en="Image gallery option" data-nl="Fotogalerij optie">Image gallery option</li>
+            <li data-en="Online booking integration" data-nl="Online boekingsintegratie">Online booking integration</li>
+            <li data-en="Full SEO optimisation" data-nl="Volledige SEO-optimalisatie">Full SEO optimisation</li>
+            <li data-en="Delivered in 2–3 weeks" data-nl="Geleverd in 2–3 weken">Delivered in 2–3 weeks</li>
           </ul>
         </div>
         <div class="package">
-          <span class="pkg-tag" data-en="03 — Business" data-nl="03 — Business"
-            >03 — Business</span
-          >
-          <div
-            class="pkg-name"
-            data-en="8-Page Site"
-            data-nl="8-Pagina Website"
-          >
-            8-Page Site
-          </div>
-          <div
-            class="pkg-desc"
-            data-en="More depth, more content, more functionality — a website that grows with your business."
-            data-nl="Meer diepgang, meer inhoud, meer functionaliteit — een website die meegroeit met uw bedrijf."
-          >
-            More depth, more content, more functionality — a website that grows
-            with your business.
-          </div>
+          <span class="pkg-tag" data-en="03 — Business" data-nl="03 — Business">03 — Business</span>
+          <div class="pkg-name" data-en="8-Page Site" data-nl="8-Pagina Website">8-Page Site</div>
+          <div class="pkg-desc" data-en="More depth, more content, more functionality — a website that grows with your business." data-nl="Meer diepgang, meer inhoud, meer functionaliteit — een website die meegroeit met uw bedrijf.">More depth, more content, more functionality — a website that grows with your business.</div>
           <div class="pkg-prices">
             <div class="pkg-price-eur">€850</div>
             <div class="pkg-price-gbp">£720</div>
-            <div
-              class="pkg-price-note"
-              data-en="once-off build fee"
-              data-nl="eenmalige bouwkosten"
-            >
-              once-off build fee
-            </div>
+            <div class="pkg-price-note" data-en="once-off build fee" data-nl="eenmalige bouwkosten">once-off build fee</div>
           </div>
           <div class="pkg-divider"></div>
           <ul class="pkg-features">
-            <li
-              data-en="Full multi-page website"
-              data-nl="Volledige meerpagina website"
-            >
-              Full multi-page website
-            </li>
-            <li data-en="Blog or news section" data-nl="Blog of nieuwssectie">
-              Blog or news section
-            </li>
-            <li
-              data-en="Booking & enquiry system"
-              data-nl="Boekings- & aanvraagsysteem"
-            >
-              Booking & enquiry system
-            </li>
-            <li
-              data-en="Advanced SEO & analytics"
-              data-nl="Geavanceerde SEO & analytics"
-            >
-              Advanced SEO & analytics
-            </li>
-            <li
-              data-en="Delivered in 3–4 weeks"
-              data-nl="Geleverd in 3–4 weken"
-            >
-              Delivered in 3–4 weeks
-            </li>
+            <li data-en="Full multi-page website" data-nl="Volledige meerpagina website">Full multi-page website</li>
+            <li data-en="Blog or news section" data-nl="Blog of nieuwssectie">Blog or news section</li>
+            <li data-en="Booking & enquiry system" data-nl="Boekings- & aanvraagsysteem">Booking & enquiry system</li>
+            <li data-en="Advanced SEO & analytics" data-nl="Geavanceerde SEO & analytics">Advanced SEO & analytics</li>
+            <li data-en="Delivered in 3–4 weeks" data-nl="Geleverd in 3–4 weken">Delivered in 3–4 weeks</li>
           </ul>
         </div>
         <div class="package">
-          <span class="pkg-tag" data-en="04 — E-Commerce" data-nl="04 — Webshop"
-            >04 — E-Commerce</span
-          >
-          <div class="pkg-name" data-en="Online Shop" data-nl="Webshop">
-            Online Shop
-          </div>
-          <div
-            class="pkg-desc"
-            data-en="Sell your products online with a secure, professional shop built to convert browsers into buyers."
-            data-nl="Verkoop uw producten online met een veilige, professionele webshop die bezoekers omzet in kopers."
-          >
-            Sell your products online with a secure, professional shop built to
-            convert browsers into buyers.
-          </div>
+          <span class="pkg-tag" data-en="04 — E-Commerce" data-nl="04 — Webshop">04 — E-Commerce</span>
+          <div class="pkg-name" data-en="Online Shop" data-nl="Webshop">Online Shop</div>
+          <div class="pkg-desc" data-en="Sell your products online with a secure, professional shop built to convert browsers into buyers." data-nl="Verkoop uw producten online met een veilige, professionele webshop die bezoekers omzet in kopers.">Sell your products online with a secure, professional shop built to convert browsers into buyers.</div>
           <div class="pkg-prices">
             <div class="pkg-price-eur">€1,200</div>
             <div class="pkg-price-gbp">£1,020</div>
-            <div
-              class="pkg-price-note"
-              data-en="once-off build fee"
-              data-nl="eenmalige bouwkosten"
-            >
-              once-off build fee
-            </div>
+            <div class="pkg-price-note" data-en="once-off build fee" data-nl="eenmalige bouwkosten">once-off build fee</div>
           </div>
           <div class="pkg-divider"></div>
           <ul class="pkg-features">
-            <li data-en="Up to 20 products" data-nl="Tot 20 producten">
-              Up to 20 products
-            </li>
-            <li
-              data-en="Secure payment gateway"
-              data-nl="Beveiligde betalingsgateway"
-            >
-              Secure payment gateway
-            </li>
-            <li data-en="Order management" data-nl="Orderbeheer">
-              Order management
-            </li>
-            <li data-en="Inventory tracking" data-nl="Voorraadbeheer">
-              Inventory tracking
-            </li>
-            <li
-              data-en="Delivered in 4–6 weeks"
-              data-nl="Geleverd in 4–6 weken"
-            >
-              Delivered in 4–6 weeks
-            </li>
+            <li data-en="Up to 20 products" data-nl="Tot 20 producten">Up to 20 products</li>
+            <li data-en="Secure payment gateway" data-nl="Beveiligde betalingsgateway">Secure payment gateway</li>
+            <li data-en="Order management" data-nl="Orderbeheer">Order management</li>
+            <li data-en="Inventory tracking" data-nl="Voorraadbeheer">Inventory tracking</li>
+            <li data-en="Delivered in 4–6 weeks" data-nl="Geleverd in 4–6 weken">Delivered in 4–6 weeks</li>
           </ul>
         </div>
       </div>
       <!-- CARE PLAN -->
       <div class="care-plan reveal">
         <div class="care-plan-header">
-          <h3
-            class="care-plan-title"
-            data-en="The Nova <em>Care Plan</em>"
-            data-nl="Het Nova <em>Zorgplan</em>"
-          >
-            The Nova <em>Care Plan</em>
-          </h3>
-          <span
-            class="care-plan-badge"
-            data-en="Included with every website"
-            data-nl="Inbegrepen bij elke website"
-            >Included with every website</span
-          >
+          <h3 class="care-plan-title" data-en="The Nova <em>Care Plan</em>" data-nl="Het Nova <em>Zorgplan</em>">The Nova <em>Care Plan</em></h3>
+          <span class="care-plan-badge" data-en="Included with every website" data-nl="Inbegrepen bij elke website">Included with every website</span>
         </div>
         <div class="care-plan-why">
-          <p
-            data-en="Every website built by Nova Web Studio includes a <strong>minimum 12-month Care Plan</strong>. This isn't just an add-on — it protects the quality of your investment. A poorly maintained website can become slow, insecure, or broken, and that reflects on your business. The Care Plan ensures your site stays fast, safe and professional from day one."
-            data-nl="Elke website die door Nova Web Studio wordt gebouwd, bevat een <strong>minimaal 12 maanden durend Zorgplan</strong>. Dit is geen toevoeging — het beschermt de kwaliteit van uw investering."
-          >
-            Every website built by Nova Web Studio includes a
-            <strong>minimum 12-month Care Plan</strong>. This isn't just an
-            add-on — it protects the quality of your investment. A poorly
-            maintained website can become slow, insecure, or broken, and that
-            reflects on your business. The Care Plan ensures your site stays
-            fast, safe and professional from day one.
+          <p data-en="Every website built by Nova Web Studio includes a <strong>minimum 12-month Care Plan</strong>. This isn't just an add-on — it protects the quality of your investment. A poorly maintained website can become slow, insecure, or broken, and that reflects on your business. The Care Plan ensures your site stays fast, safe and professional from day one." data-nl="Elke website die door Nova Web Studio wordt gebouwd, bevat een <strong>minimaal 12 maanden durend Zorgplan</strong>. Dit is geen toevoeging — het beschermt de kwaliteit van uw investering.">
+            Every website built by Nova Web Studio includes a <strong>minimum 12-month Care Plan</strong>. This isn't just an add-on — it protects the quality of your investment. A poorly maintained website can become slow, insecure, or broken, and that reflects on your business. The Care Plan ensures your site stays fast, safe and professional from day one.
           </p>
         </div>
         <table class="care-table">
           <thead>
             <tr>
               <th data-en="Plan" data-nl="Plan">Plan</th>
-              <th data-en="Monthly Fee" data-nl="Maandelijkse kosten">
-                Monthly Fee
-              </th>
-              <th data-en="What's included" data-nl="Wat is inbegrepen">
-                What's included
-              </th>
+              <th data-en="Monthly Fee" data-nl="Maandelijkse kosten">Monthly Fee</th>
+              <th data-en="What's included" data-nl="Wat is inbegrepen">What's included</th>
               <th data-en="Best for" data-nl="Geschikt voor">Best for</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><div class="tier-badge">Basic</div></td>
-              <td>
-                <div class="price-cell-eur">
-                  <div class="care-price">€75–€150</div>
-                  <div
-                    class="care-price-note"
-                    data-en="per month"
-                    data-nl="per maand"
-                  >
-                    per month
-                  </div>
-                </div>
-                <div class="price-cell-gbp">
-                  <div class="care-price">£65–£128</div>
-                  <div
-                    class="care-price-note"
-                    data-en="per month"
-                    data-nl="per maand"
-                  >
-                    per month
-                  </div>
-                </div>
-              </td>
-              <td
-                data-en="Hosting, SSL certificate, security updates, daily backups, 1–2 content updates per month"
-                data-nl="Hosting, SSL-certificaat, beveiligingsupdates, dagelijkse back-ups, 1–2 inhoudsupdates per maand"
-              >
-                Hosting, SSL certificate, security updates, daily backups, 1–2
-                content updates per month
-              </td>
-              <td
-                data-en="1-page starter sites"
-                data-nl="1-pagina startwebsites"
-              >
-                1-page starter sites
-              </td>
+              <td><div class="price-cell-eur"><div class="care-price">€75–€150</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></div><div class="price-cell-gbp"><div class="care-price">£65–£128</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></div></td>
+              <td data-en="Hosting, SSL certificate, security updates, daily backups, 1–2 content updates per month" data-nl="Hosting, SSL-certificaat, beveiligingsupdates, dagelijkse back-ups, 1–2 inhoudsupdates per maand">Hosting, SSL certificate, security updates, daily backups, 1–2 content updates per month</td>
+              <td data-en="1-page starter sites" data-nl="1-pagina startwebsites">1-page starter sites</td>
             </tr>
             <tr>
               <td><div class="tier-badge">Standard</div></td>
-              <td>
-                <div class="price-cell-eur">
-                  <div class="care-price">€100–€185</div>
-                  <div
-                    class="care-price-note"
-                    data-en="per month"
-                    data-nl="per maand"
-                  >
-                    per month
-                  </div>
-                </div>
-                <div class="price-cell-gbp">
-                  <div class="care-price">£85–£158</div>
-                  <div
-                    class="care-price-note"
-                    data-en="per month"
-                    data-nl="per maand"
-                  >
-                    per month
-                  </div>
-                </div>
-              </td>
-              <td
-                data-en="Everything in Basic + up to 3 content updates, monthly SEO health check, contact form monitoring, Google Maps refresh"
-                data-nl="Alles in Basis + tot 3 inhoudsupdates, maandelijkse SEO-check, contactformulier monitoring"
-              >
-                Everything in Basic + up to 3 content updates, monthly SEO
-                health check, contact form monitoring, Google Maps refresh
-              </td>
-              <td
-                data-en="Active growing businesses"
-                data-nl="Actief groeiende bedrijven"
-              >
-                Active growing businesses
-              </td>
+              <td><div class="price-cell-eur"><div class="care-price">€100–€185</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></div><div class="price-cell-gbp"><div class="care-price">£85–£158</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></div></td>
+              <td data-en="Everything in Basic + up to 3 content updates, monthly SEO health check, contact form monitoring, Google Maps refresh" data-nl="Alles in Basis + tot 3 inhoudsupdates, maandelijkse SEO-check, contactformulier monitoring">Everything in Basic + up to 3 content updates, monthly SEO health check, contact form monitoring, Google Maps refresh</td>
+              <td data-en="Active growing businesses" data-nl="Actief groeiende bedrijven">Active growing businesses</td>
             </tr>
             <tr>
               <td><div class="tier-badge">Premium</div></td>
-              <td>
-                <div class="price-cell-eur">
-                  <div class="care-price">€125–€225</div>
-                  <div
-                    class="care-price-note"
-                    data-en="per month"
-                    data-nl="per maand"
-                  >
-                    per month
-                  </div>
-                </div>
-                <div class="price-cell-gbp">
-                  <div class="care-price">£107–£192</div>
-                  <div
-                    class="care-price-note"
-                    data-en="per month"
-                    data-nl="per maand"
-                  >
-                    per month
-                  </div>
-                </div>
-              </td>
-              <td
-                data-en="Everything in Standard + monthly performance report, priority 24-hour response, social media link updates, quarterly strategy call"
-                data-nl="Alles in Standaard + maandelijks prestatierapport, prioritaire 24-uurs respons, social media linkupdates"
-              >
-                Everything in Standard + monthly performance report, priority
-                24-hour response, social media link updates, quarterly strategy
-                call
-              </td>
-              <td
-                data-en="Businesses that want to stay ahead"
-                data-nl="Bedrijven die voorop willen blijven"
-              >
-                Businesses that want to stay ahead
-              </td>
+              <td><div class="price-cell-eur"><div class="care-price">€125–€225</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></div><div class="price-cell-gbp"><div class="care-price">£107–£192</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></div></td>
+              <td data-en="Everything in Standard + monthly performance report, priority 24-hour response, social media link updates, quarterly strategy call" data-nl="Alles in Standaard + maandelijks prestatierapport, prioritaire 24-uurs respons, social media linkupdates">Everything in Standard + monthly performance report, priority 24-hour response, social media link updates, quarterly strategy call</td>
+              <td data-en="Businesses that want to stay ahead" data-nl="Bedrijven die voorop willen blijven">Businesses that want to stay ahead</td>
             </tr>
           </tbody>
         </table>
         <div class="extra-bar">
-          <div>
-            <div
-              class="extra-bar-left"
-              data-en="Extra hours"
-              data-nl="Extra uren"
-            >
-              Extra hours
-            </div>
-          </div>
-          <div
-            class="extra-bar-right"
-            data-en="Any work beyond your monthly allowance is billed at <span class='extra-bar-price'>€65 / £55</span> per hour. Written approval always required before additional work begins."
-            data-nl="Alle werkzaamheden buiten uw maandelijkse vergoeding worden gefactureerd tegen <span class='extra-bar-price'>€65 / £55</span> per uur."
-          >
-            Any work beyond your monthly allowance is billed at
-            <span class="extra-bar-price">€65 / £55</span> per hour. Written
-            approval always required before additional work begins.
+          <div><div class="extra-bar-left" data-en="Extra hours" data-nl="Extra uren">Extra hours</div></div>
+          <div class="extra-bar-right" data-en="Any work beyond your monthly allowance is billed at <span class='extra-bar-price'>€65 / £55</span> per hour. Written approval always required before additional work begins." data-nl="Alle werkzaamheden buiten uw maandelijkse vergoeding worden gefactureerd tegen <span class='extra-bar-price'>€65 / £55</span> per uur.">
+            Any work beyond your monthly allowance is billed at <span class="extra-bar-price">€65 / £55</span> per hour. Written approval always required before additional work begins.
           </div>
         </div>
       </div>
@@ -1973,400 +482,83 @@
     <section id="portfolio">
       <div class="section-header reveal">
         <div>
-          <div class="section-label" data-en="Portfolio" data-nl="Portfolio">
-            Portfolio
-          </div>
-          <h2
-            class="section-title"
-            data-en="Selected <em>work.</em>"
-            data-nl="Geselecteerd <em>werk.</em>"
-          >
-            Selected <em>work.</em>
-          </h2>
+          <div class="section-label" data-en="Portfolio" data-nl="Portfolio">Portfolio</div>
+          <h2 class="section-title" data-en="Selected <em>work.</em>" data-nl="Geselecteerd <em>werk.</em>">Selected <em>work.</em></h2>
         </div>
-        <div
-          class="section-note"
-          data-en="Built with React,<br>Firebase & Tailwind CSS"
-          data-nl="Gebouwd met React,<br>Firebase & Tailwind CSS"
-        >
-          Built with React,<br />Firebase & Tailwind CSS
-        </div>
+        <div class="section-note" data-en="Built with React,<br>Firebase & Tailwind CSS" data-nl="Gebouwd met React,<br>Firebase & Tailwind CSS">Built with React,<br>Firebase & Tailwind CSS</div>
       </div>
       <div class="projects-grid reveal">
         <div class="project-card">
           <div class="project-number">01 / 02</div>
           <div class="project-name">Tic Tracker</div>
-          <div
-            class="project-type"
-            data-en="React Web Application"
-            data-nl="React Webapplicatie"
-          >
-            React Web Application
-          </div>
+          <div class="project-type" data-en="React Web Application" data-nl="React Webapplicatie">React Web Application</div>
           <div class="app-mockup">
-            <svg
-              viewBox="0 0 340 200"
-              xmlns="http://www.w3.org/2000/svg"
-              style="
-                width: 100%;
-                border: 1px solid rgba(255, 255, 255, 0.06);
-                display: block;
-              "
-            >
-              <rect width="340" height="200" fill="#12121a" />
-              <rect width="340" height="36" fill="#1a1a26" />
-              <text
-                x="16"
-                y="23"
-                font-family="monospace"
-                font-size="11"
-                fill="#E8C97A"
-                letter-spacing="1"
-              >
-                TIC TRACKER
-              </text>
-              <circle cx="310" cy="18" r="8" fill="#2a2a3a" />
-              <text
-                x="306"
-                y="22"
-                font-family="monospace"
-                font-size="9"
-                fill="#9A9899"
-              >
-                +
-              </text>
-              <rect
-                x="12"
-                y="44"
-                width="316"
-                height="24"
-                rx="3"
-                fill="#1e1e2e"
-              />
-              <text
-                x="20"
-                y="60"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                MON
-              </text>
-              <text
-                x="56"
-                y="60"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                TUE
-              </text>
-              <text
-                x="92"
-                y="60"
-                font-family="monospace"
-                font-size="9"
-                fill="#E8C97A"
-              >
-                WED
-              </text>
-              <text
-                x="128"
-                y="60"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                THU
-              </text>
-              <text
-                x="164"
-                y="60"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                FRI
-              </text>
-              <text
-                x="200"
-                y="60"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                SAT
-              </text>
-              <text
-                x="236"
-                y="60"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                SUN
-              </text>
-              <rect
-                x="12"
-                y="76"
-                width="316"
-                height="28"
-                rx="3"
-                fill="#1e1e2e"
-              />
-              <circle cx="26" cy="90" r="5" fill="#E8C97A" opacity="0.8" />
-              <text
-                x="38"
-                y="94"
-                font-family="monospace"
-                font-size="9"
-                fill="#F2F0EC"
-              >
-                Eye blinking
-              </text>
-              <text
-                x="240"
-                y="94"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                09:14 am
-              </text>
-              <rect
-                x="12"
-                y="110"
-                width="316"
-                height="28"
-                rx="3"
-                fill="#1e1e2e"
-              />
-              <circle cx="26" cy="124" r="5" fill="#C04A3A" opacity="0.7" />
-              <text
-                x="38"
-                y="128"
-                font-family="monospace"
-                font-size="9"
-                fill="#F2F0EC"
-              >
-                Shoulder shrug
-              </text>
-              <text
-                x="240"
-                y="128"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                11:02 am
-              </text>
-              <rect
-                x="12"
-                y="144"
-                width="316"
-                height="28"
-                rx="3"
-                fill="#1e1e2e"
-              />
-              <circle cx="26" cy="158" r="5" fill="#E8C97A" opacity="0.5" />
-              <text
-                x="38"
-                y="162"
-                font-family="monospace"
-                font-size="9"
-                fill="#F2F0EC"
-              >
-                Throat clearing
-              </text>
-              <text
-                x="240"
-                y="162"
-                font-family="monospace"
-                font-size="9"
-                fill="#5A5859"
-              >
-                02:47 pm
-              </text>
-              <rect
-                x="12"
-                y="178"
-                width="60"
-                height="4"
-                rx="2"
-                fill="#E8C97A"
-                opacity="0.4"
-              />
-              <rect
-                x="76"
-                y="178"
-                width="40"
-                height="4"
-                rx="2"
-                fill="#E8C97A"
-                opacity="0.25"
-              />
-              <rect
-                x="120"
-                y="178"
-                width="80"
-                height="4"
-                rx="2"
-                fill="#E8C97A"
-                opacity="0.15"
-              />
-              <text
-                x="220"
-                y="183"
-                font-family="monospace"
-                font-size="8"
-                fill="#5A5859"
-              >
-                3 entries today
-              </text>
+            <svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;border:1px solid rgba(255,255,255,0.06);display:block;">
+              <rect width="340" height="200" fill="#12121a"/>
+              <rect width="340" height="36" fill="#1a1a26"/>
+              <text x="16" y="23" font-family="monospace" font-size="11" fill="#E8C97A" letter-spacing="1">TIC TRACKER</text>
+              <circle cx="310" cy="18" r="8" fill="#2a2a3a"/>
+              <text x="306" y="22" font-family="monospace" font-size="9" fill="#9A9899">+</text>
+              <rect x="12" y="44" width="316" height="24" rx="3" fill="#1e1e2e"/>
+              <text x="20" y="60" font-family="monospace" font-size="9" fill="#5A5859">MON</text>
+              <text x="56" y="60" font-family="monospace" font-size="9" fill="#5A5859">TUE</text>
+              <text x="92" y="60" font-family="monospace" font-size="9" fill="#E8C97A">WED</text>
+              <text x="128" y="60" font-family="monospace" font-size="9" fill="#5A5859">THU</text>
+              <text x="164" y="60" font-family="monospace" font-size="9" fill="#5A5859">FRI</text>
+              <text x="200" y="60" font-family="monospace" font-size="9" fill="#5A5859">SAT</text>
+              <text x="236" y="60" font-family="monospace" font-size="9" fill="#5A5859">SUN</text>
+              <rect x="12" y="76" width="316" height="28" rx="3" fill="#1e1e2e"/>
+              <circle cx="26" cy="90" r="5" fill="#E8C97A" opacity="0.8"/>
+              <text x="38" y="94" font-family="monospace" font-size="9" fill="#F2F0EC">Eye blinking</text>
+              <text x="240" y="94" font-family="monospace" font-size="9" fill="#5A5859">09:14 am</text>
+              <rect x="12" y="110" width="316" height="28" rx="3" fill="#1e1e2e"/>
+              <circle cx="26" cy="124" r="5" fill="#C04A3A" opacity="0.7"/>
+              <text x="38" y="128" font-family="monospace" font-size="9" fill="#F2F0EC">Shoulder shrug</text>
+              <text x="240" y="128" font-family="monospace" font-size="9" fill="#5A5859">11:02 am</text>
+              <rect x="12" y="144" width="316" height="28" rx="3" fill="#1e1e2e"/>
+              <circle cx="26" cy="158" r="5" fill="#E8C97A" opacity="0.5"/>
+              <text x="38" y="162" font-family="monospace" font-size="9" fill="#F2F0EC">Throat clearing</text>
+              <text x="240" y="162" font-family="monospace" font-size="9" fill="#5A5859">02:47 pm</text>
+              <rect x="12" y="178" width="60" height="4" rx="2" fill="#E8C97A" opacity="0.4"/>
+              <rect x="76" y="178" width="40" height="4" rx="2" fill="#E8C97A" opacity="0.25"/>
+              <rect x="120" y="178" width="80" height="4" rx="2" fill="#E8C97A" opacity="0.15"/>
+              <text x="220" y="183" font-family="monospace" font-size="8" fill="#5A5859">3 entries today</text>
             </svg>
           </div>
-          <p
-            class="project-desc"
-            data-en="A symptom tracking application designed to help families document and monitor tic disorders over time. Built to support medical appointments with accurate, timestamped data — turning daily observations into meaningful health insights."
-            data-nl="Een symptoomregistratie-applicatie ontworpen om gezinnen te helpen tic-stoornissen te documenteren en te monitoren."
-          >
-            A symptom tracking application designed to help families document
-            and monitor tic disorders over time. Built to support medical
-            appointments with accurate, timestamped data — turning daily
-            observations into meaningful health insights.
-          </p>
+          <p class="project-desc" data-en="A symptom tracking application designed to help families document and monitor tic disorders over time. Built to support medical appointments with accurate, timestamped data — turning daily observations into meaningful health insights." data-nl="Een symptoomregistratie-applicatie ontworpen om gezinnen te helpen tic-stoornissen te documenteren en te monitoren.">A symptom tracking application designed to help families document and monitor tic disorders over time. Built to support medical appointments with accurate, timestamped data — turning daily observations into meaningful health insights.</p>
           <div class="project-tags">
             <span class="project-tag">React</span>
             <span class="project-tag">Tailwind CSS</span>
             <span class="project-tag">GitHub</span>
             <span class="project-tag">Netlify</span>
           </div>
-          <span
-            class="coming-link"
-            data-en="Live link coming soon"
-            data-nl="Live link binnenkort beschikbaar"
-            >Live link coming soon</span
-          >
+          <span class="coming-link" data-en="Live link coming soon" data-nl="Live link binnenkort beschikbaar">Live link coming soon</span>
         </div>
         <div class="project-card">
           <div class="project-number">02 / 02</div>
           <div class="project-name">Bustin' Chops</div>
-          <div
-            class="project-type"
-            data-en="Static Website — Live"
-            data-nl="Statische Website — Live"
-          >
-            Static Website — Live
-          </div>
-          <div
-            class="app-mockup"
-            style="
-              border: 1px solid rgba(255, 255, 255, 0.08);
-              border-radius: 4px;
-              overflow: hidden;
-              margin-bottom: 24px;
-            "
-          >
-            <div
-              style="
-                background: #1e1e24;
-                padding: 8px 12px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-              "
-            >
-              <span
-                style="
-                  width: 8px;
-                  height: 8px;
-                  border-radius: 50%;
-                  background: #ff5f57;
-                  display: inline-block;
-                "
-              ></span>
-              <span
-                style="
-                  width: 8px;
-                  height: 8px;
-                  border-radius: 50%;
-                  background: #febc2e;
-                  display: inline-block;
-                "
-              ></span>
-              <span
-                style="
-                  width: 8px;
-                  height: 8px;
-                  border-radius: 50%;
-                  background: #28c840;
-                  display: inline-block;
-                "
-              ></span>
-              <span
-                style="
-                  font-family: monospace;
-                  font-size: 10px;
-                  color: #5a5859;
-                  margin-left: 8px;
-                "
-                >bustinchops.netlify.app</span
-              >
+          <div class="project-type" data-en="Static Website — Live" data-nl="Statische Website — Live">Static Website — Live</div>
+          <div class="app-mockup" style="border:1px solid rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;margin-bottom:24px;">
+            <div style="background:#1e1e24;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.06);">
+              <span style="width:8px;height:8px;border-radius:50%;background:#ff5f57;display:inline-block;"></span>
+              <span style="width:8px;height:8px;border-radius:50%;background:#febc2e;display:inline-block;"></span>
+              <span style="width:8px;height:8px;border-radius:50%;background:#28c840;display:inline-block;"></span>
+              <span style="font-family:monospace;font-size:10px;color:#5a5859;margin-left:8px;">bustinchops.netlify.app</span>
             </div>
-            <img
-              src="https://s3.amazonaws.com/shecodesio-production/uploads/files/000/174/713/original/Bustin_Flyer_%282%29.png"
-              alt="Bustin' Chops Website"
-              style="
-                width: 100%;
-                display: block;
-                max-height: 180px;
-                object-fit: contain;
-                background: #12121a;
-                padding: 16px;
-              "
-            />
+            <img src="https://s3.amazonaws.com/shecodesio-production/uploads/files/000/174/713/original/Bustin_Flyer_%282%29.png" alt="Bustin' Chops Website" style="width:100%;display:block;max-height:180px;object-fit:contain;background:#12121a;padding:16px;"/>
           </div>
-          <p
-            class="project-desc"
-            data-en="A fully live website built for a South African biltong business. Features a product catalogue, WhatsApp ordering, market locations, and a clean mobile-first design — bringing a traditional family business online."
-            data-nl="Een volledig live website gebouwd voor een Zuid-Afrikaans biltongbedrijf."
-          >
-            A fully live website built for a South African biltong business.
-            Features a product catalogue, WhatsApp ordering, market locations,
-            and a clean mobile-first design — bringing a traditional family
-            business online.
-          </p>
+          <p class="project-desc" data-en="A fully live website built for a South African biltong business. Features a product catalogue, WhatsApp ordering, market locations, and a clean mobile-first design — bringing a traditional family business online." data-nl="Een volledig live website gebouwd voor een Zuid-Afrikaans biltongbedrijf.">A fully live website built for a South African biltong business. Features a product catalogue, WhatsApp ordering, market locations, and a clean mobile-first design — bringing a traditional family business online.</p>
           <div class="project-tags">
             <span class="project-tag">HTML & CSS</span>
             <span class="project-tag">JavaScript</span>
             <span class="project-tag">Netlify</span>
             <span class="project-tag">Mobile-first</span>
           </div>
-          <a
-            href="https://bustinchops.netlify.app"
-            target="_blank"
-            class="project-link"
-            data-en="View Live Site →"
-            data-nl="Bekijk live site →"
-            >View Live Site →</a
-          >
+          <a href="https://bustinchops.netlify.app" target="_blank" class="project-link" data-en="View Live Site →" data-nl="Bekijk live site →">View Live Site →</a>
         </div>
         <div class="coming-soon">
-          <div
-            class="coming-soon-text"
-            data-en="Your business could be next."
-            data-nl="Uw bedrijf kan de volgende zijn."
-          >
-            Your business could be next.
-          </div>
-          <div
-            class="coming-soon-note"
-            data-en="Currently accepting new clients<br>for Q2 2026 — Netherlands & UK"
-            data-nl="Momenteel nieuwe klanten accepteren<br>voor Q2 2026 — Nederland & VK"
-          >
-            Currently accepting new clients<br />for Q2 2026 — Netherlands & UK
-          </div>
+          <div class="coming-soon-text" data-en="Your business could be next." data-nl="Uw bedrijf kan de volgende zijn.">Your business could be next.</div>
+          <div class="coming-soon-note" data-en="Currently accepting new clients<br>for Q2 2026 — Netherlands & UK" data-nl="Momenteel nieuwe klanten accepteren<br>voor Q2 2026 — Nederland & VK">Currently accepting new clients<br>for Q2 2026 — Netherlands & UK</div>
         </div>
       </div>
     </section>
@@ -2374,166 +566,50 @@
     <!-- ABOUT — NWS as entity, benefit-focused, no CV style -->
     <section id="about">
       <div class="reveal">
-        <div
-          class="section-label"
-          data-en="About Nova Web Studio"
-          data-nl="Over Nova Web Studio"
-        >
-          About Nova Web Studio
-        </div>
-        <h2
-          class="section-title"
-          data-en="One person.<br>Your business.<br><em>Real results.</em>"
-          data-nl="Één persoon.<br>Uw bedrijf.<br><em>Echt resultaat.</em>"
-        >
-          One person.<br />Your business.<br /><em>Real results.</em>
+        <div class="section-label" data-en="About Nova Web Studio" data-nl="Over Nova Web Studio">About Nova Web Studio</div>
+        <h2 class="section-title" data-en="One person.<br>Your business.<br><em>Real results.</em>" data-nl="Één persoon.<br>Uw bedrijf.<br><em>Echt resultaat.</em>">
+          One person.<br>Your business.<br><em>Real results.</em>
         </h2>
-        <p
-          class="body-text"
-          data-en="Nova Web Studio is a boutique web design studio based in Oostvoorne, South Holland. When you work with us, you get one dedicated person who learns your business, understands your clients, and builds something that actually works for you — not a generic template handed off by a junior developer."
-          data-nl="Nova Web Studio is een boutique webdesignstudio gevestigd in Oostvoorne, Zuid-Holland. Wanneer u met ons werkt, krijgt u één toegewijde persoon die uw bedrijf leert kennen en iets bouwt dat echt voor u werkt."
-        >
-          Nova Web Studio is a boutique web design studio based in Oostvoorne,
-          South Holland. When you work with us, you get one dedicated person who
-          learns your business, understands your clients, and builds something
-          that actually works for you — not a generic template handed off by a
-          junior developer.
+        <p class="body-text" data-en="Nova Web Studio is a boutique web design studio based in Oostvoorne, South Holland. When you work with us, you get one dedicated person who learns your business, understands your clients, and builds something that actually works for you — not a generic template handed off by a junior developer." data-nl="Nova Web Studio is een boutique webdesignstudio gevestigd in Oostvoorne, Zuid-Holland. Wanneer u met ons werkt, krijgt u één toegewijde persoon die uw bedrijf leert kennen en iets bouwt dat echt voor u werkt.">
+          Nova Web Studio is a boutique web design studio based in Oostvoorne, South Holland. When you work with us, you get one dedicated person who learns your business, understands your clients, and builds something that actually works for you — not a generic template handed off by a junior developer.
         </p>
-        <p
-          class="body-text"
-          data-en="No agency overheads. No AI shortcuts. No cookie-cutter designs. Every website is hand-built from scratch, designed to convert visitors into customers and reflect your business with the quality it deserves."
-          data-nl="Geen agentuuroverhead. Geen AI-snelkoppelingen. Geen kant-en-klare ontwerpen. Elke website wordt van scratch gebouwd, ontworpen om bezoekers om te zetten in klanten."
-        >
-          No agency overheads. No AI shortcuts. No cookie-cutter designs. Every
-          website is hand-built from scratch, designed to convert visitors into
-          customers and reflect your business with the quality it deserves.
+        <p class="body-text" data-en="No agency overheads. No AI shortcuts. No cookie-cutter designs. Every website is hand-built from scratch, designed to convert visitors into customers and reflect your business with the quality it deserves." data-nl="Geen agentuuroverhead. Geen AI-snelkoppelingen. Geen kant-en-klare ontwerpen. Elke website wordt van scratch gebouwd, ontworpen om bezoekers om te zetten in klanten.">
+          No agency overheads. No AI shortcuts. No cookie-cutter designs. Every website is hand-built from scratch, designed to convert visitors into customers and reflect your business with the quality it deserves.
         </p>
-        <p
-          class="body-text"
-          data-en="Nova Web Studio serves small businesses across the Netherlands and UK — from independent retailers and service providers to health practitioners and trades. If you want a website that actually grows your business, you're in the right place."
-          data-nl="Nova Web Studio bedient kleine bedrijven in Nederland en het VK — van zelfstandige detailhandelaren en dienstverleners tot zorgverleners en ambachtslieden. Als u een website wilt die uw bedrijf echt laat groeien, bent u hier aan het juiste adres."
-        >
-          Nova Web Studio serves small businesses across the Netherlands and UK
-          — from independent retailers and service providers to health
-          practitioners and trades. If you want a website that actually grows
-          your business, you're in the right place.
+        <p class="body-text" data-en="Nova Web Studio serves small businesses across the Netherlands and UK — from independent retailers and service providers to health practitioners and trades. If you want a website that actually grows your business, you're in the right place." data-nl="Nova Web Studio bedient kleine bedrijven in Nederland en het VK — van zelfstandige detailhandelaren en dienstverleners tot zorgverleners en ambachtslieden. Als u een website wilt die uw bedrijf echt laat groeien, bent u hier aan het juiste adres.">
+          Nova Web Studio serves small businesses across the Netherlands and UK — from independent retailers and service providers to health practitioners and trades. If you want a website that actually grows your business, you're in the right place.
         </p>
         <div class="about-quote">
-          <p
-            data-en='"Your website works 24 hours a day, 7 days a week — it never calls in sick, never asks for a raise, and never closes for the weekend."'
-            data-nl='"Uw website werkt 24 uur per dag, 7 dagen per week — het belt nooit ziek, vraagt nooit om loonsverhoging en sluit nooit voor het weekend."'
-          >
-            "Your website works 24 hours a day, 7 days a week — it never calls
-            in sick, never asks for a raise, and never closes for the weekend."
-          </p>
+          <p data-en='"Your website works 24 hours a day, 7 days a week — it never calls in sick, never asks for a raise, and never closes for the weekend."' data-nl='"Uw website werkt 24 uur per dag, 7 dagen per week — het belt nooit ziek, vraagt nooit om loonsverhoging en sluit nooit voor het weekend."'>"Your website works 24 hours a day, 7 days a week — it never calls in sick, never asks for a raise, and never closes for the weekend."</p>
         </div>
       </div>
       <div class="reveal reveal-delay-1">
         <div class="photo-wrap">
-          <img
-            src="michelle.webp"
-            alt="Michelle — Nova Web Studio"
-            class="profile-photo"
-          />
+          <img src="michelle.webp" alt="Michelle — Nova Web Studio" class="profile-photo" />
           <div class="photo-accent"></div>
           <div class="photo-label">
             <span class="photo-name">Michelle</span>
-            <span
-              class="photo-title"
-              data-en="Founder & Web Developer"
-              data-nl="Oprichter & Webontwikkelaar"
-              >Founder & Web Developer</span
-            >
+            <span class="photo-title" data-en="Founder & Web Developer" data-nl="Oprichter & Webontwikkelaar">Founder & Web Developer</span>
           </div>
         </div>
-        <div class="cert-strip" style="margin-top: 20px">
+        <div class="cert-strip" style="margin-top:20px">
           <div class="cert-icon">✦</div>
           <div>
-            <div
-              class="cert-label"
-              data-en="Certified by"
-              data-nl="Gecertificeerd door"
-            >
-              Certified by
-            </div>
-            <div class="cert-name">
-              SheCodes — HTML, CSS, JavaScript, React, Python, API
-            </div>
+            <div class="cert-label" data-en="Certified by" data-nl="Gecertificeerd door">Certified by</div>
+            <div class="cert-name">SheCodes — HTML, CSS, JavaScript, React, Python, API</div>
           </div>
         </div>
-        <div class="skills-card" style="margin-top: 16px">
-          <div
-            class="skills-card-title"
-            data-en="What this means for your website"
-            data-nl="Wat dit betekent voor uw website"
-          >
-            What this means for your website
-          </div>
+        <div class="skills-card" style="margin-top:16px">
+          <div class="skills-card-title" data-en="What this means for your website" data-nl="Wat dit betekent voor uw website">What this means for your website</div>
           <ul class="skill-list">
-            <li class="skill-item">
-              <span class="skill-dot"></span
-              ><span
-                data-en="Custom design — no templates, no shortcuts"
-                data-nl="Maatwerk design — geen templates, geen snelkoppelingen"
-                >Custom design — no templates, no shortcuts</span
-              >
-            </li>
-            <li class="skill-item">
-              <span class="skill-dot"></span
-              ><span
-                data-en="Fast-loading pages that keep visitors engaged"
-                data-nl="Snel ladende pagina's die bezoekers betrokken houden"
-                >Fast-loading pages that keep visitors engaged</span
-              >
-            </li>
-            <li class="skill-item">
-              <span class="skill-dot"></span
-              ><span
-                data-en="SEO built-in so clients can actually find you"
-                data-nl="SEO ingebouwd zodat klanten u daadwerkelijk kunnen vinden"
-                >SEO built-in so clients can actually find you</span
-              >
-            </li>
-            <li class="skill-item">
-              <span class="skill-dot"></span
-              ><span
-                data-en="Mobile-first — works perfectly on every device"
-                data-nl="Mobile-first — werkt perfect op elk apparaat"
-                >Mobile-first — works perfectly on every device</span
-              >
-            </li>
-            <li class="skill-item">
-              <span class="skill-dot"></span
-              ><span
-                data-en="Contact forms & booking systems that convert"
-                data-nl="Contactformulieren & boekingssystemen die converteren"
-                >Contact forms & booking systems that convert</span
-              >
-            </li>
-            <li class="skill-item">
-              <span class="skill-dot"></span
-              ><span
-                data-en="Bilingual NL/EN — reach more customers"
-                data-nl="Tweetalig NL/EN — bereik meer klanten"
-                >Bilingual NL/EN — reach more customers</span
-              >
-            </li>
-            <li class="skill-item">
-              <span class="skill-dot"></span
-              ><span
-                data-en="React apps & dynamic interfaces when needed"
-                data-nl="React-apps & dynamische interfaces wanneer nodig"
-                >React apps & dynamic interfaces when needed</span
-              >
-            </li>
-            <li class="skill-item">
-              <span class="skill-dot"></span
-              ><span
-                data-en="Secure, maintained & always up to date"
-                data-nl="Veilig, onderhouden & altijd up-to-date"
-                >Secure, maintained & always up to date</span
-              >
-            </li>
+            <li class="skill-item"><span class="skill-dot"></span><span data-en="Custom design — no templates, no shortcuts" data-nl="Maatwerk design — geen templates, geen snelkoppelingen">Custom design — no templates, no shortcuts</span></li>
+            <li class="skill-item"><span class="skill-dot"></span><span data-en="Fast-loading pages that keep visitors engaged" data-nl="Snel ladende pagina's die bezoekers betrokken houden">Fast-loading pages that keep visitors engaged</span></li>
+            <li class="skill-item"><span class="skill-dot"></span><span data-en="SEO built-in so clients can actually find you" data-nl="SEO ingebouwd zodat klanten u daadwerkelijk kunnen vinden">SEO built-in so clients can actually find you</span></li>
+            <li class="skill-item"><span class="skill-dot"></span><span data-en="Mobile-first — works perfectly on every device" data-nl="Mobile-first — werkt perfect op elk apparaat">Mobile-first — works perfectly on every device</span></li>
+            <li class="skill-item"><span class="skill-dot"></span><span data-en="Contact forms & booking systems that convert" data-nl="Contactformulieren & boekingssystemen die converteren">Contact forms & booking systems that convert</span></li>
+            <li class="skill-item"><span class="skill-dot"></span><span data-en="Bilingual NL/EN — reach more customers" data-nl="Tweetalig NL/EN — bereik meer klanten">Bilingual NL/EN — reach more customers</span></li>
+            <li class="skill-item"><span class="skill-dot"></span><span data-en="React apps & dynamic interfaces when needed" data-nl="React-apps & dynamische interfaces wanneer nodig">React apps & dynamic interfaces when needed</span></li>
+            <li class="skill-item"><span class="skill-dot"></span><span data-en="Secure, maintained & always up to date" data-nl="Veilig, onderhouden & altijd up-to-date">Secure, maintained & always up to date</span></li>
           </ul>
         </div>
       </div>
@@ -2543,209 +619,69 @@
     <section id="contact">
       <div class="contact-inner">
         <div class="reveal">
-          <div
-            class="section-label"
-            data-en="Get in Touch"
-            data-nl="Neem contact op"
-          >
-            Get in Touch
-          </div>
-          <h2
-            class="contact-headline"
-            data-en="Let's build<br>something<br><em>together.</em>"
-            data-nl="Laten we samen<br>iets moois<br><em>bouwen.</em>"
-          >
-            Let's build<br />something<br /><em>together.</em>
+          <div class="section-label" data-en="Get in Touch" data-nl="Neem contact op">Get in Touch</div>
+          <h2 class="contact-headline" data-en="Let's build<br>something<br><em>together.</em>" data-nl="Laten we samen<br>iets moois<br><em>bouwen.</em>">
+            Let's build<br>something<br><em>together.</em>
           </h2>
-          <p
-            class="contact-body"
-            data-en="Ready to get your business a website that actually works? Have questions about what's right for you? Get in touch — no obligation, no pressure. Just a real conversation about what you need."
-            data-nl="Klaar voor een website die echt werkt? Vragen over wat het beste bij u past? Neem contact op — geen verplichtingen, geen druk."
-          >
-            Ready to get your business a website that actually works? Have
-            questions about what's right for you? Get in touch — no obligation,
-            no pressure. Just a real conversation about what you need.
+          <p class="contact-body" data-en="Ready to get your business a website that actually works? Have questions about what's right for you? Get in touch — no obligation, no pressure. Just a real conversation about what you need." data-nl="Klaar voor een website die echt werkt? Vragen over wat het beste bij u past? Neem contact op — geen verplichtingen, geen druk.">
+            Ready to get your business a website that actually works? Have questions about what's right for you? Get in touch — no obligation, no pressure. Just a real conversation about what you need.
           </p>
           <div class="contact-links">
-            <a
-              href="/cdn-cgi/l/email-protection#2c45424a436c42435a4d5b494e5f5859484543024543"
-              class="contact-link"
-            >
+            <a href="/cdn-cgi/l/email-protection#2c45424a436c42435a4d5b494e5f5859484543024543" class="contact-link">
               <span class="contact-icon">@</span>
               <div>
-                <div class="contact-label" data-en="Email" data-nl="E-mail">
-                  Email
-                </div>
-                <div class="contact-value">
-                  <span
-                    class="__cf_email__"
-                    data-cfemail="e980878f86a987869f889e8c8b9a9d9c8d8086c78086"
-                    >[email&#160;protected]</span
-                  >
-                </div>
+                <div class="contact-label" data-en="Email" data-nl="E-mail">Email</div>
+                <div class="contact-value"><span class="__cf_email__" data-cfemail="e980878f86a987869f889e8c8b9a9d9c8d8086c78086">[email&#160;protected]</span></div>
               </div>
             </a>
             <a href="#" class="contact-link">
               <span class="contact-icon">◎</span>
               <div>
-                <div
-                  class="contact-label"
-                  data-en="Based in"
-                  data-nl="Gevestigd in"
-                >
-                  Based in
-                </div>
-                <div
-                  class="contact-value"
-                  data-en="Oostvoorne, Netherlands — serving NL & UK"
-                  data-nl="Oostvoorne, Nederland — actief in NL & VK"
-                >
-                  Oostvoorne, Netherlands — serving NL & UK
-                </div>
+                <div class="contact-label" data-en="Based in" data-nl="Gevestigd in">Based in</div>
+                <div class="contact-value" data-en="Oostvoorne, Netherlands — serving NL & UK" data-nl="Oostvoorne, Nederland — actief in NL & VK">Oostvoorne, Netherlands — serving NL & UK</div>
               </div>
             </a>
             <a href="#" class="contact-link">
               <span class="contact-icon">↗</span>
               <div>
-                <div
-                  class="contact-label"
-                  data-en="Response time"
-                  data-nl="Reactietijd"
-                >
-                  Response time
-                </div>
-                <div
-                  class="contact-value"
-                  data-en="Within 24 hours, Monday to Friday"
-                  data-nl="Binnen 24 uur, maandag t/m vrijdag"
-                >
-                  Within 24 hours, Monday to Friday
-                </div>
+                <div class="contact-label" data-en="Response time" data-nl="Reactietijd">Response time</div>
+                <div class="contact-value" data-en="Within 24 hours, Monday to Friday" data-nl="Binnen 24 uur, maandag t/m vrijdag">Within 24 hours, Monday to Friday</div>
               </div>
             </a>
           </div>
         </div>
         <div class="reveal reveal-delay-1">
-          <form
-            class="contact-form"
-            action="https://formspree.io/f/meepzrzg"
-            method="POST"
-          >
+          <form class="contact-form" action="https://formspree.io/f/meepzrzg" method="POST">
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label" data-en="Your name" data-nl="Uw naam"
-                  >Your name</label
-                >
-                <input
-                  type="text"
-                  name="name"
-                  class="form-input"
-                  placeholder="Jan de Vries"
-                  required
-                />
+                <label class="form-label" data-en="Your name" data-nl="Uw naam">Your name</label>
+                <input type="text" name="name" class="form-input" placeholder="Jan de Vries" required />
               </div>
               <div class="form-group">
-                <label
-                  class="form-label"
-                  data-en="Business name"
-                  data-nl="Bedrijfsnaam"
-                  >Business name</label
-                >
-                <input
-                  type="text"
-                  name="business"
-                  class="form-input"
-                  placeholder="Your Business"
-                />
+                <label class="form-label" data-en="Business name" data-nl="Bedrijfsnaam">Business name</label>
+                <input type="text" name="business" class="form-input" placeholder="Your Business" />
               </div>
             </div>
             <div class="form-group">
-              <label
-                class="form-label"
-                data-en="Email address"
-                data-nl="E-mailadres"
-                >Email address</label
-              >
-              <input
-                type="email"
-                name="email"
-                class="form-input"
-                placeholder="jan@yourbusiness.nl"
-                required
-              />
+              <label class="form-label" data-en="Email address" data-nl="E-mailadres">Email address</label>
+              <input type="email" name="email" class="form-input" placeholder="jan@yourbusiness.nl" required />
             </div>
             <div class="form-group">
-              <label
-                class="form-label"
-                data-en="What do you need?"
-                data-nl="Wat heeft u nodig?"
-                >What do you need?</label
-              >
+              <label class="form-label" data-en="What do you need?" data-nl="Wat heeft u nodig?">What do you need?</label>
               <select name="package" class="form-select form-input">
-                <option
-                  value=""
-                  disabled
-                  selected
-                  data-en="Select a package"
-                  data-nl="Kies een pakket"
-                >
-                  Select a package
-                </option>
-                <option
-                  data-en="1-Page Starter — from €350 / £300"
-                  data-nl="1-Pagina Starter — vanaf €350 / £300"
-                >
-                  1-Page Starter — from €350 / £300
-                </option>
-                <option
-                  data-en="4-Page Standard — from €550 / £470"
-                  data-nl="4-Pagina Standaard — vanaf €550 / £470"
-                >
-                  4-Page Standard — from €550 / £470
-                </option>
-                <option
-                  data-en="8-Page Business — from €850 / £720"
-                  data-nl="8-Pagina Business — vanaf €850 / £720"
-                >
-                  8-Page Business — from €850 / £720
-                </option>
-                <option
-                  data-en="E-Commerce — from €1,200 / £1,020"
-                  data-nl="Webshop — vanaf €1.200 / £1.020"
-                >
-                  E-Commerce — from €1,200 / £1,020
-                </option>
-                <option
-                  data-en="Not sure yet — let's talk"
-                  data-nl="Nog niet zeker — laten we praten"
-                >
-                  Not sure yet — let's talk
-                </option>
+                <option value="" disabled selected data-en="Select a package" data-nl="Kies een pakket">Select a package</option>
+                <option data-en="1-Page Starter — from €350 / £300" data-nl="1-Pagina Starter — vanaf €350 / £300">1-Page Starter — from €350 / £300</option>
+                <option data-en="4-Page Standard — from €550 / £470" data-nl="4-Pagina Standaard — vanaf €550 / £470">4-Page Standard — from €550 / £470</option>
+                <option data-en="8-Page Business — from €850 / £720" data-nl="8-Pagina Business — vanaf €850 / £720">8-Page Business — from €850 / £720</option>
+                <option data-en="E-Commerce — from €1,200 / £1,020" data-nl="Webshop — vanaf €1.200 / £1.020">E-Commerce — from €1,200 / £1,020</option>
+                <option data-en="Not sure yet — let's talk" data-nl="Nog niet zeker — laten we praten">Not sure yet — let's talk</option>
               </select>
             </div>
             <div class="form-group">
-              <label
-                class="form-label"
-                data-en="Tell me about your business"
-                data-nl="Vertel me over uw bedrijf"
-                >Tell me about your business</label
-              >
-              <textarea
-                name="message"
-                class="form-textarea"
-                data-placeholder-en="What does your business do? What do you want your website to achieve?"
-                data-placeholder-nl="Wat doet uw bedrijf? Wat wilt u dat uw website bereikt?"
-                placeholder="What does your business do? What do you want your website to achieve?"
-              ></textarea>
+              <label class="form-label" data-en="Tell me about your business" data-nl="Vertel me over uw bedrijf">Tell me about your business</label>
+              <textarea name="message" class="form-textarea" data-placeholder-en="What does your business do? What do you want your website to achieve?" data-placeholder-nl="Wat doet uw bedrijf? Wat wilt u dat uw website bereikt?" placeholder="What does your business do? What do you want your website to achieve?"></textarea>
             </div>
-            <button
-              type="submit"
-              class="form-submit"
-              data-en="Send Message →"
-              data-nl="Bericht versturen →"
-            >
-              Send Message →
-            </button>
+            <button type="submit" class="form-submit" data-en="Send Message →" data-nl="Bericht versturen →">Send Message →</button>
           </form>
         </div>
       </div>
@@ -2754,118 +690,62 @@
     <!-- FOOTER -->
     <footer>
       <div class="footer-logo">Nova <span>Web Studio</span></div>
-      <div
-        class="footer-center"
-        data-en="novawebstudio.io — Netherlands & United Kingdom"
-        data-nl="novawebstudio.io — Nederland & Verenigd Koninkrijk"
-      >
-        novawebstudio.io — Netherlands & United Kingdom
-      </div>
+      <div class="footer-center" data-en="novawebstudio.io — Netherlands & United Kingdom" data-nl="novawebstudio.io — Nederland & Verenigd Koninkrijk">novawebstudio.io — Netherlands & United Kingdom</div>
       <div class="footer-copy">© 2026 Nova Web Studio</div>
     </footer>
 
-    <script
-      data-cfasync="false"
-      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-    ></script>
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
       // Cursor
       const cursor = document.getElementById("cursor");
       const ring = document.getElementById("cursorRing");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-        cursor.style.left = mx + "px";
-        cursor.style.top = my + "px";
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+"px"; cursor.style.top = my+"px"; });
+      (function animateRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+"px"; ring.style.top = ry+"px"; requestAnimationFrame(animateRing); })();
+      document.querySelectorAll("a, button, .project-card, .package, .contact-link").forEach((el) => {
+        el.addEventListener("mouseenter", () => ring.classList.add("hover"));
+        el.addEventListener("mouseleave", () => ring.classList.remove("hover"));
       });
-      (function animateRing() {
-        rx += (mx - rx) * 0.12;
-        ry += (my - ry) * 0.12;
-        ring.style.left = rx + "px";
-        ring.style.top = ry + "px";
-        requestAnimationFrame(animateRing);
-      })();
-      document
-        .querySelectorAll("a, button, .project-card, .package, .contact-link")
-        .forEach((el) => {
-          el.addEventListener("mouseenter", () => ring.classList.add("hover"));
-          el.addEventListener("mouseleave", () =>
-            ring.classList.remove("hover"),
-          );
-        });
       // Nav scroll
-      window.addEventListener("scroll", () => {
-        document
-          .getElementById("nav")
-          .classList.toggle("scrolled", window.scrollY > 60);
-      });
+      window.addEventListener("scroll", () => { document.getElementById("nav").classList.toggle("scrolled", window.scrollY > 60); });
       // Reveal
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-              setTimeout(() => entry.target.classList.add("visible"), i * 80);
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.08 },
-      );
-      document
-        .querySelectorAll(".reveal")
-        .forEach((el) => observer.observe(el));
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => { if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add("visible"), i*80); observer.unobserve(entry.target); } });
+      }, { threshold: 0.08 });
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
       // Smooth scroll
       document.querySelectorAll('a[href^="#"]').forEach((a) => {
-        a.addEventListener("click", (e) => {
-          e.preventDefault();
-          const t = document.querySelector(a.getAttribute("href"));
-          if (t) t.scrollIntoView({ behavior: "smooth" });
-        });
+        a.addEventListener("click", (e) => { e.preventDefault(); const t = document.querySelector(a.getAttribute("href")); if (t) t.scrollIntoView({ behavior: "smooth" }); });
       });
       // Language
       let currentLang = "en";
       function setLang(lang) {
         currentLang = lang;
         document.documentElement.lang = lang;
-        document
-          .getElementById("btn-en")
-          .classList.toggle("active", lang === "en");
-        document
-          .getElementById("btn-nl")
-          .classList.toggle("active", lang === "nl");
+        document.getElementById("btn-en").classList.toggle("active", lang==="en");
+        document.getElementById("btn-nl").classList.toggle("active", lang==="nl");
         document.querySelectorAll("[data-en][data-nl]").forEach((el) => {
-          const val = el.getAttribute("data-" + lang);
+          const val = el.getAttribute("data-"+lang);
           if (!val) return;
-          if (el.tagName === "TEXTAREA") {
-            const ph = el.getAttribute("data-placeholder-" + lang);
-            if (ph) el.placeholder = ph;
-          } else {
-            el.innerHTML = val;
-          }
+          if (el.tagName === "TEXTAREA") { const ph = el.getAttribute("data-placeholder-"+lang); if (ph) el.placeholder = ph; }
+          else { el.innerHTML = val; }
         });
-        document
-          .querySelectorAll("option[data-" + lang + "]")
-          .forEach((opt) => {
-            opt.textContent = opt.getAttribute("data-" + lang);
-          });
+        document.querySelectorAll("option[data-"+lang+"]").forEach((opt) => { opt.textContent = opt.getAttribute("data-"+lang); });
         const btn = document.querySelector(".form-submit");
-        if (btn)
-          btn.textContent =
-            lang === "nl" ? "Bericht versturen →" : "Send Message →";
+        if (btn) btn.textContent = lang==="nl" ? "Bericht versturen →" : "Send Message →";
       }
+      // Build email link at runtime to prevent Cloudflare encoding
+      (function(){
+        var u="info"; var d="novawebstudio.io";
+        var el=document.getElementById("email-link");
+        var disp=document.getElementById("email-display");
+        if(el){ el.href="mailto:"+u+"@"+d; }
+        if(disp){ disp.textContent=u+"@"+d; }
+      })();
       // Currency
       function setCurrency(curr) {
-        document
-          .getElementById("btn-eur")
-          .classList.toggle("active", curr === "eur");
-        document
-          .getElementById("btn-gbp")
-          .classList.toggle("active", curr === "gbp");
-        document.body.classList.toggle("gbp", curr === "gbp");
+        document.getElementById("btn-eur").classList.toggle("active", curr==="eur");
+        document.getElementById("btn-gbp").classList.toggle("active", curr==="gbp");
+        document.body.classList.toggle("gbp", curr==="gbp");
       }
     </script>
   </body>
