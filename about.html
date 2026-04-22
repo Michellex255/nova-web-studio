@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Web Studio — About Michelle</title>
+  <meta name="description" content="Nova Web Studio is Michelle de Villiers — a web designer based in Oostvoorne, Netherlands. Human-built websites for local businesses and hospitality." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0b; --bg2: #111114; --bg3: #18181c; --surface: #1e1e24;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.04);
+      --text: #f2f0ec; --text2: #9a9899; --text3: #5a5859;
+      --accent: #e8c97a; --accent2: #c9aa5a; --green: #4a9e6a;
+      --font-display: "Cormorant Garamond", serif;
+      --font-mono: "DM Mono", monospace;
+      --font-body: "Instrument Sans", sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+
+    /* Cursor */
+    .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(232,201,122,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.25s ease, width 0.2s, height 0.2s, border-color 0.2s; transform: translate(-50%,-50%); }
+    .cursor-ring.hover { width: 56px; height: 56px; border-color: rgba(232,201,122,0.8); }
+    body::before { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; pointer-events: none; z-index: 0; }
+
+    /* Lang bar */
+    .lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: var(--bg3); border-bottom: 1px solid var(--border); padding: 7px 48px; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+    .lang-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border: 1px solid transparent; background: none; color: var(--text3); cursor: pointer; transition: all 0.2s; }
+    .lang-btn.active { color: var(--accent); border-color: rgba(232,201,122,0.3); }
+    .lang-btn:hover { color: var(--text2); }
+
+    /* Nav */
+    nav { position: fixed; top: 32px; left: 0; right: 0; z-index: 100; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.3s, padding 0.3s; }
+    nav.scrolled { background: rgba(10,10,11,0.94); backdrop-filter: blur(20px); border-color: var(--border); padding: 14px 48px; }
+    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+    .nav-links a { font-family: var(--font-mono); font-size: 11px; color: var(--text2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 10px 20px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    /* Hero — split layout */
+    #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+    .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding: 150px 56px 80px 48px; position: relative; border-right: 1px solid var(--border); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px); background-size: 80px 80px; pointer-events: none; }
+    .hero-glow { position: absolute; width: 500px; height: 500px; background: radial-gradient(circle,rgba(232,201,122,0.06) 0%,transparent 65%); top: 10%; left: -100px; pointer-events: none; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; position: relative; z-index: 1; }
+    .hero-headline { font-family: var(--font-display); font-size: clamp(48px, 5.5vw, 88px); font-weight: 300; line-height: 1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; position: relative; z-index: 1; }
+    .hero-headline em { font-style: italic; color: var(--accent); }
+    .hero-intro { font-size: 15px; color: var(--text2); line-height: 1.85; max-width: 440px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; position: relative; z-index: 1; }
+
+    /* Photo side */
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-photo { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: grayscale(10%) contrast(1.05); opacity: 0; animation: fadeIn 1.2s 0.3s forwards; }
+    .photo-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(10,10,11,0.3) 0%, transparent 40%); pointer-events: none; }
+    .photo-label { position: absolute; bottom: 48px; left: 32px; }
+    .photo-name { font-family: var(--font-display); font-size: 32px; font-weight: 300; font-style: italic; color: var(--text); line-height: 1; }
+    .photo-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-top: 6px; }
+
+    /* Sections */
+    section { position: relative; z-index: 1; }
+    .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(32px,4vw,52px); font-weight: 300; line-height: 1.05; color: var(--text); margin-bottom: 32px; }
+    .section-title em { font-style: italic; color: var(--accent); }
+    .body-text { font-size: 15px; color: var(--text2); line-height: 1.85; margin-bottom: 20px; }
+
+    /* Story section */
+    #story { padding: 100px 48px; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+
+    /* Quote */
+    .pull-quote { border-left: 2px solid var(--accent); padding: 24px 28px; background: rgba(232,201,122,0.04); margin: 32px 0; }
+    .pull-quote p { font-family: var(--font-display); font-size: 22px; font-weight: 300; font-style: italic; color: var(--text); line-height: 1.5; }
+
+    /* Skills */
+    #skills { padding: 100px 48px; background: var(--bg2); border-top: 1px solid var(--border); }
+    .skills-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+    .skill-block { background: var(--bg2); padding: 40px 36px; transition: background 0.3s; }
+    .skill-block:hover { background: var(--surface); }
+    .skill-block-title { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); margin-bottom: 20px; }
+    .skill-block-title em { font-style: italic; color: var(--accent); }
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .skill-item { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 12px; color: var(--text2); }
+    .skill-dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+    /* Cert strip */
+    .cert-strip { margin-top: 2px; background: var(--bg2); border: 1px solid var(--border); border-top: none; padding: 24px 36px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .cert-badge { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 5px 12px; }
+    .cert-text { font-size: 13px; color: var(--text2); }
+
+    /* Values */
+    #values { padding: 100px 48px; border-top: 1px solid var(--border); }
+    .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+    .value-item { background: var(--bg); padding: 40px 32px; transition: background 0.3s; position: relative; overflow: hidden; }
+    .value-item::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+    .value-item:hover { background: var(--surface); }
+    .value-item:hover::before { transform: scaleX(1); }
+    .value-num { font-family: var(--font-display); font-size: 48px; font-weight: 300; color: rgba(232,201,122,0.1); line-height: 1; margin-bottom: 16px; }
+    .value-title { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); margin-bottom: 10px; }
+    .value-desc { font-size: 13px; color: var(--text3); line-height: 1.8; }
+
+    /* CTA */
+    #cta { padding: 100px 48px; text-align: center; border-top: 1px solid var(--border); background: var(--bg2); }
+    .cta-headline { font-family: var(--font-display); font-size: clamp(36px,4vw,64px); font-weight: 300; line-height: 1.05; color: var(--text); margin-bottom: 20px; }
+    .cta-headline em { font-style: italic; color: var(--accent); }
+    .cta-sub { font-size: 15px; color: var(--text2); margin-bottom: 40px; }
+    .btn-primary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    /* Footer */
+    footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; position: relative; z-index: 1; }
+    .footer-logo { font-family: var(--font-display); font-size: 18px; font-weight: 300; color: var(--text2); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-links a { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--text3); }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 130px 24px 60px; border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-right { height: 60vh; }
+      #story { grid-template-columns: 1fr; gap: 40px; }
+      .skills-inner { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .lang-bar { padding: 7px 24px; }
+      nav { padding: 18px 24px; top: 30px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      #story, #skills, #values, #cta { padding: 64px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-nl" onclick="setLang('nl')">NL</button>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Nova <span>Web Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf">Local Business</a></li>
+      <li><a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme">Hospitality</a></li>
+      <li><a href="portfolio.html" data-en="Work" data-nl="Werk">Work</a></li>
+      <li><a href="about.html" class="active" data-en="About" data-nl="Over mij">About</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta" data-en="Get in touch" data-nl="Neem contact op">Get in touch</a>
+  </nav>
+
+  <!-- HERO — SPLIT -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-grid"></div>
+      <div class="hero-glow"></div>
+      <p class="hero-eyebrow" data-en="The person behind the work" data-nl="De persoon achter het werk">The person behind the work</p>
+      <h1 class="hero-headline" data-en="Hi. I'm Michelle.<br><em>Let's skip the corporate bit.</em>" data-nl="Hoi. Ik ben Michelle.<br><em>Laten we het zakelijke overslaan.</em>">
+        Hi. I'm Michelle.<br><em>Let's skip the corporate bit.</em>
+      </h1>
+      <p class="hero-intro" data-en="I build websites for businesses that deserve more than a template and a number in someone's CRM. I care about the work, I care about the people I work with, and I will probably ask too many questions about your business — because that's the only way to build something that actually fits." data-nl="Ik bouw websites voor bedrijven die meer verdienen dan een template en een nummer in iemands CRM. Ik geef om het werk, ik geef om de mensen met wie ik werk, en ik stel waarschijnlijk te veel vragen over uw bedrijf — want dat is de enige manier om iets te bouwen dat echt past.">
+        I build websites for businesses that deserve more than a template and a number in someone's CRM. I care about the work, I care about the people I work with, and I will probably ask too many questions about your business — because that's the only way to build something that actually fits.
+      </p>
+    </div>
+    <div class="hero-right">
+      <img src="michelle.webp" alt="Michelle de Villiers — Nova Web Studio" class="hero-photo" />
+      <div class="photo-overlay"></div>
+      <div class="photo-label">
+        <div class="photo-name">Michelle</div>
+        <div class="photo-title" data-en="Founder — Nova Web Studio" data-nl="Oprichter — Nova Web Studio">Founder — Nova Web Studio</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story">
+    <div class="reveal">
+      <div class="section-label" data-en="The honest version" data-nl="De eerlijke versie">The honest version</div>
+      <h2 class="section-title" data-en="Not the LinkedIn version.<br><em>The real one.</em>" data-nl="Niet de LinkedIn versie.<br><em>De echte.</em>">Not the LinkedIn version.<br><em>The real one.</em></h2>
+
+      <p class="body-text" data-en="Nova Web Studio exists because I couldn't find what I was looking for — a web designer who actually listens, builds something personal, and doesn't disappear after the invoice. So I became that person instead." data-nl="Nova Web Studio bestaat omdat ik niet kon vinden wat ik zocht — een webdesigner die echt luistert, iets persoonlijks bouwt en niet verdwijnt na de factuur. Dus werd ik die persoon zelf.">
+        Nova Web Studio exists because I couldn't find what I was looking for — a web designer who actually listens, builds something personal, and doesn't disappear after the invoice. So I became that person instead.
+      </p>
+
+      <p class="body-text" data-en="I'm based in Oostvoorne, in the heart of Voorne-Putten. I walk the same streets as my clients, I know the businesses around here, and I understand what it means to build something from nothing in a place where nobody hands you anything." data-nl="Ik ben gevestigd in Oostvoorne, in het hart van Voorne-Putten. Ik loop dezelfde straten als mijn klanten, ik ken de bedrijven hier, en ik begrijp wat het betekent om iets op te bouwen vanaf niets op een plek waar niemand je iets geeft.">
+        I'm based in Oostvoorne, in the heart of Voorne-Putten. I walk the same streets as my clients, I know the businesses around here, and I understand what it means to build something from nothing in a place where nobody hands you anything.
+      </p>
+
+      <div class="pull-quote">
+        <p data-en="I didn't come from a design school or a big agency. I built this through stubbornness, curiosity, and a refusal to settle for less than what I know is possible." data-nl="Ik kom niet van een designschool of een groot bureau. Ik heb dit gebouwd door koppigheid, nieuwsgierigheid en een weigering om genoegen te nemen met minder dan wat ik weet dat mogelijk is.">
+          I didn't come from a design school or a big agency. I built this through stubbornness, curiosity, and a refusal to settle for less than what I know is possible.
+        </p>
+      </div>
+
+      <p class="body-text" data-en="I'm SheCodes certified — HTML, CSS, JavaScript, React, Python, and API integration. I also serve clients in the UK, which means I understand both markets and both mentalities. And yes, I speak Dutch." data-nl="Ik ben SheCodes gecertificeerd — HTML, CSS, JavaScript, React, Python en API-integratie. Ik bedien ook klanten in het VK, wat betekent dat ik beide markten en mentaliteiten begrijp. En ja, ik spreek Nederlands.">
+        I'm SheCodes certified — HTML, CSS, JavaScript, React, Python, and API integration. I also serve clients in the UK, which means I understand both markets and both mentalities. And yes, I speak Dutch.
+      </p>
+    </div>
+
+    <div class="reveal">
+      <div class="section-label" data-en="How I work" data-nl="Hoe ik werk">How I work</div>
+      <h2 class="section-title" data-en="You talk.<br><em>I actually listen.</em>" data-nl="U praat.<br><em>Ik luister echt.</em>">You talk.<br><em>I actually listen.</em></h2>
+
+      <p class="body-text" data-en="I don't start designing until I understand your business. Not the surface version — the real version. What makes you different, who your customers actually are, what you're proud of and what keeps you up at night." data-nl="Ik begin niet met ontwerpen totdat ik uw bedrijf begrijp. Niet de oppervlakteversie — de echte versie. Wat u anders maakt, wie uw klanten werkelijk zijn, waar u trots op bent en wat u 's nachts wakker houdt.">
+        I don't start designing until I understand your business. Not the surface version — the real version. What makes you different, who your customers actually are, what you're proud of and what keeps you up at night.
+      </p>
+
+      <p class="body-text" data-en="Every project is a conversation, not a transaction. You'll always know what's being built, why, and when. No jargon, no disappearing acts, no surprises on the invoice." data-nl="Elk project is een gesprek, geen transactie. U weet altijd wat er wordt gebouwd, waarom en wanneer. Geen jargon, geen verdwijntrucs, geen verrassingen op de factuur.">
+        Every project is a conversation, not a transaction. You'll always know what's being built, why, and when. No jargon, no disappearing acts, no surprises on the invoice.
+      </p>
+
+      <p class="body-text" data-en="And when I hand over your website, I don't vanish. The Care Plan means I'm still there — updating, maintaining, answering questions — because a website isn't finished when it goes live. It's finished when it stops working for you. Which, if I do my job right, is never." data-nl="En als ik uw website overhandigt, verdwijn ik niet. Het Zorgplan betekent dat ik er nog steeds ben — updaten, onderhouden, vragen beantwoorden — omdat een website niet klaar is als hij live gaat. Hij is klaar als hij niet meer voor u werkt. Wat, als ik mijn werk goed doe, nooit is.">
+        And when I hand over your website, I don't vanish. The Care Plan means I'm still there — updating, maintaining, answering questions — because a website isn't finished when it goes live. It's finished when it stops working for you. Which, if I do my job right, is never.
+      </p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="reveal">
+      <div class="section-label" data-en="Skills & certifications" data-nl="Vaardigheden & certificeringen">Skills & certifications</div>
+      <h2 class="section-title" data-en="The technical bit.<br><em>Since you asked.</em>" data-nl="Het technische gedeelte.<br><em>Aangezien u het vraagt.</em>">The technical bit.<br><em>Since you asked.</em></h2>
+    </div>
+    <div class="skills-inner reveal">
+      <div class="skill-block">
+        <div class="skill-block-title" data-en="Languages & <em>Frameworks</em>" data-nl="Talen & <em>Frameworks</em>">Languages & <em>Frameworks</em></div>
+        <ul class="skill-list">
+          <li><span class="skill-dot"></span>HTML5 & CSS3</li>
+          <li><span class="skill-dot"></span>JavaScript (ES6+)</li>
+          <li><span class="skill-dot"></span>React</li>
+          <li><span class="skill-dot"></span>Python</li>
+          <li><span class="skill-dot"></span>API Integration</li>
+          <li><span class="skill-dot"></span>Responsive & Mobile-first</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-title" data-en="Tools & <em>Platforms</em>" data-nl="Tools & <em>Platformen</em>">Tools & <em>Platforms</em></div>
+        <ul class="skill-list">
+          <li><span class="skill-dot"></span>VS Code</li>
+          <li><span class="skill-dot"></span>GitHub & Git</li>
+          <li><span class="skill-dot"></span>Netlify</li>
+          <li><span class="skill-dot"></span>Formspree</li>
+          <li><span class="skill-dot"></span>Google Workspace</li>
+          <li><span class="skill-dot"></span>SEO fundamentals</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cert-strip reveal">
+      <span class="cert-badge">SheCodes Certified</span>
+      <span class="cert-text" data-en="HTML · CSS · JavaScript · React · Python · API Integration" data-nl="HTML · CSS · JavaScript · React · Python · API Integratie">HTML · CSS · JavaScript · React · Python · API Integration</span>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section id="values">
+    <div class="reveal">
+      <div class="section-label" data-en="What I believe" data-nl="Wat ik geloof">What I believe</div>
+      <h2 class="section-title" data-en="A few things I<br><em>won't compromise on.</em>" data-nl="Een paar dingen waar ik<br><em>niet op inboet.</em>">A few things I<br><em>won't compromise on.</em></h2>
+    </div>
+    <div class="values-grid reveal">
+      <div class="value-item">
+        <div class="value-num">01</div>
+        <div class="value-title" data-en="Honesty over comfort" data-nl="Eerlijkheid boven comfort">Honesty over comfort</div>
+        <div class="value-desc" data-en="If something won't work, I'll tell you. If I think you're making a mistake, I'll say so — kindly. I'd rather have an awkward conversation than build the wrong thing." data-nl="Als iets niet werkt, zeg ik het. Als ik denk dat u een fout maakt, zeg ik het — vriendelijk. Ik voer liever een ongemakkelijk gesprek dan het verkeerde te bouwen.">If something won't work, I'll tell you. If I think you're making a mistake, I'll say so — kindly. I'd rather have an awkward conversation than build the wrong thing.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">02</div>
+        <div class="value-title" data-en="Quality is non-negotiable" data-nl="Kwaliteit is niet onderhandelbaar">Quality is non-negotiable</div>
+        <div class="value-desc" data-en="I don't do good enough. Every project gets the same attention whether it's a one-page starter or a full hospitality platform. The standard doesn't change." data-nl="Ik doe niet aan 'goed genoeg'. Elk project krijgt dezelfde aandacht, of het nu een één-pagina starter is of een volledig hospitality platform. De standaard verandert niet.">I don't do good enough. Every project gets the same attention whether it's a one-page starter or a full hospitality platform. The standard doesn't change.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">03</div>
+        <div class="value-title" data-en="People first. Always." data-nl="Mensen eerst. Altijd.">People first. Always.</div>
+        <div class="value-desc" data-en="I walked into businesses cold in Brielle because I wanted to meet the people, not just send emails. That's how I work. Human connection isn't a marketing strategy — it's just how I am." data-nl="Ik liep onaangekondigd bedrijven binnen in Brielle omdat ik de mensen wilde ontmoeten, niet alleen e-mails sturen. Zo werk ik. Menselijk contact is geen marketingstrategie — het is gewoon wie ik ben.">I walked into businesses cold in Brielle because I wanted to meet the people, not just send emails. That's how I work. Human connection isn't a marketing strategy — it's just how I am.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="reveal">
+      <h2 class="cta-headline" data-en="Sounds like someone<br>you want to <em>work with?</em>" data-nl="Klinkt als iemand<br>waar u <em>mee wil werken?</em>">Sounds like someone<br>you want to <em>work with?</em></h2>
+      <p class="cta-sub" data-en="Let's have a real conversation about your business. No pitch, no pressure." data-nl="Laten we een eerlijk gesprek hebben over uw bedrijf. Geen verkooppraatje, geen druk.">Let's have a real conversation about your business. No pitch, no pressure.</p>
+      <a href="contact.html" class="btn-primary" data-en="Get in touch →" data-nl="Neem contact op →">Get in touch →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Nova <span>Web Studio</span></div>
+    <div class="footer-links">
+      <a href="index.html" data-en="Home" data-nl="Home">Home</a>
+      <a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf">Local Business</a>
+      <a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme">Hospitality</a>
+      <a href="portfolio.html" data-en="Work" data-nl="Werk">Work</a>
+      <a href="contact.html" data-en="Contact" data-nl="Contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Nova Web Studio</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    (function animateRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animateRing); })();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => ring.classList.add('hover')); el.addEventListener('mouseleave', () => ring.classList.remove('hover')); });
+    window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40));
+    const observer = new IntersectionObserver(entries => { entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); observer.unobserve(e.target); } }); }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-nl').classList.toggle('active', lang === 'nl');
+      document.querySelectorAll('[data-en][data-nl]').forEach(el => {
+        const val = el.getAttribute('data-' + lang);
+        if (val) el.innerHTML = val;
+      });
+    }
+  </script>
+</body>
+</html>
