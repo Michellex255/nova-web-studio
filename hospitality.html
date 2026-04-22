@@ -46,15 +46,15 @@
     .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
 
     /* Hero */
-    #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 150px 48px 80px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 150px 48px 80px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
     .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(106,171,122,0.03) 1px,transparent 1px), linear-gradient(90deg,rgba(106,171,122,0.03) 1px,transparent 1px); background-size: 80px 80px; pointer-events: none; }
     .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle,rgba(106,171,122,0.07) 0%,transparent 65%); top: 5%; right: -150px; pointer-events: none; }
     .hero-glow2 { position: absolute; width: 400px; height: 400px; background: radial-gradient(circle,rgba(106,171,122,0.04) 0%,transparent 65%); bottom: 10%; left: -100px; pointer-events: none; }
     .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
-    .hero-headline { font-family: var(--font-display); font-size: clamp(48px, 6.5vw, 104px); font-weight: 300; line-height: 1; letter-spacing: -0.02em; color: var(--text); max-width: 900px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+    .hero-headline { font-family: var(--font-display); font-size: clamp(42px, 5vw, 80px); font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; color: var(--text); max-width: 700px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
     .hero-headline em { font-style: italic; color: var(--accent); }
-    .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; flex-wrap: wrap; }
-    .hero-sub { font-size: 15px; color: var(--text2); max-width: 440px; line-height: 1.8; }
+    .hero-bottom { display: flex; flex-direction: column; align-items: center; gap: 40px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+    .hero-sub { font-size: 15px; color: var(--text2); max-width: 480px; line-height: 1.8; text-align: center; }
     .hero-actions { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
     .btn-primary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
     .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
@@ -62,7 +62,7 @@
     .btn-secondary:hover { border-color: rgba(106,171,122,0.4); color: var(--accent); }
 
     /* Lang strip */
-    .lang-strip { display: flex; gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; width: fit-content; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+    .lang-strip { display: flex; gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; width: fit-content; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; justify-content: center; }
     .lang-strip-item { padding: 10px 20px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--text3); background: var(--bg2); }
     .lang-strip-item span { color: var(--accent); margin-right: 6px; }
 
@@ -195,11 +195,11 @@
     </p>
 
     <h1 class="hero-headline"
-      data-en="Stop losing bookings to parks<br>that make it <em>easier to say yes.</em>"
-      data-nl="Stop met het verliezen van boekingen<br>aan parken die het <em>makkelijker maken om ja te zeggen.</em>"
-      data-de="Hören Sie auf, Buchungen an Parks zu verlieren,<br>bei denen es <em>einfacher ist, Ja zu sagen.</em>"
-      data-fr="Arrêtez de perdre des réservations au profit de parcs<br>qui rendent <em>plus facile de dire oui.</em>">
-      Stop losing bookings to parks<br>that make it <em>easier to say yes.</em>
+      data-en="Full season.<br><em>Every season.</em>"
+      data-nl="Vol seizoen.<br><em>Elk seizoen.</em>"
+      data-de="Volle Saison.<br><em>Jede Saison.</em>"
+      data-fr="Saison complète.<br><em>Chaque saison.</em>">
+      Full season.<br><em>Every season.</em>
     </h1>
 
     <div class="hero-bottom">
