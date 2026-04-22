@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Web Studio — Contact</title>
+  <meta name="description" content="Get in touch with Nova Web Studio. Free quote for local businesses and hospitality. Based in Oostvoorne, Netherlands." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0b; --bg2: #111114; --bg3: #18181c; --surface: #1e1e24;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.04);
+      --text: #f2f0ec; --text2: #9a9899; --text3: #5a5859;
+      --accent: #e8c97a; --accent2: #c9aa5a;
+      --green: #4a9e6a;
+      --font-display: "Cormorant Garamond", serif;
+      --font-mono: "DM Mono", monospace;
+      --font-body: "Instrument Sans", sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+
+    /* Cursor */
+    .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(232,201,122,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.25s ease, width 0.2s, height 0.2s, border-color 0.2s; transform: translate(-50%,-50%); }
+    .cursor-ring.hover { width: 56px; height: 56px; border-color: rgba(232,201,122,0.8); }
+    body::before { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; pointer-events: none; z-index: 0; }
+
+    /* Lang bar */
+    .lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: var(--bg3); border-bottom: 1px solid var(--border); padding: 7px 48px; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+    .lang-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border: 1px solid transparent; background: none; color: var(--text3); cursor: pointer; transition: all 0.2s; }
+    .lang-btn.active { color: var(--accent); border-color: rgba(232,201,122,0.3); }
+    .lang-btn:hover { color: var(--text2); }
+
+    /* Nav */
+    nav { position: fixed; top: 32px; left: 0; right: 0; z-index: 100; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.3s, padding 0.3s; }
+    nav.scrolled { background: rgba(10,10,11,0.94); backdrop-filter: blur(20px); border-color: var(--border); padding: 14px 48px; }
+    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+    .nav-links a { font-family: var(--font-mono); font-size: 11px; color: var(--text2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 10px 20px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    /* Hero */
+    #hero { min-height: 50vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 150px 48px 80px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px); background-size: 80px 80px; pointer-events: none; }
+    .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle,rgba(232,201,122,0.05) 0%,transparent 65%); top: 0; right: -100px; pointer-events: none; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+    .hero-headline { font-family: var(--font-display); font-size: clamp(48px, 6vw, 96px); font-weight: 300; line-height: 1; letter-spacing: -0.02em; color: var(--text); max-width: 720px; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+    .hero-headline em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 15px; color: var(--text2); max-width: 440px; line-height: 1.8; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+
+    /* Main content */
+    #contact-main { padding: 80px 48px 120px; display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: start; position: relative; z-index: 1; }
+
+    /* Contact details */
+    .contact-details { display: flex; flex-direction: column; gap: 8px; }
+    .contact-details-title { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: var(--text); margin-bottom: 24px; }
+    .contact-details-title em { font-style: italic; color: var(--accent); }
+    .contact-link { display: flex; align-items: center; gap: 16px; text-decoration: none; padding: 18px 20px; border: 1px solid var(--border); background: var(--bg2); transition: border-color 0.2s, background 0.2s; }
+    .contact-link:hover { border-color: rgba(232,201,122,0.3); background: var(--surface); }
+    .contact-icon { font-family: var(--font-mono); font-size: 16px; color: var(--accent); width: 24px; flex-shrink: 0; text-align: center; }
+    .contact-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 2px; }
+    .contact-value { font-size: 14px; color: var(--text); }
+    .contact-promise { margin-top: 32px; padding: 20px 24px; background: rgba(232,201,122,0.04); border: 1px solid rgba(232,201,122,0.15); border-left: 3px solid var(--accent); }
+    .contact-promise p { font-size: 13px; color: var(--text2); line-height: 1.7; font-style: italic; }
+    .contact-promise strong { color: var(--text); font-style: normal; }
+
+    /* Form */
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); }
+    .form-input, .form-select, .form-textarea { background: var(--bg3); border: 1px solid var(--border); padding: 13px 16px; font-family: var(--font-body); font-size: 14px; color: var(--text); outline: none; transition: border-color 0.2s; width: 100%; appearance: none; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: rgba(232,201,122,0.4); }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-select { cursor: pointer; }
+    .form-select option { background: var(--bg3); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-submit { background: var(--accent); border: none; padding: 15px 32px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bg); cursor: pointer; transition: background 0.2s, transform 0.2s; align-self: flex-start; }
+    .form-submit:hover { background: var(--accent2); transform: translateY(-2px); }
+    .form-note { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 0.05em; margin-top: 4px; }
+
+    /* Success message */
+    .form-success { display: none; padding: 32px; background: rgba(74,158,106,0.08); border: 1px solid rgba(74,158,106,0.3); text-align: center; }
+    .form-success.visible { display: block; }
+    .form-success-title { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: var(--text); margin-bottom: 12px; }
+    .form-success-title em { font-style: italic; color: var(--green); }
+    .form-success-sub { font-size: 14px; color: var(--text2); }
+
+    /* Footer */
+    footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; position: relative; z-index: 1; }
+    .footer-logo { font-family: var(--font-display); font-size: 18px; font-weight: 300; color: var(--text2); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-links a { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--text3); }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .lang-bar { padding: 7px 24px; }
+      nav { padding: 18px 24px; top: 30px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      #hero { padding: 130px 24px 60px; }
+      #contact-main { grid-template-columns: 1fr; gap: 48px; padding: 60px 24px 80px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-nl" onclick="setLang('nl')">NL</button>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Nova <span>Web Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf">Local Business</a></li>
+      <li><a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme">Hospitality</a></li>
+      <li><a href="portfolio.html" data-en="Work" data-nl="Werk">Work</a></li>
+      <li><a href="about.html" data-en="About" data-nl="Over mij">About</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta active" data-en="Get in touch" data-nl="Neem contact op">Get in touch</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <p class="hero-eyebrow" data-en="Let's talk" data-nl="Laten we praten">Let's talk</p>
+    <h1 class="hero-headline" data-en="Tell me about<br><em>your business.</em>" data-nl="Vertel me over<br><em>uw bedrijf.</em>">
+      Tell me about<br><em>your business.</em>
+    </h1>
+    <p class="hero-sub" data-en="No sales pitch, no pressure. Just a real conversation about what you need and whether I can help." data-nl="Geen verkooppraatje, geen druk. Gewoon een eerlijk gesprek over wat u nodig heeft en of ik kan helpen.">
+      No sales pitch, no pressure. Just a real conversation about what you need and whether I can help.
+    </p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div id="contact-main">
+
+    <!-- LEFT — CONTACT DETAILS -->
+    <div class="contact-details reveal">
+      <h2 class="contact-details-title" data-en="Get in <em>touch.</em>" data-nl="Neem <em>contact op.</em>">Get in <em>touch.</em></h2>
+
+      <a href="mailto:info@novawebstudio.io" class="contact-link">
+        <span class="contact-icon">@</span>
+        <div>
+          <div class="contact-label" data-en="Email" data-nl="E-mail">Email</div>
+          <div class="contact-value">info@novawebstudio.io</div>
+        </div>
+      </a>
+
+      <a href="tel:+31684741363" class="contact-link">
+        <span class="contact-icon">✆</span>
+        <div>
+          <div class="contact-label" data-en="Phone" data-nl="Telefoon">Phone</div>
+          <div class="contact-value">06 84 74 13 63</div>
+        </div>
+      </a>
+
+      <a href="https://wa.me/31684741363" target="_blank" class="contact-link">
+        <span class="contact-icon">💬</span>
+        <div>
+          <div class="contact-label">WhatsApp</div>
+          <div class="contact-value" data-en="Message me directly" data-nl="Stuur me een bericht">Message me directly</div>
+        </div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/michelle-de-villiers-nova" target="_blank" class="contact-link">
+        <span class="contact-icon">in</span>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">Nova Web Studio</div>
+        </div>
+      </a>
+
+      <div class="contact-promise">
+        <p data-en="I respond to every message <strong>within 48 hours</strong>. Usually much faster. You'll always hear back from me personally — not an automated reply." data-nl="Ik reageer op elk bericht <strong>binnen 48 uur</strong>. Meestal veel sneller. U hoort altijd persoonlijk van mij terug — geen geautomatiseerd antwoord.">
+          I respond to every message <strong>within 48 hours</strong>. Usually much faster. You'll always hear back from me personally — not an automated reply.
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT — FORM -->
+    <div class="reveal">
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/meepzrzg" method="POST">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-en="Your name" data-nl="Uw naam">Your name</label>
+            <input type="text" name="name" class="form-input" placeholder="Michelle de Villiers" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-en="Business name" data-nl="Bedrijfsnaam">Business name</label>
+            <input type="text" name="business" class="form-input" placeholder="Your Business" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-en="Email address" data-nl="E-mailadres">Email address</label>
+          <input type="email" name="email" class="form-input" placeholder="you@yourbusiness.nl" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-en="Phone (optional)" data-nl="Telefoon (optioneel)">Phone (optional)</label>
+          <input type="tel" name="phone" class="form-input" placeholder="06 00 00 00 00" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-en="What do you need?" data-nl="Wat heeft u nodig?">What do you need?</label>
+          <select name="service" class="form-select form-input" required>
+            <option value="" disabled selected data-en="Choose an option" data-nl="Kies een optie">Choose an option</option>
+            <option value="local-business" data-en="Local Business — I need a website" data-nl="Lokaal Bedrijf — Ik heb een website nodig">Local Business — I need a website</option>
+            <option value="hospitality" data-en="Hospitality & Tourism — Free quote" data-nl="Horeca & Toerisme — Gratis offerte">Hospitality & Tourism — Free quote</option>
+            <option value="existing" data-en="I have a website that needs improving" data-nl="Ik heb een website die verbeterd moet worden">I have a website that needs improving</option>
+            <option value="unsure" data-en="Not sure yet — let's talk" data-nl="Nog niet zeker — laten we praten">Not sure yet — let's talk</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-en="Tell me about your business" data-nl="Vertel me over uw bedrijf">Tell me about your business</label>
+          <textarea name="message" class="form-textarea" data-placeholder-en="What does your business do? What's your biggest challenge online right now?" data-placeholder-nl="Wat doet uw bedrijf? Wat is uw grootste uitdaging online op dit moment?" placeholder="What does your business do? What's your biggest challenge online right now?"></textarea>
+        </div>
+
+        <div>
+          <button type="submit" class="form-submit" data-en="Send message →" data-nl="Bericht versturen →">Send message →</button>
+          <p class="form-note" data-en="No obligation. I'll respond within 48 hours." data-nl="Geen verplichting. Ik reageer binnen 48 uur.">No obligation. I'll respond within 48 hours.</p>
+        </div>
+
+      </form>
+
+      <!-- SUCCESS MESSAGE -->
+      <div class="form-success" id="formSuccess">
+        <div class="form-success-title" data-en="Message <em>sent!</em>" data-nl="Bericht <em>verstuurd!</em>">Message <em>sent!</em></div>
+        <p class="form-success-sub" data-en="Thank you for reaching out. I'll be in touch within 48 hours." data-nl="Bedankt voor uw bericht. Ik neem binnen 48 uur contact met u op.">Thank you for reaching out. I'll be in touch within 48 hours.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Nova <span>Web Studio</span></div>
+    <div class="footer-links">
+      <a href="index.html" data-en="Home" data-nl="Home">Home</a>
+      <a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf">Local Business</a>
+      <a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme">Hospitality</a>
+      <a href="portfolio.html" data-en="Work" data-nl="Werk">Work</a>
+      <a href="about.html" data-en="About" data-nl="Over mij">About</a>
+    </div>
+    <div class="footer-copy">© 2026 Nova Web Studio</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    (function animateRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animateRing); })();
+    document.querySelectorAll('a, button, input, select, textarea').forEach(el => { el.addEventListener('mouseenter', () => ring.classList.add('hover')); el.addEventListener('mouseleave', () => ring.classList.remove('hover')); });
+    window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40));
+    const observer = new IntersectionObserver(entries => { entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); observer.unobserve(e.target); } }); }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Language
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-nl').classList.toggle('active', lang === 'nl');
+      document.querySelectorAll('[data-en][data-nl]').forEach(el => {
+        const val = el.getAttribute('data-' + lang);
+        if (!val) return;
+        if (el.tagName === 'TEXTAREA') {
+          const ph = el.getAttribute('data-placeholder-' + lang);
+          if (ph) el.placeholder = ph;
+        } else if (el.tagName === 'INPUT') {
+          // don't change input content
+        } else {
+          el.innerHTML = val;
+        }
+      });
+      document.querySelectorAll('option[data-' + lang + ']').forEach(opt => {
+        opt.textContent = opt.getAttribute('data-' + lang);
+      });
+    }
+
+    // Form submission
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+        if (res.ok) {
+          form.style.display = 'none';
+          success.classList.add('visible');
+        }
+      } catch(err) {
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
