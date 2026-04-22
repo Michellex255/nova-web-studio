@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Web Studio — Work & Portfolio</title>
+  <meta name="description" content="Portfolio of Nova Web Studio. Real projects, real code, real results. Web apps, static sites, API integrations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0b; --bg2: #111114; --bg3: #18181c; --surface: #1e1e24;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.04);
+      --text: #f2f0ec; --text2: #9a9899; --text3: #5a5859;
+      --accent: #e8c97a; --accent2: #c9aa5a; --green: #4a9e6a;
+      --font-display: "Cormorant Garamond", serif;
+      --font-mono: "DM Mono", monospace;
+      --font-body: "Instrument Sans", sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+
+    /* Cursor */
+    .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(232,201,122,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.25s ease, width 0.2s, height 0.2s, border-color 0.2s; transform: translate(-50%,-50%); }
+    .cursor-ring.hover { width: 56px; height: 56px; border-color: rgba(232,201,122,0.8); }
+    body::before { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; pointer-events: none; z-index: 0; }
+
+    /* Lang bar */
+    .lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: var(--bg3); border-bottom: 1px solid var(--border); padding: 7px 48px; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+    .lang-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border: 1px solid transparent; background: none; color: var(--text3); cursor: pointer; transition: all 0.2s; }
+    .lang-btn.active { color: var(--accent); border-color: rgba(232,201,122,0.3); }
+    .lang-btn:hover { color: var(--text2); }
+
+    /* Nav */
+    nav { position: fixed; top: 32px; left: 0; right: 0; z-index: 100; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.3s, padding 0.3s; }
+    nav.scrolled { background: rgba(10,10,11,0.94); backdrop-filter: blur(20px); border-color: var(--border); padding: 14px 48px; }
+    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+    .nav-links a { font-family: var(--font-mono); font-size: 11px; color: var(--text2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 10px 20px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    /* Hero */
+    #hero { min-height: 50vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 150px 48px 80px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px); background-size: 80px 80px; pointer-events: none; }
+    .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle,rgba(232,201,122,0.05) 0%,transparent 65%); top: 0; right: -100px; pointer-events: none; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+    .hero-headline { font-family: var(--font-display); font-size: clamp(48px, 6vw, 96px); font-weight: 300; line-height: 1; letter-spacing: -0.02em; color: var(--text); max-width: 720px; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+    .hero-headline em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 15px; color: var(--text2); max-width: 480px; line-height: 1.8; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+
+    /* Projects */
+    #projects { padding: 80px 48px 120px; position: relative; z-index: 1; }
+    .projects-grid { display: flex; flex-direction: column; gap: 2px; background: var(--border); border: 1px solid var(--border); }
+    .project-card { background: var(--bg); padding: 56px 52px; position: relative; overflow: hidden; transition: background 0.4s; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .project-card::before { content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform 0.4s; }
+    .project-card:hover::before { transform: scaleY(1); }
+    .project-card:hover { background: var(--surface); }
+    .project-number { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--text3); margin-bottom: 20px; }
+    .project-name { font-family: var(--font-display); font-size: clamp(36px, 4vw, 60px); font-weight: 300; color: var(--text); line-height: 1; margin-bottom: 12px; }
+    .project-type { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .project-desc { font-size: 14px; color: var(--text2); line-height: 1.75; max-width: 380px; margin-bottom: 28px; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .project-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--text3); border: 1px solid var(--border); padding: 4px 10px; }
+    .project-link { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: gap 0.2s; }
+    .project-link:hover { gap: 14px; }
+
+    /* Project preview */
+    .project-preview { position: relative; }
+    .preview-window { background: var(--bg3); border: 1px solid var(--border); overflow: hidden; position: relative; }
+    .preview-bar { background: var(--bg2); padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+    .preview-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .preview-dot.red { background: #ff5f57; }
+    .preview-dot.yellow { background: #febc2e; }
+    .preview-dot.green { background: #28c840; }
+    .preview-url { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-left: 8px; letter-spacing: 0.05em; }
+    .preview-content { padding: 28px; min-height: 200px; display: flex; flex-direction: column; justify-content: center; }
+
+    /* Meteo preview */
+    .meteo-preview { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+    .meteo-city { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: #f0f0f0; margin-bottom: 4px; }
+    .meteo-temp { font-family: var(--font-display); font-size: 72px; font-weight: 300; color: #fff; line-height: 1; margin-bottom: 8px; }
+    .meteo-desc { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+    .meteo-stats { display: flex; gap: 24px; }
+    .meteo-stat { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; }
+    .meteo-stat span { color: rgba(255,255,255,0.85); display: block; font-size: 14px; margin-bottom: 2px; }
+
+    /* Clock preview */
+    .clock-preview { background: #0d0d0d; }
+    .clock-cities { display: flex; flex-direction: column; gap: 12px; }
+    .clock-city-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .clock-city-name { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; }
+    .clock-time { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: #e8c97a; }
+    .clock-date { font-family: var(--font-mono); font-size: 9px; color: rgba(255,255,255,0.3); }
+
+    /* AI preview */
+    .ai-preview { background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%); }
+    .ai-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,201,122,0.6); margin-bottom: 16px; }
+    .ai-fact { font-family: var(--font-display); font-size: 18px; font-weight: 300; color: #f0f0f0; line-height: 1.5; margin-bottom: 20px; font-style: italic; }
+    .ai-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #1a0a2e; background: #e8c97a; padding: 8px 16px; display: inline-block; }
+
+    /* Croissant preview */
+    .croissant-preview { background: #f5f0e8; }
+    .croissant-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .croissant-logo { font-family: var(--font-display); font-size: 18px; font-weight: 300; color: #2c1810; }
+    .croissant-links { display: flex; gap: 16px; }
+    .croissant-link { font-family: var(--font-mono); font-size: 9px; color: #8b6914; letter-spacing: 0.1em; text-transform: uppercase; }
+    .croissant-hero-text { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: #2c1810; line-height: 1.2; margin-bottom: 8px; }
+    .croissant-sub { font-size: 11px; color: #8b7355; line-height: 1.5; }
+
+    /* Coming soon */
+    .coming-soon-section { padding: 60px 48px; border-top: 1px solid var(--border); background: var(--bg2); position: relative; z-index: 1; }
+    .coming-soon-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .coming-soon-text { font-family: var(--font-display); font-size: 28px; font-weight: 300; font-style: italic; color: var(--text3); }
+    .coming-soon-text span { color: var(--text2); }
+    .coming-projects { display: flex; gap: 12px; flex-wrap: wrap; }
+    .coming-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); border: 1px solid var(--border); padding: 8px 14px; }
+
+    /* CTA */
+    #cta { padding: 100px 48px; text-align: center; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+    .cta-headline { font-family: var(--font-display); font-size: clamp(36px,4vw,64px); font-weight: 300; line-height: 1.05; color: var(--text); margin-bottom: 20px; }
+    .cta-headline em { font-style: italic; color: var(--accent); }
+    .cta-sub { font-size: 15px; color: var(--text2); margin-bottom: 40px; }
+    .btn-primary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    /* Footer */
+    footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; position: relative; z-index: 1; }
+    .footer-logo { font-family: var(--font-display); font-size: 18px; font-weight: 300; color: var(--text2); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-links a { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--text3); }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .project-card { grid-template-columns: 1fr; gap: 32px; padding: 40px 28px; }
+      .project-preview { order: -1; }
+    }
+    @media (max-width: 768px) {
+      .lang-bar { padding: 7px 24px; }
+      nav { padding: 18px 24px; top: 30px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      #hero { padding: 130px 24px 60px; }
+      #projects { padding: 60px 24px 80px; }
+      .coming-soon-section, #cta { padding: 60px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-nl" onclick="setLang('nl')">NL</button>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Nova <span>Web Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf">Local Business</a></li>
+      <li><a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme">Hospitality</a></li>
+      <li><a href="portfolio.html" class="active" data-en="Work" data-nl="Werk">Work</a></li>
+      <li><a href="about.html" data-en="About" data-nl="Over mij">About</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta" data-en="Get in touch" data-nl="Neem contact op">Get in touch</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <p class="hero-eyebrow" data-en="Selected work" data-nl="Geselecteerd werk">Selected work</p>
+    <h1 class="hero-headline" data-en="Pièce de résistance.<br><em>The work speaks for itself.</em>" data-nl="Pièce de résistance.<br><em>Het werk spreekt voor zich.</em>">
+      Pièce de résistance.<br><em>The work speaks for itself.</em>
+    </h1>
+    <p class="hero-sub" data-en="A growing portfolio of real projects — web apps, API integrations, and static sites. More client work coming soon." data-nl="Een groeiend portfolio van echte projecten — webapps, API-integraties en statische sites. Meer klantwerk binnenkort.">
+      A growing portfolio of real projects — web apps, API integrations, and static sites. More client work coming soon.
+    </p>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="projects-grid">
+
+      <!-- 01 METEO -->
+      <div class="project-card reveal">
+        <div>
+          <div class="project-number">01 / 04</div>
+          <div class="project-name">Meteo</div>
+          <div class="project-type" data-en="Weather App — API Integration" data-nl="Weer App — API Integratie">Weather App — API Integration</div>
+          <p class="project-desc" data-en="A real-time weather application that detects your location and pulls live data from a weather API. Clean, fast, mobile-friendly." data-nl="Een realtime weerapplicatie die uw locatie detecteert en live gegevens ophaalt van een weer-API. Schoon, snel, mobiel-vriendelijk.">A real-time weather application that detects your location and pulls live data from a weather API. Clean, fast, mobile-friendly.</p>
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">API</span>
+          </div>
+          <a href="https://meteo-first-project.netlify.app/" target="_blank" class="project-link" data-en="View live →" data-nl="Bekijk live →">View live →</a>
+        </div>
+        <div class="project-preview">
+          <div class="preview-window">
+            <div class="preview-bar">
+              <div class="preview-dot red"></div>
+              <div class="preview-dot yellow"></div>
+              <div class="preview-dot green"></div>
+              <span class="preview-url">meteo-first-project.netlify.app</span>
+            </div>
+            <div class="preview-content meteo-preview">
+              <div class="meteo-city">Oostvoorne</div>
+              <div class="meteo-temp">15°</div>
+              <div class="meteo-desc">Mostly Sunny</div>
+              <div class="meteo-stats">
+                <div class="meteo-stat"><span>62%</span>Humidity</div>
+                <div class="meteo-stat"><span>14 km/h</span>Wind</div>
+                <div class="meteo-stat"><span>W</span>Direction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 WORLD CLOCK -->
+      <div class="project-card reveal">
+        <div>
+          <div class="project-number">02 / 04</div>
+          <div class="project-name">World Clock</div>
+          <div class="project-type" data-en="Time Zone App — JavaScript" data-nl="Tijdzone App — JavaScript">Time Zone App — JavaScript</div>
+          <p class="project-desc" data-en="A multi-city world clock that shows real-time across different time zones. Simple, clear, and useful for anyone working across borders." data-nl="Een meersteden-wereldklok die realtime tijd toont in verschillende tijdzones. Eenvoudig, duidelijk en handig voor iedereen die grensoverschrijdend werkt.">A multi-city world clock that shows real-time across different time zones. Simple, clear, and useful for anyone working across borders.</p>
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">Moment.js</span>
+          </div>
+          <a href="https://world-clock-11.netlify.app/" target="_blank" class="project-link" data-en="View live →" data-nl="Bekijk live →">View live →</a>
+        </div>
+        <div class="project-preview">
+          <div class="preview-window">
+            <div class="preview-bar">
+              <div class="preview-dot red"></div>
+              <div class="preview-dot yellow"></div>
+              <div class="preview-dot green"></div>
+              <span class="preview-url">world-clock-11.netlify.app</span>
+            </div>
+            <div class="preview-content clock-preview">
+              <div class="clock-cities">
+                <div class="clock-city-row">
+                  <div><div class="clock-city-name">Amsterdam</div><div class="clock-date">Wed, Apr 22</div></div>
+                  <div class="clock-time">14:24</div>
+                </div>
+                <div class="clock-city-row">
+                  <div><div class="clock-city-name">New York</div><div class="clock-date">Wed, Apr 22</div></div>
+                  <div class="clock-time">08:24</div>
+                </div>
+                <div class="clock-city-row">
+                  <div><div class="clock-city-name">Johannesburg</div><div class="clock-date">Wed, Apr 22</div></div>
+                  <div class="clock-time">15:24</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 AI GENERATOR -->
+      <div class="project-card reveal">
+        <div>
+          <div class="project-number">03 / 04</div>
+          <div class="project-name">Did You Know</div>
+          <div class="project-type" data-en="AI Generator — API Integration" data-nl="AI Generator — API Integratie">AI Generator — API Integration</div>
+          <p class="project-desc" data-en="An AI-powered fact generator that pulls surprising, interesting facts on demand. Built with API integration and a clean, minimal interface." data-nl="Een AI-gestuurde feitengenerator die verrassende, interessante feiten op aanvraag toont. Gebouwd met API-integratie en een schone, minimale interface.">An AI-powered fact generator that pulls surprising, interesting facts on demand. Built with API integration and a clean, minimal interface.</p>
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">AI API</span>
+          </div>
+          <a href="https://ai-did-you-know-generator.netlify.app/" target="_blank" class="project-link" data-en="View live →" data-nl="Bekijk live →">View live →</a>
+        </div>
+        <div class="project-preview">
+          <div class="preview-window">
+            <div class="preview-bar">
+              <div class="preview-dot red"></div>
+              <div class="preview-dot yellow"></div>
+              <div class="preview-dot green"></div>
+              <span class="preview-url">ai-did-you-know-generator.netlify.app</span>
+            </div>
+            <div class="preview-content ai-preview">
+              <div class="ai-label">Did you know?</div>
+              <div class="ai-fact">"Honey never spoils. Archaeologists have found 3,000-year-old honey in Egyptian tombs that was still perfectly edible."</div>
+              <div class="ai-btn">Generate another →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 CROISSANT -->
+      <div class="project-card reveal">
+        <div>
+          <div class="project-number">04 / 04</div>
+          <div class="project-name">Blé Sucré</div>
+          <div class="project-type" data-en="Static Business Website — Multi-page" data-nl="Statische Bedrijfswebsite — Meerdere pagina's">Static Business Website — Multi-page</div>
+          <p class="project-desc" data-en="A multi-page static website for a Parisian croissant bakery. Demonstrates a complete small business web presence — homepage, gallery, contact." data-nl="Een meerpagina statische website voor een Parijse croissantbakkerij. Toont een complete kleinezaak aanwezigheid online — homepage, galerij, contact.">A multi-page static website for a Parisian croissant bakery. Demonstrates a complete small business web presence — homepage, gallery, contact.</p>
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+            <span class="project-tag">Multi-page</span>
+            <span class="project-tag">Static</span>
+          </div>
+          <a href="https://delightful-douhua-c61f9a.netlify.app/" target="_blank" class="project-link" data-en="View live →" data-nl="Bekijk live →">View live →</a>
+        </div>
+        <div class="project-preview">
+          <div class="preview-window">
+            <div class="preview-bar">
+              <div class="preview-dot red"></div>
+              <div class="preview-dot yellow"></div>
+              <div class="preview-dot green"></div>
+              <span class="preview-url">delightful-douhua-c61f9a.netlify.app</span>
+            </div>
+            <div class="preview-content croissant-preview">
+              <div class="croissant-nav">
+                <div class="croissant-logo">🥐 Blé Sucré</div>
+                <div class="croissant-links">
+                  <span class="croissant-link">Home</span>
+                  <span class="croissant-link">Photo</span>
+                  <span class="croissant-link">Contact</span>
+                </div>
+              </div>
+              <div class="croissant-hero-text">The best Croissant<br>in Paris</div>
+              <div class="croissant-sub">Discover the finest croissant in the heart of Paris — Blé Sucré.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMING SOON -->
+  <div class="coming-soon-section reveal">
+    <div class="coming-soon-inner">
+      <div class="coming-soon-text" data-en="More work <span>coming soon.</span>" data-nl="Meer werk <span>binnenkort.</span>">More work <span>coming soon.</span></div>
+      <div class="coming-projects">
+        <span class="coming-tag">Bustin' Chops</span>
+        <span class="coming-tag">Tic Tracker</span>
+        <span class="coming-tag">Client work</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="reveal">
+      <h2 class="cta-headline" data-en="Want a website<br><em>like this?</em>" data-nl="Wilt u een website<br><em>zoals deze?</em>">Want a website<br><em>like this?</em></h2>
+      <p class="cta-sub" data-en="Let's talk about what you need. No obligation, no pressure." data-nl="Laten we praten over wat u nodig heeft. Geen verplichting, geen druk.">Let's talk about what you need. No obligation, no pressure.</p>
+      <a href="contact.html" class="btn-primary" data-en="Get in touch →" data-nl="Neem contact op →">Get in touch →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Nova <span>Web Studio</span></div>
+    <div class="footer-links">
+      <a href="index.html" data-en="Home" data-nl="Home">Home</a>
+      <a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf">Local Business</a>
+      <a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme">Hospitality</a>
+      <a href="about.html" data-en="About" data-nl="Over mij">About</a>
+      <a href="contact.html" data-en="Contact" data-nl="Contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Nova Web Studio</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    (function animateRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animateRing); })();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => ring.classList.add('hover')); el.addEventListener('mouseleave', () => ring.classList.remove('hover')); });
+    window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40));
+    const observer = new IntersectionObserver(entries => { entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); observer.unobserve(e.target); } }); }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-nl').classList.toggle('active', lang === 'nl');
+      document.querySelectorAll('[data-en][data-nl]').forEach(el => {
+        const val = el.getAttribute('data-' + lang);
+        if (val) el.innerHTML = val;
+      });
+    }
+  </script>
+</body>
+</html>
