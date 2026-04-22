@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Web Studio — Voor Lokale Bedrijven / For Local Businesses</title>
+  <meta name="description" content="Professionele websites voor lokale bedrijven in Nederland en het VK. Kappers, winkels, vakmannen, restaurants. Gebouwd voor u, niet voor iedereen." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0b; --bg2: #111114; --bg3: #18181c; --surface: #1e1e24;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.04);
+      --text: #f2f0ec; --text2: #9a9899; --text3: #5a5859;
+      --accent: #e8c97a; --accent2: #c9aa5a;
+      --green: #4a9e6a;
+      --font-display: "Cormorant Garamond", serif;
+      --font-mono: "DM Mono", monospace;
+      --font-body: "Instrument Sans", sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+    .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(232,201,122,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.25s ease, width 0.2s, height 0.2s, border-color 0.2s; transform: translate(-50%,-50%); }
+    .cursor-ring.hover { width: 56px; height: 56px; border-color: rgba(232,201,122,0.8); }
+    body::before { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; pointer-events: none; z-index: 0; }
+
+    /* Lang bar */
+    .lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: var(--bg3); border-bottom: 1px solid var(--border); padding: 7px 48px; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+    .lang-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border: 1px solid transparent; background: none; color: var(--text3); cursor: pointer; transition: all 0.2s; }
+    .lang-btn.active { color: var(--accent); border-color: rgba(232,201,122,0.3); }
+    .lang-btn:hover { color: var(--text2); }
+
+    /* Nav */
+    nav { position: fixed; top: 32px; left: 0; right: 0; z-index: 100; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.3s, padding 0.3s; }
+    nav.scrolled { background: rgba(10,10,11,0.94); backdrop-filter: blur(20px); border-color: var(--border); padding: 14px 48px; }
+    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+    .nav-links a { font-family: var(--font-mono); font-size: 11px; color: var(--text2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 10px 20px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    /* Hero */
+    #hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 150px 48px 80px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px); background-size: 80px 80px; pointer-events: none; }
+    .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle,rgba(232,201,122,0.06) 0%,transparent 65%); top: 10%; right: -100px; pointer-events: none; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+    .hero-headline { font-family: var(--font-display); font-size: clamp(48px, 6.5vw, 104px); font-weight: 300; line-height: 1; letter-spacing: -0.02em; color: var(--text); max-width: 820px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+    .hero-headline em { font-style: italic; color: var(--accent); }
+    .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; flex-wrap: wrap; }
+    .hero-sub { font-size: 15px; color: var(--text2); max-width: 420px; line-height: 1.8; }
+    .hero-actions { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
+    .btn-primary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-secondary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); border: 1px solid var(--border); padding: 14px 28px; text-decoration: none; transition: border-color 0.2s, color 0.2s; display: inline-block; }
+    .btn-secondary:hover { border-color: rgba(232,201,122,0.4); color: var(--accent); }
+
+    /* Sections */
+    section { position: relative; z-index: 1; }
+    .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(32px,4vw,52px); font-weight: 300; line-height: 1.05; color: var(--text); margin-bottom: 48px; }
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    /* Who it's for */
+    #for { padding: 100px 48px; border-bottom: 1px solid var(--border); }
+    .for-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+    .for-item { background: var(--bg2); padding: 36px 28px; transition: background 0.3s; }
+    .for-item:hover { background: var(--surface); }
+    .for-icon { font-size: 28px; margin-bottom: 16px; }
+    .for-title { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); margin-bottom: 8px; }
+    .for-desc { font-size: 13px; color: var(--text3); line-height: 1.7; }
+
+    /* Packages */
+    #packages { padding: 100px 48px; background: var(--bg2); border-bottom: 1px solid var(--border); }
+    .currency-toggle { display: flex; gap: 4px; margin-bottom: 32px; }
+    .curr-btn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; padding: 8px 16px; border: 1px solid var(--border); background: none; color: var(--text3); cursor: pointer; transition: all 0.2s; }
+    .curr-btn.active { color: var(--accent); border-color: rgba(232,201,122,0.4); background: rgba(232,201,122,0.05); }
+    .packages-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 56px; }
+    .package { background: var(--bg2); padding: 36px 28px; position: relative; transition: background 0.3s; }
+    .package:hover { background: var(--surface); }
+    .package.featured { background: var(--surface); }
+    .package.featured::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); }
+    .pkg-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: block; }
+    .pkg-name { font-family: var(--font-display); font-size: 26px; font-weight: 300; color: var(--text); margin-bottom: 6px; }
+    .pkg-desc { font-size: 12px; color: var(--text3); margin-bottom: 20px; line-height: 1.5; }
+    .pkg-price-eur { font-family: var(--font-display); font-size: 44px; font-weight: 300; color: var(--accent); line-height: 1; }
+    .pkg-price-gbp { font-family: var(--font-display); font-size: 44px; font-weight: 300; color: var(--accent); line-height: 1; display: none; }
+    body.gbp .pkg-price-eur { display: none; }
+    body.gbp .pkg-price-gbp { display: block; }
+    .pkg-price-note { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 0.1em; margin-top: 4px; margin-bottom: 20px; }
+    .pkg-divider { width: 100%; height: 1px; background: var(--border); margin-bottom: 20px; }
+    .pkg-features { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .pkg-features li { font-size: 12px; color: var(--text2); display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+    .pkg-features li::before { content: "→"; color: var(--accent); font-family: var(--font-mono); font-size: 10px; margin-top: 2px; flex-shrink: 0; }
+
+    /* Care Plan */
+    .care-plan-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+    .care-plan-title { font-family: var(--font-display); font-size: 32px; font-weight: 300; color: var(--text); }
+    .care-plan-title em { font-style: italic; color: var(--accent); }
+    .care-plan-badge { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 5px 10px; }
+    .care-plan-why { background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 20px 24px; margin-bottom: 28px; }
+    .care-plan-why p { font-size: 13px; color: var(--text2); line-height: 1.7; font-style: italic; }
+    .care-plan-why strong { color: var(--text); font-style: normal; }
+    .care-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); }
+    .care-table th { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); padding: 16px 20px; text-align: left; background: var(--bg3); border-bottom: 1px solid var(--border); }
+    .care-table td { padding: 18px 20px; font-size: 13px; color: var(--text2); border-bottom: 1px solid var(--border2); vertical-align: top; line-height: 1.5; }
+    .care-table tr:last-child td { border-bottom: none; }
+    .care-table tr:hover td { background: rgba(255,255,255,0.015); }
+    .tier-badge { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 3px 8px; display: inline-block; margin-bottom: 4px; }
+    .care-price { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--accent); }
+    .care-price-note { font-family: var(--font-mono); font-size: 9px; color: var(--text3); letter-spacing: 0.1em; margin-top: 2px; }
+    .extra-bar { margin-top: 20px; padding: 18px 24px; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .extra-bar-left { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .extra-bar-right { font-size: 13px; color: var(--text2); }
+    .extra-bar-price { font-family: var(--font-display); font-size: 20px; color: var(--accent); font-weight: 300; }
+
+    /* Why */
+    #why { padding: 100px 48px; border-bottom: 1px solid var(--border); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+    .why-item { background: var(--bg); padding: 40px 36px; transition: background 0.3s; }
+    .why-item:hover { background: var(--surface); }
+    .why-num { font-family: var(--font-display); font-size: 56px; font-weight: 300; color: rgba(232,201,122,0.12); line-height: 1; margin-bottom: 16px; }
+    .why-title { font-family: var(--font-display); font-size: 24px; font-weight: 300; color: var(--text); margin-bottom: 12px; }
+    .why-desc { font-size: 13px; color: var(--text3); line-height: 1.8; }
+
+    /* Crosslink */
+    .crosslink { padding: 60px 48px; background: var(--bg2); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .crosslink-text { font-family: var(--font-display); font-size: 26px; font-weight: 300; font-style: italic; color: var(--text2); }
+    .crosslink-text span { color: var(--text); font-style: normal; }
+    .crosslink-btn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); border: 1px solid var(--green); padding: 14px 28px; text-decoration: none; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .crosslink-btn:hover { background: var(--green); color: var(--bg); }
+
+    /* CTA */
+    #cta { padding: 100px 48px; text-align: center; }
+    .cta-headline { font-family: var(--font-display); font-size: clamp(40px,5vw,72px); font-weight: 300; line-height: 1.05; color: var(--text); margin-bottom: 20px; }
+    .cta-headline em { font-style: italic; color: var(--accent); }
+    .cta-sub { font-size: 15px; color: var(--text2); margin-bottom: 40px; }
+
+    /* Footer */
+    footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { font-family: var(--font-display); font-size: 18px; font-weight: 300; color: var(--text2); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-links a { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--text3); }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .lang-bar { padding: 7px 24px; }
+      nav { padding: 18px 24px; top: 30px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      #hero { padding: 130px 24px 60px; }
+      .for-grid { grid-template-columns: 1fr 1fr; }
+      .packages-grid { grid-template-columns: 1fr 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      #for, #packages, #why, #cta { padding: 64px 24px; }
+      .crosslink { padding: 40px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-nl" onclick="setLang('nl')">NL</button>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Nova <span>Web Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="local-business.html" class="active" data-en="Local Business" data-nl="Lokaal Bedrijf">Local Business</a></li>
+      <li><a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme">Hospitality</a></li>
+      <li><a href="portfolio.html" data-en="Work" data-nl="Werk">Work</a></li>
+      <li><a href="about.html" data-en="About" data-nl="Over mij">About</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta" data-en="Get in touch" data-nl="Neem contact op">Get in touch</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <p class="hero-eyebrow" data-en="For Local Businesses — Netherlands & UK" data-nl="Voor Lokale Bedrijven — Nederland & VK">For Local Businesses — Netherlands & UK</p>
+    <h1 class="hero-headline" data-en="Your neighbours are searching.<br><em>Can they find you?</em>" data-nl="Uw buren zijn aan het zoeken.<br><em>Kunnen ze u vinden?</em>">
+      Your neighbours are searching.<br><em>Can they find you?</em>
+    </h1>
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-sub" data-en="A professional website built specifically for your business — not a template, not a number. Something that reflects who you are and gets you found by the people already looking for you." data-nl="Een professionele website die specifiek voor uw bedrijf is gebouwd — geen template, geen nummer. Iets dat weerspiegelt wie u bent en u laat vinden door de mensen die al naar u zoeken.">A professional website built specifically for your business — not a template, not a number. Something that reflects who you are and gets you found by the people already looking for you.</p>
+        <div class="hero-actions">
+          <a href="contact.html" class="btn-primary" data-en="Start a conversation" data-nl="Start een gesprek">Start a conversation</a>
+          <a href="portfolio.html" class="btn-secondary" data-en="View work" data-nl="Bekijk werk">View work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section id="for">
+    <div class="reveal">
+      <div class="section-label" data-en="Who this is for" data-nl="Voor wie is dit">Who this is for</div>
+      <h2 class="section-title" data-en="Built for the businesses<br>that make <em>your town work.</em>" data-nl="Gebouwd voor de bedrijven<br>die <em>uw stad laten draaien.</em>">Built for the businesses<br>that make <em>your town work.</em></h2>
+    </div>
+    <div class="for-grid reveal">
+      <div class="for-item">
+        <div class="for-icon">✂️</div>
+        <div class="for-title" data-en="Kappers & Salons" data-nl="Kappers & Salons">Kappers & Salons</div>
+        <div class="for-desc" data-en="Stop losing clients to salons with online booking. Get found first, look professional, fill your calendar." data-nl="Stop met het verliezen van klanten aan salons met online reserveren. Word als eerste gevonden, lijk professioneel, vul uw agenda.">Stop losing clients to salons with online booking. Get found first, look professional, fill your calendar.</div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">🔧</div>
+        <div class="for-title" data-en="Vakmannen & Trades" data-nl="Vakmannen & Ambachten">Vakmannen & Trades</div>
+        <div class="for-desc" data-en="Schilders, aannemers, klusbedrijven. Your reputation is gold — let your website show it." data-nl="Schilders, aannemers, klusbedrijven. Uw reputatie is goud — laat uw website dat laten zien.">Schilders, aannemers, klusbedrijven. Your reputation is gold — let your website show it.</div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">🛍️</div>
+        <div class="for-title" data-en="Winkels & Boetieks" data-nl="Winkels & Boetieks">Winkels & Boetieks</div>
+        <div class="for-desc" data-en="Beautiful, character-filled shops that deserve an online presence just as special as their physical one." data-nl="Mooie, karaktervolle winkels die een online aanwezigheid verdienen die net zo bijzonder is als hun fysieke winkel.">Beautiful, character-filled shops that deserve an online presence just as special as their physical one.</div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">☕</div>
+        <div class="for-title" data-en="Horeca & Eateries" data-nl="Horeca & Eetgelegenheden">Horeca & Eateries</div>
+        <div class="for-desc" data-en="Menus, opening hours, reservations — everything your hungry customers need to choose you." data-nl="Menu's, openingstijden, reserveringen — alles wat uw hongerige klanten nodig hebben om voor u te kiezen.">Menus, opening hours, reservations — everything your hungry customers need to choose you.</div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">💆</div>
+        <div class="for-title" data-en="Zorg & Wellness" data-nl="Zorg & Wellness">Zorg & Wellness</div>
+        <div class="for-desc" data-en="Fysiotherapeuten, schoonheidsspecialisten, masseurs. Build trust before patients even walk in." data-nl="Fysiotherapeuten, schoonheidsspecialisten, masseurs. Bouw vertrouwen op voordat patiënten binnenkomen.">Fysiotherapeuten, schoonheidsspecialisten, masseurs. Build trust before patients even walk in.</div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">→</div>
+        <div class="for-title" data-en="Everyone else" data-nl="Iedereen else">Everyone else</div>
+        <div class="for-desc" data-en="If you run a small business and need a website that actually works — you're in the right place." data-nl="Als u een klein bedrijf runt en een website nodig heeft die echt werkt — dan bent u hier op de juiste plek.">If you run a small business and need a website that actually works — you're in the right place.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section id="packages">
+    <div class="reveal">
+      <div class="section-label" data-en="Pricing" data-nl="Prijzen">Pricing</div>
+      <h2 class="section-title" data-en="Straightforward prices.<br><em>No surprises.</em>" data-nl="Duidelijke prijzen.<br><em>Geen verrassingen.</em>">Straightforward prices.<br><em>No surprises.</em></h2>
+      <div class="currency-toggle">
+        <button class="curr-btn active" id="btn-eur" onclick="setCurrency('eur')">€ EUR</button>
+        <button class="curr-btn" id="btn-gbp" onclick="setCurrency('gbp')">£ GBP</button>
+      </div>
+    </div>
+    <div class="packages-grid reveal">
+      <div class="package">
+        <span class="pkg-tag" data-en="01 — Starter" data-nl="01 — Starter">01 — Starter</span>
+        <div class="pkg-name" data-en="Starter" data-nl="Starter">Starter</div>
+        <div class="pkg-desc" data-en="Perfect for getting found online fast. Clean, professional, mobile-ready." data-nl="Perfect om snel online gevonden te worden. Schoon, professioneel, mobiel klaar.">Perfect for getting found online fast. Clean, professional, mobile-ready.</div>
+        <div class="pkg-price-eur">€350</div>
+        <div class="pkg-price-gbp">£300</div>
+        <div class="pkg-price-note" data-en="once-off build fee" data-nl="eenmalige bouwkosten">once-off build fee</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li data-en="1-page professional website" data-nl="1-pagina professionele website">1-page professional website</li>
+          <li data-en="Mobile-first design" data-nl="Mobiel-eerste ontwerp">Mobile-first design</li>
+          <li data-en="Contact form" data-nl="Contactformulier">Contact form</li>
+          <li data-en="Google Maps integration" data-nl="Google Maps integratie">Google Maps integration</li>
+          <li data-en="Basic SEO setup" data-nl="Basis SEO instelling">Basic SEO setup</li>
+          <li data-en="Delivered in 1 week" data-nl="Geleverd in 1 week">Delivered in 1 week</li>
+        </ul>
+      </div>
+      <div class="package featured">
+        <span class="pkg-tag" data-en="02 — Standard" data-nl="02 — Standaard">02 — Standard</span>
+        <div class="pkg-name" data-en="Standard" data-nl="Standaard">Standard</div>
+        <div class="pkg-desc" data-en="The most popular choice. Room for your services, portfolio, and story." data-nl="De meest populaire keuze. Ruimte voor uw diensten, portfolio en verhaal.">The most popular choice. Room for your services, portfolio, and story.</div>
+        <div class="pkg-price-eur">€550</div>
+        <div class="pkg-price-gbp">£470</div>
+        <div class="pkg-price-note" data-en="once-off build fee" data-nl="eenmalige bouwkosten">once-off build fee</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li data-en="Up to 4 pages" data-nl="Tot 4 pagina's">Up to 4 pages</li>
+          <li data-en="Services & pricing page" data-nl="Diensten & prijzenpagina">Services & pricing page</li>
+          <li data-en="Photo gallery" data-nl="Fotogalerij">Photo gallery</li>
+          <li data-en="Contact form & Google Maps" data-nl="Contactformulier & Google Maps">Contact form & Google Maps</li>
+          <li data-en="Full SEO setup" data-nl="Volledige SEO instelling">Full SEO setup</li>
+          <li data-en="Delivered in 2 weeks" data-nl="Geleverd in 2 weken">Delivered in 2 weeks</li>
+        </ul>
+      </div>
+      <div class="package">
+        <span class="pkg-tag" data-en="03 — Business" data-nl="03 — Business">03 — Business</span>
+        <div class="pkg-name" data-en="Business" data-nl="Business">Business</div>
+        <div class="pkg-desc" data-en="For established businesses ready to grow their online presence seriously." data-nl="Voor gevestigde bedrijven die klaar zijn om hun online aanwezigheid serieus te laten groeien.">For established businesses ready to grow their online presence seriously.</div>
+        <div class="pkg-price-eur">€850</div>
+        <div class="pkg-price-gbp">£720</div>
+        <div class="pkg-price-note" data-en="once-off build fee" data-nl="eenmalige bouwkosten">once-off build fee</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li data-en="Up to 8 pages" data-nl="Tot 8 pagina's">Up to 8 pages</li>
+          <li data-en="Blog or news section" data-nl="Blog of nieuwssectie">Blog or news section</li>
+          <li data-en="Booking & enquiry system" data-nl="Boekings- & aanvraagsysteem">Booking & enquiry system</li>
+          <li data-en="Advanced SEO & analytics" data-nl="Geavanceerde SEO & analytics">Advanced SEO & analytics</li>
+          <li data-en="Social media integration" data-nl="Social media integratie">Social media integration</li>
+          <li data-en="Delivered in 3–4 weeks" data-nl="Geleverd in 3–4 weken">Delivered in 3–4 weeks</li>
+        </ul>
+      </div>
+      <div class="package">
+        <span class="pkg-tag" data-en="04 — E-Commerce" data-nl="04 — Webshop">04 — E-Commerce</span>
+        <div class="pkg-name" data-en="Online Shop" data-nl="Webshop">Online Shop</div>
+        <div class="pkg-desc" data-en="Sell your products online with a secure, professional shop built to convert." data-nl="Verkoop uw producten online met een veilige, professionele webshop die is gebouwd om te converteren.">Sell your products online with a secure, professional shop built to convert.</div>
+        <div class="pkg-price-eur">€1,200</div>
+        <div class="pkg-price-gbp">£1,020</div>
+        <div class="pkg-price-note" data-en="once-off build fee" data-nl="eenmalige bouwkosten">once-off build fee</div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-features">
+          <li data-en="Up to 20 products" data-nl="Tot 20 producten">Up to 20 products</li>
+          <li data-en="Secure payment gateway" data-nl="Beveiligde betalingsgateway">Secure payment gateway</li>
+          <li data-en="Order management" data-nl="Orderbeheer">Order management</li>
+          <li data-en="Inventory tracking" data-nl="Voorraadbeheer">Inventory tracking</li>
+          <li data-en="Delivered in 4–6 weeks" data-nl="Geleverd in 4–6 weken">Delivered in 4–6 weeks</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CARE PLAN -->
+    <div class="reveal">
+      <div class="care-plan-header">
+        <h3 class="care-plan-title" data-en="The Nova <em>Care Plan</em>" data-nl="Het Nova <em>Zorgplan</em>">The Nova <em>Care Plan</em></h3>
+        <span class="care-plan-badge" data-en="Included with every website" data-nl="Inbegrepen bij elke website">Included with every website</span>
+      </div>
+      <div class="care-plan-why">
+        <p data-en="Every website built by Nova Web Studio includes a <strong>minimum 12-month Care Plan</strong>. This isn't just an add-on — it protects the quality of your investment. A poorly maintained website can become slow, insecure, or broken, and that reflects on your business." data-nl="Elke website die door Nova Web Studio wordt gebouwd, bevat een <strong>minimaal 12 maanden durend Zorgplan</strong>. Dit is geen toevoeging — het beschermt de kwaliteit van uw investering. Een slecht onderhouden website kan traag, onveilig of kapot worden, en dat weerspiegelt op uw bedrijf.">Every website built by Nova Web Studio includes a <strong>minimum 12-month Care Plan</strong>. This isn't just an add-on — it protects the quality of your investment. A poorly maintained website can become slow, insecure, or broken, and that reflects on your business.</p>
+      </div>
+      <table class="care-table">
+        <thead>
+          <tr>
+            <th data-en="Plan" data-nl="Plan">Plan</th>
+            <th data-en="Monthly Fee" data-nl="Maandelijkse kosten">Monthly Fee</th>
+            <th data-en="What's included" data-nl="Wat is inbegrepen">What's included</th>
+            <th data-en="Best for" data-nl="Geschikt voor">Best for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="tier-badge">Basic</div></td>
+            <td><div class="care-price">€75–€150</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></td>
+            <td data-en="Hosting, SSL, security updates, daily backups, 1–2 content updates per month" data-nl="Hosting, SSL, beveiligingsupdates, dagelijkse back-ups, 1–2 inhoudsupdates per maand">Hosting, SSL, security updates, daily backups, 1–2 content updates per month</td>
+            <td data-en="1-page starter sites" data-nl="1-pagina starterssites">1-page starter sites</td>
+          </tr>
+          <tr>
+            <td><div class="tier-badge">Standard</div></td>
+            <td><div class="care-price">€100–€185</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></td>
+            <td data-en="Everything in Basic + up to 3 content updates, monthly SEO check, contact form monitoring" data-nl="Alles in Basis + tot 3 inhoudsupdates, maandelijkse SEO-check, contactformulier monitoring">Everything in Basic + up to 3 content updates, monthly SEO check, contact form monitoring</td>
+            <td data-en="Active growing businesses" data-nl="Actief groeiende bedrijven">Active growing businesses</td>
+          </tr>
+          <tr>
+            <td><div class="tier-badge">Premium</div></td>
+            <td><div class="care-price">€125–€225</div><div class="care-price-note" data-en="per month" data-nl="per maand">per month</div></td>
+            <td data-en="Everything in Standard + monthly performance report, priority 24hr response, quarterly strategy call" data-nl="Alles in Standaard + maandelijks prestatierapport, prioritaire 24-uurs respons, kwartaal strategiegesprek">Everything in Standard + monthly performance report, priority 24hr response, quarterly strategy call</td>
+            <td data-en="Businesses that want to stay ahead" data-nl="Bedrijven die voorop willen blijven">Businesses that want to stay ahead</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="extra-bar">
+        <div class="extra-bar-left" data-en="Extra hours" data-nl="Extra uren">Extra hours</div>
+        <div class="extra-bar-right" data-en="Any work beyond your monthly allowance is billed at <span class='extra-bar-price'>€65 / £55</span> per hour. Written approval always required." data-nl="Alle werkzaamheden buiten uw maandelijkse vergoeding worden gefactureerd tegen <span class='extra-bar-price'>€65 / £55</span> per uur. Schriftelijke goedkeuring altijd vereist.">Any work beyond your monthly allowance is billed at <span class="extra-bar-price">€65 / £55</span> per hour. Written approval always required.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="reveal">
+      <div class="section-label" data-en="Why Nova Web Studio" data-nl="Waarom Nova Web Studio">Why Nova Web Studio</div>
+      <h2 class="section-title" data-en="One person.<br><em>Full attention.</em>" data-nl="Één persoon.<br><em>Volledige aandacht.</em>">One person.<br><em>Full attention.</em></h2>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div class="why-title" data-en="Built for you, not for everyone" data-nl="Gebouwd voor u, niet voor iedereen">Built for you, not for everyone</div>
+        <div class="why-desc" data-en="No templates. Every pixel placed with intention. You get something that actually looks like your business — because your business is not a number." data-nl="Geen templates. Elk pixel met intentie geplaatst. U krijgt iets dat er echt uitziet als uw bedrijf — want uw bedrijf is geen nummer.">No templates. Every pixel placed with intention. You get something that actually looks like your business — because your business is not a number.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div class="why-title" data-en="I know your area" data-nl="Ik ken uw regio">I know your area</div>
+        <div class="why-desc" data-en="Based in Oostvoorne, serving Brielle, Hellevoetsluis and Voorne-Putten. I understand your market because it's mine too." data-nl="Gevestigd in Oostvoorne, werkzaam in Brielle, Hellevoetsluis en Voorne-Putten. Ik begrijp uw markt omdat het ook de mijne is.">Based in Oostvoorne, serving Brielle, Hellevoetsluis and Voorne-Putten. I understand your market because it's mine too.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div class="why-title" data-en="No agency prices" data-nl="Geen bureautarieven">No agency prices</div>
+        <div class="why-desc" data-en="One person means no overheads, no account managers, no markups. You pay for the work, not the building." data-nl="Één persoon betekent geen overheads, geen accountmanagers, geen opslagen. U betaalt voor het werk, niet voor het kantoor.">One person means no overheads, no account managers, no markups. You pay for the work, not the building.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div class="why-title" data-en="You stay in control" data-nl="U blijft in controle">You stay in control</div>
+        <div class="why-desc" data-en="I explain everything clearly. No jargon, no confusion. You always know what's being built and why." data-nl="Ik leg alles duidelijk uit. Geen jargon, geen verwarring. U weet altijd wat er wordt gebouwd en waarom.">I explain everything clearly. No jargon, no confusion. You always know what's being built and why.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CROSSLINK -->
+  <div class="crosslink reveal">
+    <div class="crosslink-text" data-en="Do you run a <span>camping, B&B or holiday park?</span>" data-nl="Runt u een <span>camping, B&B of vakantiepark?</span>">Do you run a <span>camping, B&B or holiday park?</span></div>
+    <a href="hospitality.html" class="crosslink-btn" data-en="Hospitality & Tourism →" data-nl="Horeca & Toerisme →">Hospitality & Tourism →</a>
+  </div>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="reveal">
+      <h2 class="cta-headline" data-en="Ready to get<br><em>found?</em>" data-nl="Klaar om<br><em>gevonden te worden?</em>">Ready to get<br><em>found?</em></h2>
+      <p class="cta-sub" data-en="No obligation, no pressure. Just a real conversation about what you need." data-nl="Geen verplichting, geen druk. Gewoon een eerlijk gesprek over wat u nodig heeft.">No obligation, no pressure. Just a real conversation about what you need.</p>
+      <a href="contact.html" class="btn-primary" data-en="Get in touch →" data-nl="Neem contact op →">Get in touch →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Nova <span>Web Studio</span></div>
+    <div class="footer-links">
+      <a href="index.html" data-en="Home" data-nl="Home">Home</a>
+      <a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf">Local Business</a>
+      <a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme">Hospitality</a>
+      <a href="portfolio.html" data-en="Work" data-nl="Werk">Work</a>
+      <a href="about.html" data-en="About" data-nl="Over mij">About</a>
+      <a href="contact.html" data-en="Contact" data-nl="Contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Nova Web Studio</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    (function animateRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animateRing); })();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => ring.classList.add('hover')); el.addEventListener('mouseleave', () => ring.classList.remove('hover')); });
+    window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40));
+    const observer = new IntersectionObserver(entries => { entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); observer.unobserve(e.target); } }); }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    function setCurrency(curr) {
+      document.getElementById('btn-eur').classList.toggle('active', curr==='eur');
+      document.getElementById('btn-gbp').classList.toggle('active', curr==='gbp');
+      document.body.classList.toggle('gbp', curr==='gbp');
+    }
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-nl').classList.toggle('active', lang === 'nl');
+      document.querySelectorAll('[data-en][data-nl]').forEach(el => {
+        const val = el.getAttribute('data-' + lang);
+        if (val) el.innerHTML = val;
+      });
+    }
+  </script>
+</body>
+</html>

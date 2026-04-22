@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Web Studio — Hospitality & Tourism Web Design</title>
+  <meta name="description" content="Professional websites for campings, B&Bs, marinas and holiday parks. Multilingual — NL, EN, DE, FR. Online booking integration. Serving Voorne-Putten and beyond." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0f0c; --bg2: #111411; --bg3: #171b17; --surface: #1c211c;
+      --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.04);
+      --text: #f0f2ee; --text2: #96a093; --text3: #566053;
+      --accent: #6aab7a; --accent2: #559666; --accent-gold: #e8c97a;
+      --font-display: "Cormorant Garamond", serif;
+      --font-mono: "DM Mono", monospace;
+      --font-body: "Instrument Sans", sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+
+    /* Cursor */
+    .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(106,171,122,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.25s ease, width 0.2s, height 0.2s, border-color 0.2s; transform: translate(-50%,-50%); }
+    .cursor-ring.hover { width: 56px; height: 56px; border-color: rgba(106,171,122,0.8); }
+    body::before { content: ""; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; pointer-events: none; z-index: 0; }
+
+    /* Lang bar */
+    .lang-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: var(--bg3); border-bottom: 1px solid var(--border); padding: 7px 48px; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+    .lang-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border: 1px solid transparent; background: none; color: var(--text3); cursor: pointer; transition: all 0.2s; }
+    .lang-btn.active { color: var(--accent); border-color: rgba(106,171,122,0.4); }
+    .lang-btn:hover { color: var(--text2); }
+
+    /* Nav */
+    nav { position: fixed; top: 32px; left: 0; right: 0; z-index: 100; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.3s, padding 0.3s; }
+    nav.scrolled { background: rgba(12,15,12,0.94); backdrop-filter: blur(20px); border-color: var(--border); padding: 14px 48px; }
+    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+    .nav-links a { font-family: var(--font-mono); font-size: 11px; color: var(--text2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 10px 20px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    /* Hero */
+    #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 150px 48px 80px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(106,171,122,0.03) 1px,transparent 1px), linear-gradient(90deg,rgba(106,171,122,0.03) 1px,transparent 1px); background-size: 80px 80px; pointer-events: none; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; background: radial-gradient(circle,rgba(106,171,122,0.07) 0%,transparent 65%); top: 5%; right: -150px; pointer-events: none; }
+    .hero-glow2 { position: absolute; width: 400px; height: 400px; background: radial-gradient(circle,rgba(106,171,122,0.04) 0%,transparent 65%); bottom: 10%; left: -100px; pointer-events: none; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+    .hero-headline { font-family: var(--font-display); font-size: clamp(48px, 6.5vw, 104px); font-weight: 300; line-height: 1; letter-spacing: -0.02em; color: var(--text); max-width: 900px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+    .hero-headline em { font-style: italic; color: var(--accent); }
+    .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; flex-wrap: wrap; }
+    .hero-sub { font-size: 15px; color: var(--text2); max-width: 440px; line-height: 1.8; }
+    .hero-actions { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
+    .btn-primary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--accent); padding: 14px 28px; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-secondary { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); border: 1px solid var(--border); padding: 14px 28px; text-decoration: none; transition: border-color 0.2s, color 0.2s; display: inline-block; }
+    .btn-secondary:hover { border-color: rgba(106,171,122,0.4); color: var(--accent); }
+
+    /* Lang strip */
+    .lang-strip { display: flex; gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; width: fit-content; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+    .lang-strip-item { padding: 10px 20px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--text3); background: var(--bg2); }
+    .lang-strip-item span { color: var(--accent); margin-right: 6px; }
+
+    /* Sections */
+    section { position: relative; z-index: 1; }
+    .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(32px,4vw,52px); font-weight: 300; line-height: 1.05; color: var(--text); margin-bottom: 48px; }
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    /* Who it's for */
+    #for { padding: 100px 48px; border-bottom: 1px solid var(--border); }
+    .for-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+    .for-item { background: var(--bg2); padding: 36px 28px; transition: background 0.3s; position: relative; overflow: hidden; }
+    .for-item::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+    .for-item:hover { background: var(--surface); }
+    .for-item:hover::before { transform: scaleX(1); }
+    .for-icon { font-size: 28px; margin-bottom: 16px; }
+    .for-title { font-family: var(--font-display); font-size: 22px; font-weight: 300; color: var(--text); margin-bottom: 8px; }
+    .for-desc { font-size: 13px; color: var(--text3); line-height: 1.7; }
+
+    /* What we build */
+    #what { padding: 100px 48px; background: var(--bg2); border-bottom: 1px solid var(--border); }
+    .what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+    .what-item { background: var(--bg2); padding: 44px 36px; transition: background 0.3s; }
+    .what-item:hover { background: var(--surface); }
+    .what-num { font-family: var(--font-display); font-size: 52px; font-weight: 300; color: rgba(106,171,122,0.15); line-height: 1; margin-bottom: 16px; }
+    .what-title { font-family: var(--font-display); font-size: 26px; font-weight: 300; color: var(--text); margin-bottom: 12px; }
+    .what-desc { font-size: 13px; color: var(--text3); line-height: 1.8; }
+    .what-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-top: 16px; display: inline-block; }
+
+    /* Languages */
+    #languages { padding: 100px 48px; border-bottom: 1px solid var(--border); }
+    .lang-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+    .lang-card { background: var(--bg2); padding: 40px 28px; text-align: center; transition: background 0.3s; }
+    .lang-card:hover { background: var(--surface); }
+    .lang-flag { font-size: 40px; margin-bottom: 16px; }
+    .lang-name { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: var(--text); margin-bottom: 8px; }
+    .lang-native { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .lang-why { font-size: 12px; color: var(--text3); line-height: 1.6; }
+
+    /* Why */
+    #why { padding: 100px 48px; border-bottom: 1px solid var(--border); background: var(--bg2); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 48px; }
+    .why-item { background: var(--bg2); padding: 40px 36px; transition: background 0.3s; }
+    .why-item:hover { background: var(--surface); }
+    .why-num { font-family: var(--font-display); font-size: 52px; font-weight: 300; color: rgba(106,171,122,0.12); line-height: 1; margin-bottom: 16px; }
+    .why-title { font-family: var(--font-display); font-size: 24px; font-weight: 300; color: var(--text); margin-bottom: 12px; }
+    .why-desc { font-size: 13px; color: var(--text3); line-height: 1.8; }
+
+    /* Quote CTA */
+    #quote { padding: 100px 48px; text-align: center; }
+    .quote-headline { font-family: var(--font-display); font-size: clamp(40px,5vw,76px); font-weight: 300; line-height: 1.05; color: var(--text); margin-bottom: 20px; }
+    .quote-headline em { font-style: italic; color: var(--accent); }
+    .quote-sub { font-size: 15px; color: var(--text2); margin-bottom: 16px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.8; }
+    .quote-note { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 40px; }
+
+    /* Crosslink */
+    .crosslink { padding: 60px 48px; background: var(--bg3); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .crosslink-text { font-family: var(--font-display); font-size: 26px; font-weight: 300; font-style: italic; color: var(--text2); }
+    .crosslink-text span { color: var(--text); font-style: normal; }
+    .crosslink-btn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-gold); border: 1px solid var(--accent-gold); padding: 14px 28px; text-decoration: none; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .crosslink-btn:hover { background: var(--accent-gold); color: var(--bg); }
+
+    /* Footer */
+    footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; position: relative; z-index: 1; }
+    .footer-logo { font-family: var(--font-display); font-size: 18px; font-weight: 300; color: var(--text2); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-links a { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-family: var(--font-mono); font-size: 10px; color: var(--text3); }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .lang-bar { padding: 7px 24px; }
+      nav { padding: 18px 24px; top: 30px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      #hero { padding: 130px 24px 60px; }
+      .for-grid { grid-template-columns: 1fr 1fr; }
+      .what-grid, .why-grid { grid-template-columns: 1fr; }
+      .lang-cards { grid-template-columns: 1fr 1fr; }
+      #for, #what, #languages, #why, #quote { padding: 64px 24px; }
+      .crosslink { padding: 40px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LANG BAR -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-nl" onclick="setLang('nl')">NL</button>
+    <button class="lang-btn" id="btn-de" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Nova <span>Web Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf" data-de="Lokales Geschäft" data-fr="Commerce Local">Local Business</a></li>
+      <li><a href="hospitality.html" class="active" data-en="Hospitality" data-nl="Horeca & Toerisme" data-de="Gastgewerbe" data-fr="Hôtellerie">Hospitality</a></li>
+      <li><a href="portfolio.html" data-en="Work" data-nl="Werk" data-de="Arbeit" data-fr="Travaux">Work</a></li>
+      <li><a href="about.html" data-en="About" data-nl="Over mij" data-de="Über mich" data-fr="À propos">About</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta" data-en="Free quote" data-nl="Gratis offerte" data-de="Kostenloses Angebot" data-fr="Devis gratuit">Free quote</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+
+    <p class="hero-eyebrow"
+      data-en="For Campings, B&Bs & Holiday Parks — Netherlands & Beyond"
+      data-nl="Voor Campings, B&Bs & Vakantieparken — Nederland & Verder"
+      data-de="Für Campingplätze, B&Bs & Ferienparks — Niederlande & Darüber hinaus"
+      data-fr="Pour les Campings, B&Bs & Parcs de Vacances — Pays-Bas & Au-delà">
+      For Campings, B&Bs & Holiday Parks — Netherlands & Beyond
+    </p>
+
+    <h1 class="hero-headline"
+      data-en="Stop losing bookings to parks<br>that make it <em>easier to say yes.</em>"
+      data-nl="Stop met het verliezen van boekingen<br>aan parken die het <em>makkelijker maken om ja te zeggen.</em>"
+      data-de="Hören Sie auf, Buchungen an Parks zu verlieren,<br>bei denen es <em>einfacher ist, Ja zu sagen.</em>"
+      data-fr="Arrêtez de perdre des réservations au profit de parcs<br>qui rendent <em>plus facile de dire oui.</em>">
+      Stop losing bookings to parks<br>that make it <em>easier to say yes.</em>
+    </h1>
+
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-sub"
+          data-en="A professional, multilingual website with online booking — built around your camping, your guests, and your season. Not a template. Not a number."
+          data-nl="Een professionele, meertalige website met online reservering — gebouwd rond uw camping, uw gasten en uw seizoen. Geen template. Geen nummer."
+          data-de="Eine professionelle, mehrsprachige Website mit Online-Buchung — aufgebaut rund um Ihren Campingplatz, Ihre Gäste und Ihre Saison. Kein Template. Keine Nummer."
+          data-fr="Un site web professionnel et multilingue avec réservation en ligne — construit autour de votre camping, vos clients et votre saison. Pas un modèle. Pas un numéro.">
+          A professional, multilingual website with online booking — built around your camping, your guests, and your season. Not a template. Not a number.
+        </p>
+        <div class="hero-actions">
+          <a href="contact.html" class="btn-primary"
+            data-en="Get a free quote"
+            data-nl="Vraag een gratis offerte aan"
+            data-de="Kostenloses Angebot anfordern"
+            data-fr="Demander un devis gratuit">Get a free quote</a>
+          <a href="portfolio.html" class="btn-secondary"
+            data-en="View work"
+            data-nl="Bekijk werk"
+            data-de="Arbeit ansehen"
+            data-fr="Voir les travaux">View work</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Language strip -->
+    <div class="lang-strip">
+      <div class="lang-strip-item"><span>🇳🇱</span> Nederlands</div>
+      <div class="lang-strip-item"><span>🇬🇧</span> English</div>
+      <div class="lang-strip-item"><span>🇩🇪</span> Deutsch</div>
+      <div class="lang-strip-item"><span>🇫🇷</span> Français</div>
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section id="for">
+    <div class="reveal">
+      <div class="section-label"
+        data-en="Who this is for"
+        data-nl="Voor wie is dit"
+        data-de="Für wen ist das"
+        data-fr="Pour qui est-ce">Who this is for</div>
+      <h2 class="section-title"
+        data-en="Built for hospitality businesses<br>that want to <em>get booked.</em>"
+        data-nl="Gebouwd voor horecabedrijven<br>die <em>geboekt willen worden.</em>"
+        data-de="Für Gastgewerbeunternehmen entwickelt,<br>die <em>gebucht werden möchten.</em>"
+        data-fr="Conçu pour les entreprises hôtelières<br>qui veulent <em>être réservées.</em>">
+        Built for hospitality businesses<br>that want to <em>get booked.</em>
+      </h2>
+    </div>
+    <div class="for-grid reveal">
+      <div class="for-item">
+        <div class="for-icon">⛺</div>
+        <div class="for-title" data-en="Campings" data-nl="Campings" data-de="Campingplätze" data-fr="Campings">Campings</div>
+        <div class="for-desc"
+          data-en="Phone-only bookings are costing you guests. A modern website with online reservations changes everything."
+          data-nl="Alleen telefonische reserveringen kosten u gasten. Een moderne website met online reserveringen verandert alles."
+          data-de="Nur telefonische Buchungen kosten Sie Gäste. Eine moderne Website mit Online-Reservierungen ändert alles."
+          data-fr="Les réservations uniquement par téléphone vous coûtent des clients. Un site web moderne avec réservations en ligne change tout.">
+          Phone-only bookings are costing you guests. A modern website with online reservations changes everything.
+        </div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">🏡</div>
+        <div class="for-title" data-en="B&Bs & Guesthouses" data-nl="B&Bs & Pensions" data-de="B&Bs & Pensionen" data-fr="B&Bs & Chambres d'hôtes">B&Bs & Guesthouses</div>
+        <div class="for-desc"
+          data-en="A beautiful, personal website that tells your story and converts browsers into overnight guests."
+          data-nl="Een mooie, persoonlijke website die uw verhaal vertelt en bezoekers omzet in overnachtingsgasten."
+          data-de="Eine schöne, persönliche Website, die Ihre Geschichte erzählt und Besucher in Übernachtungsgäste verwandelt."
+          data-fr="Un beau site web personnel qui raconte votre histoire et convertit les visiteurs en clients.">
+          A beautiful, personal website that tells your story and converts browsers into overnight guests.
+        </div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">⚓</div>
+        <div class="for-title" data-en="Marinas & Jachthavens" data-nl="Jachthavens & Havens" data-de="Marinas & Häfen" data-fr="Marinas & Ports">Marinas & Jachthavens</div>
+        <div class="for-desc"
+          data-en="Boat berths, facilities, availability. Give sailors the information they need to choose your harbour."
+          data-nl="Ligplaatsen, faciliteiten, beschikbaarheid. Geef zeilers de informatie die ze nodig hebben om uw haven te kiezen."
+          data-de="Liegeplätze, Einrichtungen, Verfügbarkeit. Geben Sie Seglern die Informationen, die sie brauchen, um Ihren Hafen zu wählen."
+          data-fr="Postes d'amarrage, installations, disponibilité. Donnez aux marins les informations dont ils ont besoin pour choisir votre port.">
+          Boat berths, facilities, availability. Give sailors the information they need to choose your harbour.
+        </div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">🌿</div>
+        <div class="for-title" data-en="Glamping & Minicampings" data-nl="Glamping & Minicampings" data-de="Glamping & Minicampingplätze" data-fr="Glamping & Mini-campings">Glamping & Minicampings</div>
+        <div class="for-desc"
+          data-en="Small doesn't mean invisible. A professional website puts your unique experience in front of the right guests."
+          data-nl="Klein betekent niet onzichtbaar. Een professionele website brengt uw unieke ervaring voor de juiste gasten."
+          data-de="Klein bedeutet nicht unsichtbar. Eine professionelle Website bringt Ihr einzigartiges Erlebnis vor die richtigen Gäste."
+          data-fr="Petit ne veut pas dire invisible. Un site web professionnel met votre expérience unique devant les bons clients.">
+          Small doesn't mean invisible. A professional website puts your unique experience in front of the right guests.
+        </div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">🏖️</div>
+        <div class="for-title" data-en="Holiday Parks" data-nl="Vakantieparken" data-de="Ferienparks" data-fr="Parcs de vacances">Holiday Parks</div>
+        <div class="for-desc"
+          data-en="Accommodation types, pricing, activities, seasonal offers — all in one multilingual site your guests can actually use."
+          data-nl="Accommodatietypes, prijzen, activiteiten, seizoensaanbiedingen — allemaal op één meertalige site die uw gasten echt kunnen gebruiken."
+          data-de="Unterkunftstypen, Preise, Aktivitäten, Saisonangebote — alles auf einer mehrsprachigen Website, die Ihre Gäste wirklich nutzen können."
+          data-fr="Types d'hébergement, tarifs, activités, offres saisonnières — tout sur un site multilingue que vos clients peuvent vraiment utiliser.">
+          Accommodation types, pricing, activities, seasonal offers — all in one multilingual site your guests can actually use.
+        </div>
+      </div>
+      <div class="for-item">
+        <div class="for-icon">🌊</div>
+        <div class="for-title" data-en="Water & Outdoor Tourism" data-nl="Water- & Buitentoerisme" data-de="Wasser- & Outdoortourismus" data-fr="Tourisme nautique & plein air">Water & Outdoor Tourism</div>
+        <div class="for-desc"
+          data-en="Surf schools, dive centres, kayak rentals, watersport clubs. Get your activity in front of the people actively searching for it."
+          data-nl="Surfscholen, duikcentra, kajakverhuur, watersportclubs. Breng uw activiteit voor de mensen die er actief naar zoeken."
+          data-de="Surfschulen, Tauchzentren, Kajakvermietung, Wassersportclubs. Bringen Sie Ihre Aktivität vor die Menschen, die aktiv danach suchen."
+          data-fr="Écoles de surf, centres de plongée, locations de kayak, clubs de sports nautiques. Mettez votre activité devant les personnes qui la recherchent activement.">
+          Surf schools, dive centres, kayak rentals, watersport clubs. Get your activity in front of the people actively searching for it.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE BUILD -->
+  <section id="what">
+    <div class="reveal">
+      <div class="section-label"
+        data-en="What we build"
+        data-nl="Wat we bouwen"
+        data-de="Was wir bauen"
+        data-fr="Ce que nous construisons">What we build</div>
+      <h2 class="section-title"
+        data-en="Everything your guests need<br>to <em>choose you and book.</em>"
+        data-nl="Alles wat uw gasten nodig hebben<br>om <em>voor u te kiezen en te boeken.</em>"
+        data-de="Alles, was Ihre Gäste brauchen,<br>um <em>Sie zu wählen und zu buchen.</em>"
+        data-fr="Tout ce dont vos clients ont besoin<br>pour <em>vous choisir et réserver.</em>">
+        Everything your guests need<br>to <em>choose you and book.</em>
+      </h2>
+    </div>
+    <div class="what-grid reveal">
+      <div class="what-item">
+        <div class="what-num">01</div>
+        <div class="what-title" data-en="Professional website" data-nl="Professionele website" data-de="Professionelle Website" data-fr="Site web professionnel">Professional website</div>
+        <div class="what-desc"
+          data-en="Mobile-first, fast, beautiful. Your accommodation types, facilities, location and story — all clear, all working, all in your style."
+          data-nl="Mobiel-eerst, snel, mooi. Uw accommodatietypes, faciliteiten, locatie en verhaal — allemaal duidelijk, allemaal werkend, allemaal in uw stijl."
+          data-de="Mobile-first, schnell, schön. Ihre Unterkunftstypen, Einrichtungen, Lage und Geschichte — alles klar, alles funktionierend, alles in Ihrem Stil."
+          data-fr="Mobile-first, rapide, beau. Vos types d'hébergement, installations, emplacement et histoire — tout clair, tout fonctionnel, tout dans votre style.">
+          Mobile-first, fast, beautiful. Your accommodation types, facilities, location and story — all clear, all working, all in your style.
+        </div>
+        <span class="what-tag" data-en="Included in all packages" data-nl="Inbegrepen in alle pakketten" data-de="In allen Paketen enthalten" data-fr="Inclus dans tous les forfaits">Included in all packages</span>
+      </div>
+      <div class="what-item">
+        <div class="what-num">02</div>
+        <div class="what-title" data-en="Online booking integration" data-nl="Online reservering integratie" data-de="Online-Buchungsintegration" data-fr="Intégration de réservation en ligne">Online booking integration</div>
+        <div class="what-desc"
+          data-en="Stop taking bookings only by phone. We connect your website to a booking system so guests can reserve 24/7 — even when you're asleep."
+          data-nl="Stop met alleen telefonische reserveringen. We koppelen uw website aan een reserveringssysteem zodat gasten 24/7 kunnen reserveren — zelfs als u slaapt."
+          data-de="Hören Sie auf, Buchungen nur telefonisch entgegenzunehmen. Wir verbinden Ihre Website mit einem Buchungssystem, damit Gäste 24/7 reservieren können — auch wenn Sie schlafen."
+          data-fr="Arrêtez de prendre des réservations uniquement par téléphone. Nous connectons votre site web à un système de réservation pour que les clients puissent réserver 24h/24 — même quand vous dormez.">
+          Stop taking bookings only by phone. We connect your website to a booking system so guests can reserve 24/7 — even when you're asleep.
+        </div>
+        <span class="what-tag" data-en="Available as add-on" data-nl="Beschikbaar als toevoeging" data-de="Als Zusatz verfügbar" data-fr="Disponible en option">Available as add-on</span>
+      </div>
+      <div class="what-item">
+        <div class="what-num">03</div>
+        <div class="what-title" data-en="4-language support" data-nl="4-talige ondersteuning" data-de="4-sprachige Unterstützung" data-fr="Support en 4 langues">4-language support</div>
+        <div class="what-desc"
+          data-en="Dutch, English, German and French. Most of your competitors are NL-only. A multilingual site opens your doors to German and French tourists who search in their own language."
+          data-nl="Nederlands, Engels, Duits en Frans. De meeste van uw concurrenten zijn alleen NL. Een meertalige site opent uw deuren voor Duitse en Franse toeristen die in hun eigen taal zoeken."
+          data-de="Niederländisch, Englisch, Deutsch und Französisch. Die meisten Ihrer Mitbewerber sind nur auf Niederländisch. Eine mehrsprachige Website öffnet Ihre Türen für deutsche und französische Touristen."
+          data-fr="Néerlandais, anglais, allemand et français. La plupart de vos concurrents sont uniquement en néerlandais. Un site multilingue ouvre vos portes aux touristes allemands et français.">
+          Dutch, English, German and French. Most of your competitors are NL-only. A multilingual site opens your doors to German and French tourists who search in their own language.
+        </div>
+        <span class="what-tag" data-en="Included in all packages" data-nl="Inbegrepen in alle pakketten" data-de="In allen Paketen enthalten" data-fr="Inclus dans tous les forfaits">Included in all packages</span>
+      </div>
+      <div class="what-item">
+        <div class="what-num">04</div>
+        <div class="what-title" data-en="Guest web app" data-nl="Gast web app" data-de="Gäste-Web-App" data-fr="Application web pour les clients">Guest web app</div>
+        <div class="what-desc"
+          data-en="Coming soon. A mobile-friendly app your guests add to their homescreen — facilities map, activity schedule, local tips, food ordering, push notifications. Like De Meeuw, but yours."
+          data-nl="Binnenkort beschikbaar. Een mobiele app die uw gasten aan hun startscherm toevoegen — faciliteitekaart, activiteitenschema, lokale tips, eten bestellen, pushmeldingen. Zoals De Meeuw, maar van u."
+          data-de="Demnächst verfügbar. Eine mobile App, die Ihre Gäste auf ihrem Startbildschirm hinzufügen — Einrichtungskarte, Aktivitätenplan, lokale Tipps, Essensbestellung, Push-Benachrichtigungen."
+          data-fr="Bientôt disponible. Une application mobile que vos clients ajoutent à leur écran d'accueil — carte des installations, programme d'activités, conseils locaux, commande de repas, notifications push.">
+          Coming soon. A mobile-friendly app your guests add to their homescreen — facilities map, activity schedule, local tips, food ordering, push notifications. Like De Meeuw, but yours.
+        </div>
+        <span class="what-tag" data-en="Coming soon" data-nl="Binnenkort beschikbaar" data-de="Demnächst" data-fr="Bientôt disponible">Coming soon</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGUAGES -->
+  <section id="languages">
+    <div class="reveal">
+      <div class="section-label"
+        data-en="Multilingual by default"
+        data-nl="Standaard meertalig"
+        data-de="Standardmäßig mehrsprachig"
+        data-fr="Multilingue par défaut">Multilingual by default</div>
+      <h2 class="section-title"
+        data-en="Your guests search in<br><em>their own language.</em>"
+        data-nl="Uw gasten zoeken in<br><em>hun eigen taal.</em>"
+        data-de="Ihre Gäste suchen in<br><em>ihrer eigenen Sprache.</em>"
+        data-fr="Vos clients cherchent dans<br><em>leur propre langue.</em>">
+        Your guests search in<br><em>their own language.</em>
+      </h2>
+    </div>
+    <div class="lang-cards reveal">
+      <div class="lang-card">
+        <div class="lang-flag">🇳🇱</div>
+        <div class="lang-name">Nederlands</div>
+        <div class="lang-native">Dutch</div>
+        <div class="lang-why" data-en="Your home market. The foundation of every site." data-nl="Uw thuismarkt. De basis van elke site." data-de="Ihr Heimatmarkt. Die Grundlage jeder Website." data-fr="Votre marché local. La base de chaque site.">Your home market. The foundation of every site.</div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-flag">🇬🇧</div>
+        <div class="lang-name">English</div>
+        <div class="lang-native">Engels</div>
+        <div class="lang-why" data-en="International guests and expats. Essential for any tourism business." data-nl="Internationale gasten en expats. Essentieel voor elk toeristisch bedrijf." data-de="Internationale Gäste und Expats. Unverzichtbar für jedes Tourismusunternehmen." data-fr="Clients internationaux et expatriés. Essentiel pour toute entreprise touristique.">International guests and expats. Essential for any tourism business.</div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-flag">🇩🇪</div>
+        <div class="lang-name">Deutsch</div>
+        <div class="lang-native">German</div>
+        <div class="lang-why" data-en="Germans are the largest group of foreign tourists in the Netherlands. Most campings miss them entirely." data-nl="Duitsers zijn de grootste groep buitenlandse toeristen in Nederland. De meeste campings missen ze volledig." data-de="Deutsche sind die größte Gruppe ausländischer Touristen in den Niederlanden. Die meisten Campingplätze verpassen sie völlig." data-fr="Les Allemands sont le plus grand groupe de touristes étrangers aux Pays-Bas. La plupart des campings les manquent complètement.">Germans are the largest group of foreign tourists in the Netherlands. Most campings miss them entirely.</div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-flag">🇫🇷</div>
+        <div class="lang-name">Français</div>
+        <div class="lang-native">French</div>
+        <div class="lang-why" data-en="French tourists are an underserved market. A French website puts you ahead of every NL-only competitor." data-nl="Franse toeristen zijn een onderbediende markt. Een Franse website zet u voor op elke NL-only concurrent." data-de="Französische Touristen sind ein unterversorgter Markt. Eine französische Website bringt Sie vor jeden NL-only Mitbewerber." data-fr="Les touristes français sont un marché mal desservi. Un site en français vous place devant chaque concurrent uniquement en néerlandais.">French tourists are an underserved market. A French website puts you ahead of every NL-only competitor.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="reveal">
+      <div class="section-label"
+        data-en="Why Nova Web Studio"
+        data-nl="Waarom Nova Web Studio"
+        data-de="Warum Nova Web Studio"
+        data-fr="Pourquoi Nova Web Studio">Why Nova Web Studio</div>
+      <h2 class="section-title"
+        data-en="Local knowledge.<br><em>Personal service.</em>"
+        data-nl="Lokale kennis.<br><em>Persoonlijke service.</em>"
+        data-de="Lokales Wissen.<br><em>Persönlicher Service.</em>"
+        data-fr="Connaissance locale.<br><em>Service personnel.</em>">
+        Local knowledge.<br><em>Personal service.</em>
+      </h2>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div class="why-title"
+          data-en="I live here"
+          data-nl="Ik woon hier"
+          data-de="Ich lebe hier"
+          data-fr="Je vis ici">I live here</div>
+        <div class="why-desc"
+          data-en="Based in Oostvoorne, serving the whole Voorne-Putten region. I know the Brielse Meer, I know the campings, I know the season. Your website will reflect that."
+          data-nl="Gevestigd in Oostvoorne, werkzaam in de hele regio Voorne-Putten. Ik ken het Brielse Meer, ik ken de campings, ik ken het seizoen. Uw website zal dat weerspiegelen."
+          data-de="Mit Sitz in Oostvoorne, tätig in der gesamten Region Voorne-Putten. Ich kenne das Brielse Meer, die Campingplätze, die Saison. Ihre Website wird das widerspiegeln."
+          data-fr="Basée à Oostvoorne, au service de toute la région Voorne-Putten. Je connais le Brielse Meer, les campings, la saison. Votre site web le reflétera.">
+          Based in Oostvoorne, serving the whole Voorne-Putten region. I know the Brielse Meer, I know the campings, I know the season. Your website will reflect that.
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div class="why-title"
+          data-en="Built for bookings"
+          data-nl="Gebouwd voor boekingen"
+          data-de="Gebaut für Buchungen"
+          data-fr="Construit pour les réservations">Built for bookings</div>
+        <div class="why-desc"
+          data-en="A pretty website that doesn't convert is just decoration. Everything I build is designed around one goal — getting your guests to book."
+          data-nl="Een mooie website die niet converteert is gewoon decoratie. Alles wat ik bouw is ontworpen rond één doel — uw gasten laten boeken."
+          data-de="Eine hübsche Website, die nicht konvertiert, ist nur Dekoration. Alles, was ich baue, ist auf ein Ziel ausgerichtet — Ihre Gäste zum Buchen zu bringen."
+          data-fr="Un beau site web qui ne convertit pas n'est que de la décoration. Tout ce que je construis est conçu autour d'un objectif — amener vos clients à réserver.">
+          A pretty website that doesn't convert is just decoration. Everything I build is designed around one goal — getting your guests to book.
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div class="why-title"
+          data-en="One person. Full attention."
+          data-nl="Één persoon. Volledige aandacht."
+          data-de="Eine Person. Volle Aufmerksamkeit."
+          data-fr="Une personne. Toute l'attention.">One person. Full attention.</div>
+        <div class="why-desc"
+          data-en="No agency, no account manager, no handover. You work directly with me from start to finish — and I'm reachable when you need me."
+          data-nl="Geen bureau, geen accountmanager, geen overdracht. U werkt van begin tot eind rechtstreeks met mij — en ik ben bereikbaar wanneer u mij nodig heeft."
+          data-de="Kein Büro, kein Account Manager, keine Übergabe. Sie arbeiten von Anfang bis Ende direkt mit mir — und ich bin erreichbar, wenn Sie mich brauchen."
+          data-fr="Pas d'agence, pas de gestionnaire de compte, pas de transfert. Vous travaillez directement avec moi du début à la fin — et je suis joignable quand vous avez besoin de moi.">
+          No agency, no account manager, no handover. You work directly with me from start to finish — and I'm reachable when you need me.
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div class="why-title"
+          data-en="Seasonal flexibility"
+          data-nl="Seizoensflexibiliteit"
+          data-de="Saisonale Flexibilität"
+          data-fr="Flexibilité saisonnière">Seasonal flexibility</div>
+        <div class="why-desc"
+          data-en="Prices change. Availability changes. Opening dates change. Your Care Plan includes regular seasonal updates so your website always reflects what's actually happening."
+          data-nl="Prijzen veranderen. Beschikbaarheid verandert. Openingsdata veranderen. Uw Zorgplan bevat regelmatige seizoensupdates zodat uw website altijd weerspiegelt wat er echt gebeurt."
+          data-de="Preise ändern sich. Verfügbarkeit ändert sich. Öffnungsdaten ändern sich. Ihr Pflegeplan umfasst regelmäßige saisonale Updates, damit Ihre Website immer das widerspiegelt, was tatsächlich passiert."
+          data-fr="Les prix changent. La disponibilité change. Les dates d'ouverture changent. Votre plan de maintenance comprend des mises à jour saisonnières régulières pour que votre site web reflète toujours ce qui se passe réellement.">
+          Prices change. Availability changes. Opening dates change. Your Care Plan includes regular seasonal updates so your website always reflects what's actually happening.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE CTA -->
+  <section id="quote">
+    <div class="reveal">
+      <h2 class="quote-headline"
+        data-en="Let's talk about<br><em>your season.</em>"
+        data-nl="Laten we praten over<br><em>uw seizoen.</em>"
+        data-de="Lassen Sie uns über<br><em>Ihre Saison sprechen.</em>"
+        data-fr="Parlons de<br><em>votre saison.</em>">
+        Let's talk about<br><em>your season.</em>
+      </h2>
+      <p class="quote-sub"
+        data-en="Every camping is different. Every season is different. Tell me about yours and I'll put together a proposal that fits."
+        data-nl="Elke camping is anders. Elk seizoen is anders. Vertel me over het uwe en ik stel een voorstel samen dat past."
+        data-de="Jeder Campingplatz ist anders. Jede Saison ist anders. Erzählen Sie mir von Ihrer und ich erstelle ein passendes Angebot."
+        data-fr="Chaque camping est différent. Chaque saison est différente. Parlez-moi de la vôtre et je préparerai une proposition adaptée.">
+        Every camping is different. Every season is different. Tell me about yours and I'll put together a proposal that fits.
+      </p>
+      <p class="quote-note"
+        data-en="Free quote — no obligation — response within 48 hours"
+        data-nl="Gratis offerte — geen verplichting — reactie binnen 48 uur"
+        data-de="Kostenloses Angebot — keine Verpflichtung — Antwort innerhalb von 48 Stunden"
+        data-fr="Devis gratuit — sans obligation — réponse sous 48 heures">
+        Free quote — no obligation — response within 48 hours
+      </p>
+      <a href="contact.html" class="btn-primary"
+        data-en="Get a free quote →"
+        data-nl="Vraag een gratis offerte aan →"
+        data-de="Kostenloses Angebot anfordern →"
+        data-fr="Demander un devis gratuit →">Get a free quote →</a>
+    </div>
+  </section>
+
+  <!-- CROSSLINK -->
+  <div class="crosslink reveal">
+    <div class="crosslink-text"
+      data-en="Do you have a <span>local shop, salon or trade business?</span>"
+      data-nl="Heeft u een <span>lokale winkel, salon of vakbedrijf?</span>"
+      data-de="Haben Sie ein <span>lokales Geschäft, einen Salon oder Handwerksbetrieb?</span>"
+      data-fr="Avez-vous un <span>commerce local, un salon ou une entreprise artisanale?</span>">
+      Do you have a <span>local shop, salon or trade business?</span>
+    </div>
+    <a href="local-business.html" class="crosslink-btn"
+      data-en="Local Business →"
+      data-nl="Lokaal Bedrijf →"
+      data-de="Lokales Geschäft →"
+      data-fr="Commerce Local →">Local Business →</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Nova <span>Web Studio</span></div>
+    <div class="footer-links">
+      <a href="index.html" data-en="Home" data-nl="Home" data-de="Startseite" data-fr="Accueil">Home</a>
+      <a href="local-business.html" data-en="Local Business" data-nl="Lokaal Bedrijf" data-de="Lokales Geschäft" data-fr="Commerce Local">Local Business</a>
+      <a href="hospitality.html" data-en="Hospitality" data-nl="Horeca & Toerisme" data-de="Gastgewerbe" data-fr="Hôtellerie">Hospitality</a>
+      <a href="portfolio.html" data-en="Work" data-nl="Werk" data-de="Arbeit" data-fr="Travaux">Work</a>
+      <a href="about.html" data-en="About" data-nl="Over mij" data-de="Über mich" data-fr="À propos">About</a>
+      <a href="contact.html" data-en="Contact" data-nl="Contact" data-de="Kontakt" data-fr="Contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Nova Web Studio</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    (function animateRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animateRing); })();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => ring.classList.add('hover')); el.addEventListener('mouseleave', () => ring.classList.remove('hover')); });
+    window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40));
+    const observer = new IntersectionObserver(entries => { entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); observer.unobserve(e.target); } }); }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      ['en','nl','de','fr'].forEach(l => {
+        document.getElementById('btn-' + l).classList.toggle('active', l === lang);
+      });
+      document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+        const val = el.getAttribute('data-' + lang);
+        if (val) el.innerHTML = val;
+      });
+    }
+  </script>
+</body>
+</html>
